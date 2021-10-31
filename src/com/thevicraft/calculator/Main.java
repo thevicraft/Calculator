@@ -6,7 +6,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		GuiTaschenrechner taschenrechner = new GuiTaschenrechner("Taschenrechner"/*,"/"*/);
-		//System.out.println(SimpleMath.logarithm((double) (45),(double) (8.0)));
+		
 		
 		
 
