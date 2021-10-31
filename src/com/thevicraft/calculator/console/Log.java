@@ -1,11 +1,17 @@
 package com.thevicraft.calculator.console;
 
 import javax.swing.JOptionPane;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;
 
 
 public class Log {
+	
+
 	public static void console(String text) {
-		System.out.println(text);
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+		System.out.println("["+dtf.format(now)+"]   "+text);
 	}
 	
 	

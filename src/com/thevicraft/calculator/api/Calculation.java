@@ -16,12 +16,15 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class Calculation extends SimpleMath {
-	//GuiTaschenrechner tr = new GuiTaschenrechner("Calculator XX");
+	// GuiTaschenrechner tr = new GuiTaschenrechner("Calculator XX");
 
 	private float op1;
 	private float op2;
 	private float resultErgebnisStorage;
 	private boolean valid_ergebnis;
+	private float ans;
+
+
 
 	public String calc(JTextField opfield1, JTextField opfield2, int mode, int calcMode) {
 
@@ -168,37 +171,54 @@ public class Calculation extends SimpleMath {
 			ergebnisString = " = " + ergebnisString + Float.toString(resultErgebnisStorage) + "  ";
 		}
 
-		//JOptionPane.showMessageDialog(null, op1 + " " + calcMode + " " + op2 + " " + resultErgebnisStorage + " " + mode,
-		//		"Infinity", JOptionPane.WARNING_MESSAGE);
+		// JOptionPane.showMessageDialog(null, op1 + " " + calcMode + " " + op2 + " " +
+		// resultErgebnisStorage + " " + mode,
+		// "Infinity", JOptionPane.WARNING_MESSAGE);
 		// ------------------------------------------------------------------------------------------------
-
+		ans = resultErgebnisStorage;
 		return ergebnisString;
 
 	}
-	public float getANS() {
-		return resultErgebnisStorage;
-	}
-	
+
 	public float setConstants(JTextField field) {
-		if (field.getText().equals("PI")) {
+		switch (field.getText()) {
+		case "PI":
 			return (float) Math.PI;
-		} else if (field.getText().equals("E")) {
+		case "E":
 			return (float) Math.E;
-		} else if (field.getText().equals("ANS")) {
-			return (float) resultErgebnisStorage;
+		case "ANS":
+			return ans;
+		default:
+			return 0;
 		}
-		return 0;
+		/*
+		 * if (field.getText().equals("PI")) { return (float) Math.PI; } else if
+		 * (field.getText().equals("E")) { return (float) Math.E; } else if
+		 * (field.getText().equals("ANS")) { System.out.println("constant applied");
+		 * return (float) resultErgebnisStorage; }
+		 * 
+		 * return 0;
+		 */
 	}
 
 	public boolean testForConstants(JTextField field) {
-		if (field.getText().equals("PI")) {
+
+		switch (field.getText()) {
+		case "PI":
 			return true;
-		} else if (field.getText().equals("E")) {
+		case "E":
 			return true;
-		} else if (field.getText().equals("ANS")) {
+		case "ANS":
 			return true;
+		default:
+			return false;
 		}
-		return false;
+		/*
+		 * if (field.getText().equals("PI")) { return true; } else if
+		 * (field.getText().equals("E")) { return true; } else if
+		 * (field.getText().equals("ANS")) { return true; }
+		 * System.out.println("constant found"); return false;
+		 */
 	}
 
 }
