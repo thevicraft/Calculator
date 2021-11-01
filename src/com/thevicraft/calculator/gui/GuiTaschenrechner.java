@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,7 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
-import com.thevicraft.calculator.console.Log;
 
 @SuppressWarnings("serial")
 public class GuiTaschenrechner extends JFrame {
@@ -45,9 +43,6 @@ public class GuiTaschenrechner extends JFrame {
 	private String language;
 
 	protected float ergebnis;
-	// Images -------------------------------------------------------------------------------------------------------
-	ImageIcon icon = new ImageIcon("src/resources/window-icon.png");
-	ImageIcon iconWarning = new ImageIcon("src/resources/window-icon-warning.png");
 	
 	// Fonts -----------------------------------------------------------------------------------------------------------
 	public static Font bold = new Font("Tahoma", Font.BOLD,12);
@@ -101,7 +96,8 @@ public class GuiTaschenrechner extends JFrame {
 
 		setLocationRelativeTo(null);
 
-		this.setIconImage(icon.getImage());
+		//this.setIconImage(icon.getImage());
+		this.setIconImage(Images.image(Images.ICON));
 
 		setVisible(true);
 	}

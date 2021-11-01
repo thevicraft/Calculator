@@ -4,10 +4,10 @@ import javax.swing.JOptionPane;
 
 import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.GuiTaschenrechner;
+import com.thevicraft.calculator.gui.Images;
 
 import java.awt.Color;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
@@ -22,14 +22,15 @@ public class Calculation extends SimpleMath {
 	private float ans;
 	// Images
 	// -------------------------------------------------------------------------------------------------------
-	ImageIcon icon = new ImageIcon("src/resources/window-icon.png");
-	ImageIcon iconWarning = new ImageIcon("src/resources/window-icon-warning.png");
+	//ImageIcon icon = new ImageIcon("src/resources/window-icon.png");
+	//ImageIcon iconWarning = new ImageIcon("src/resources/window-icon-warning.png");
 
 	public float tryConvertNumber(JTextField field, JFrame window) {
 		try {
 			Float.parseFloat(field.getText());
 		} catch (Exception e) {
-			window.setIconImage(iconWarning.getImage());
+			//window.setIconImage(iconWarning.getImage());
+			window.setIconImage(Images.image(Images.ICON_WARNING));
 			Log.errorSyntax();
 			field.setCaretColor(Color.red);
 			field.setForeground(Color.red);
@@ -37,7 +38,8 @@ public class Calculation extends SimpleMath {
 		}
 		field.setCaretColor(Color.black);
 		field.setForeground(Color.black);
-		window.setIconImage(icon.getImage());
+		//window.setIconImage(icon.getImage());
+		window.setIconImage(Images.image(Images.ICON));
 		return Float.parseFloat(field.getText());
 	}
 

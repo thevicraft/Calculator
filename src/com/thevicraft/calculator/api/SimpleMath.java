@@ -6,28 +6,6 @@ import javax.swing.JTextField;
 
 public class SimpleMath {
 
-	/*public static float setConstants(JTextField field) {
-		if (field.getText().equals("PI")) {
-			return (float) Math.PI;
-		} else if (field.getText().equals("E")) {
-			return (float) Math.E;
-		} else if (field.getText().equals("ANS")) {
-			return (float) Calculation.getANS();
-		}
-		return 0;
-	}
-
-	public static boolean testForConstants(JTextField field) {
-		if (field.getText().equals("PI")) {
-			return true;
-		} else if (field.getText().equals("E")) {
-			return true;
-		} else if (field.getText().equals("ANS")) {
-			return true;
-		}
-		return false;
-	}*/
-
 	public static double logarithm(double a, double b) {
 		double op1;
 		double op2;
