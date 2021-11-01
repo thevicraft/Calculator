@@ -31,10 +31,12 @@ public class Calculation extends SimpleMath {
 			Float.parseFloat(field.getText());
 		} catch(Exception e) {
 			Log.errorSyntax();
-			field.setBackground(Color.red);
+			field.setCaretColor(Color.red);
+			field.setForeground(Color.red);
 			return 0;
 		}
-		field.setBackground(Color.white);
+		field.setCaretColor(Color.black);
+		field.setForeground(Color.black);
 		return Float.parseFloat(field.getText());
 	}
 
