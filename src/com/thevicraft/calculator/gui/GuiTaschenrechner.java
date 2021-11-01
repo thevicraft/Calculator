@@ -38,7 +38,7 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonPow;
 	protected JButton buttonChangeMode;
 
-	// private boolean valid_operands;
+
 
 	private String language;
 
