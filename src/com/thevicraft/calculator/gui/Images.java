@@ -4,6 +4,8 @@ import javax.swing.ImageIcon;
 import java.awt.Image;
 
 public class Images {
+	
+	// add overlay images with "public static final ImageIcon <name> = new ImageIcon(<path>)"
 
 	public static final ImageIcon ICON = new ImageIcon("src/resources/window-icon.png");
 	public static final ImageIcon ICON_WARNING = new ImageIcon("src/resources/window-icon-warning.png");
