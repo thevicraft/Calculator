@@ -4,6 +4,8 @@ import javax.swing.JOptionPane;
 
 import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.GuiTaschenrechner;
+
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +25,18 @@ public class Calculation extends SimpleMath {
 	private float resultErgebnisStorage;
 	private boolean valid_ergebnis;
 	private float ans;
+	
+	public float tryConvertNumber(JTextField field) {
+		try {
+			Float.parseFloat(field.getText());
+		} catch(Exception e) {
+			Log.errorSyntax();
+			field.setBackground(Color.red);
+			return 0;
+		}
+		field.setBackground(Color.white);
+		return Float.parseFloat(field.getText());
+	}
 
 
 
@@ -34,13 +48,15 @@ public class Calculation extends SimpleMath {
 			if (testForConstants(opfield1) == true) {
 				op1 = setConstants(opfield1);
 			} else {
-				op1 = Float.parseFloat(opfield1.getText());
+				
+				op1 = tryConvertNumber(opfield1);	//Float.parseFloat(opfield1.getText());
 			}
 
 			if (testForConstants(opfield2) == true) {
 				op2 = setConstants(opfield2);
 			} else {
-				op2 = Float.parseFloat(opfield2.getText());
+				op2 = tryConvertNumber(opfield2);
+				//op2 = Float.parseFloat(opfield2.getText());
 			}
 
 			break;
@@ -50,7 +66,9 @@ public class Calculation extends SimpleMath {
 			if (testForConstants(opfield2) == true) {
 				op2 = setConstants(opfield2);
 			} else {
-				op2 = Float.parseFloat(opfield2.getText());
+				
+				op2 = tryConvertNumber(opfield2);
+				//op2 = Float.parseFloat(opfield2.getText());
 			}
 
 			op1 = 0;
@@ -60,7 +78,9 @@ public class Calculation extends SimpleMath {
 			if (testForConstants(opfield2) == true) {
 				op2 = setConstants(opfield2);
 			} else {
-				op2 = Float.parseFloat(opfield2.getText());
+				
+				op2 = tryConvertNumber(opfield2);
+				//op2 = Float.parseFloat(opfield2.getText());
 			}
 
 			op1 = 0;
@@ -75,17 +95,17 @@ public class Calculation extends SimpleMath {
 			valid_ergebnis = true;// = true;
 			break;
 		case 2:
-			resultErgebnisStorage = op1 - op2;
+			resultErgebnisStorage = (float) (op1 - op2);
 			valid_ergebnis = true;
 			;
 			break;
 
 		case 3:
-			resultErgebnisStorage = op1 * op2;
+			resultErgebnisStorage = (float)(op1 * op2);
 			valid_ergebnis = true;
 			break;
 		case 4:
-			resultErgebnisStorage = op1 / op2;
+			resultErgebnisStorage = (float)(op1 / op2);
 			valid_ergebnis = true;
 
 			if (op2 == 0) {
@@ -124,13 +144,15 @@ public class Calculation extends SimpleMath {
 			if (testForConstants(opfield1) == true) {
 				op1 = setConstants(opfield1);
 			} else {
-				op1 = Float.parseFloat(opfield1.getText());
+				op1 = tryConvertNumber(opfield1);
+				//op1 = Float.parseFloat(opfield1.getText());
 			}
 
 			if (testForConstants(opfield2) == true) {
 				op2 = setConstants(opfield2);
 			} else {
-				op2 = Float.parseFloat(opfield2.getText());
+				op2 = tryConvertNumber(opfield2);
+				//op2 = Float.parseFloat(opfield2.getText());
 			}
 			resultErgebnisStorage = (float) (logarithm((double) op1, (double) op2));
 			break;
@@ -150,7 +172,7 @@ public class Calculation extends SimpleMath {
 		default:
 			valid_ergebnis = false;
 			resultErgebnisStorage = 0;
-			Log.errorLog();
+			Log.errorSyntax();
 			break;
 		}
 		if (valid_ergebnis != false) {

@@ -1,4 +1,5 @@
 package com.thevicraft.calculator.gui;
+
 import com.thevicraft.calculator.api.Calculation;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import java.awt.Color;
 
 import com.thevicraft.calculator.console.Log;
 
@@ -20,7 +22,7 @@ public class GuiTaschenrechner extends JFrame {
 	private int mode = 1; // default mode, do not change
 	private static final int MODES = 3;
 	protected int calcMode;
-	
+
 	protected JLabel labelErgebnis;
 
 	protected JTextField fieldOperand1;
@@ -32,18 +34,15 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonPlus;
 	protected JButton buttonMinus;
 
-
 	protected JButton buttonTimes;
 	protected JButton buttonDivide;
 	protected JButton buttonPow;
 	protected JButton buttonChangeMode;
 
-
 	private boolean valid_operands;
 
 	protected float ergebnis;
 	Calculation calc = new Calculation();
-
 
 	public static String textButtons[][] = { { "+", "log", "log b x" }, { "-", " √ ", "x!" }, { "*", "sin", "asin" },
 			{ "/", "cos", "acos" }, { "^", "tan", "atan" } };
@@ -74,6 +73,8 @@ public class GuiTaschenrechner extends JFrame {
 		add(buttonErgebnis);
 		add(buttonDelete);
 		add(buttonChangeMode);
+		fieldOperator.setEditable(false);
+		fieldOperator.setBackground(Color.LIGHT_GRAY);
 
 		setVisible(true);
 		setLocationRelativeTo(null);
@@ -95,21 +96,20 @@ public class GuiTaschenrechner extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
+				/*
+				 * if ((fieldOperand1.getText().length() == 0) ||
+				 * (fieldOperand2.getText().length() == 0)) { valid_operands = false; } else {
+				 * valid_operands = true; }
+				 * 
+				 * 
+				 * 
+				 * if (valid_operands == true) {
+				 */
+				labelErgebnis.setText(calc.calc(fieldOperand1, fieldOperand2, mode, calcMode));
 
-				if ((fieldOperand1.getText().length() == 0) || (fieldOperand2.getText().length() == 0)) {
-					valid_operands = false;
-				} else {
-					valid_operands = true;
-				}
-				if (valid_operands == true) {
-					
-					labelErgebnis.setText(calc.calc(fieldOperand1, fieldOperand2, mode,calcMode));
-
-					
-				} else {
-					Log.errorLog();
-				}
-
+				/*
+				 * } else { Log.errorSyntax(); }
+				 */
 			}
 		});
 		buttonDelete = new JButton("C");
@@ -166,9 +166,10 @@ public class GuiTaschenrechner extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buttonActionOnPressed(buttonPow);			}
+				buttonActionOnPressed(buttonPow);
+			}
 		});
-		
+
 		buttonChangeMode = new JButton("MODE");
 		buttonChangeMode.addActionListener(new ActionListener() {
 
@@ -183,16 +184,16 @@ public class GuiTaschenrechner extends JFrame {
 					// fieldOperand1.setText("");
 					fieldOperand1.setEnabled(true);
 					fieldOperator.setEnabled(true);
-					//op1 = 0;
-					//op2 = 0;
+					// op1 = 0;
+					// op2 = 0;
 					buttonMinus.setEnabled(true);
 					break;
 				case 2:
 					fieldOperand1.setEnabled(false);
 					fieldOperator.setEnabled(false);
 					buttonMinus.setEnabled(true);
-					//op1 = 0;
-					//op2 = 0;
+					// op1 = 0;
+					// op2 = 0;
 					// fieldOperand1.setText("");
 					// fieldOperator.setText("");
 					break;
@@ -200,8 +201,8 @@ public class GuiTaschenrechner extends JFrame {
 					fieldOperand1.setEnabled(false);
 					fieldOperator.setEnabled(false);
 					buttonMinus.setEnabled(false);
-					//op1 = 0;
-					//op2 = 0;
+					// op1 = 0;
+					// op2 = 0;
 					// fieldOperand1.setText("");
 					// fieldOperator.setText("");
 					break;
@@ -221,7 +222,6 @@ public class GuiTaschenrechner extends JFrame {
 		});
 
 	}
-
 
 	public void buttonsRemoveSelection() {
 		buttonPlus.setText(textButtons[0][mode - 1]);
@@ -255,7 +255,7 @@ public class GuiTaschenrechner extends JFrame {
 			fieldOperator.setText(button.getText());
 			break;
 		case 2:
-			
+
 			if (button.equals(buttonPlus)) {
 				calcMode = 6;
 			} else if (button.equals(buttonMinus)) {
@@ -271,7 +271,7 @@ public class GuiTaschenrechner extends JFrame {
 			break;
 		case 3:
 			fieldOperand1.setText(button.getText());
-			if(button.equals(buttonPlus)) {
+			if (button.equals(buttonPlus)) {
 				fieldOperand1.setEnabled(true);
 				fieldOperand1.setText("");
 				calcMode = 11;
@@ -288,10 +288,10 @@ public class GuiTaschenrechner extends JFrame {
 				calcMode = 15;
 				fieldOperand1.setEnabled(false);
 			}
-			
+
 			break;
 		}
 		buttonSetSelection(button);
 	}
-	
+
 }

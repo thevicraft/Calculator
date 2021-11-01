@@ -15,8 +15,15 @@ public class Log {
 	}
 	
 	
-	public static void errorLog() {
-		JOptionPane.showMessageDialog(null, "Huch! Bei der Berechnung trat ein Fehler auf!", "Error",
+	public static void errorLog(String t) {
+		JOptionPane.showMessageDialog(null, t, "Error",
+				JOptionPane.ERROR_MESSAGE);
+		Log.console("An Error occured whilst trying to calculate.");
+		Log.console("Try to type in correct operands or operators.");
+	}
+	
+	public static void errorSyntax() {
+		JOptionPane.showMessageDialog(null, "Syntax Error!", "Error",
 				JOptionPane.ERROR_MESSAGE);
 		Log.console("An Error occured whilst trying to calculate.");
 		Log.console("Try to type in correct operands or operators.");
