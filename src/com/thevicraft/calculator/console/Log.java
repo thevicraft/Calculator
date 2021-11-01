@@ -28,4 +28,7 @@ public class Log {
 		Log.console("An Error occured whilst trying to calculate.");
 		Log.console("Try to type in correct operands or operators.");
 	}
+	public static String input(String d) {
+		return JOptionPane.showInputDialog(null, d);
+	}
 }

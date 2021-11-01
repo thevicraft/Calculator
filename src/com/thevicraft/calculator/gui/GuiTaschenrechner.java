@@ -5,13 +5,14 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Color;
-
+import java.awt.Font;
 import com.thevicraft.calculator.console.Log;
 
 @SuppressWarnings("serial")
@@ -39,16 +40,35 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonPow;
 	protected JButton buttonChangeMode;
 
-	private boolean valid_operands;
+	// private boolean valid_operands;
+
+	private String language;
 
 	protected float ergebnis;
+	// Images -------------------------------------------------------------------------------------------------------
+	ImageIcon icon = new ImageIcon("src/resources/window-icon.png");
+	ImageIcon iconWarning = new ImageIcon("src/resources/window-icon-warning.png");
+	
+	// Fonts -----------------------------------------------------------------------------------------------------------
+	public static Font bold = new Font("Tahoma", Font.BOLD,12);
+	
+	
+	// -----------------------------------------------------------------------------------------------------------------
 	Calculation calc = new Calculation();
 
 	public static String textButtons[][] = { { "+", "log", "log b x" }, { "-", " √ ", "x!" }, { "*", "sin", "asin" },
 			{ "/", "cos", "acos" }, { "^", "tan", "atan" } };
 
 	public GuiTaschenrechner(String titel/* , String operator */) {
-
+		/*{
+			boolean lang1;
+			boolean lang2;
+			do {
+				setLanguage(Log.input("Select a language: [en; de]"));
+				lang1 = getLanguage().equals("de");
+				lang2 = getLanguage().equals("en");
+			} while ((lang1 == false) & (lang2 == false));
+		}*/
 		setTitle(titel);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
@@ -60,7 +80,7 @@ public class GuiTaschenrechner extends JFrame {
 
 		add(fieldOperand1);
 		// add(labelOperator);
-		add(fieldOperator); // neu für Operatorfeld
+		add(fieldOperator);
 		add(fieldOperand2);
 
 		add(buttonPlus);
@@ -73,12 +93,17 @@ public class GuiTaschenrechner extends JFrame {
 		add(buttonErgebnis);
 		add(buttonDelete);
 		add(buttonChangeMode);
+		
 		fieldOperator.setEditable(false);
 		fieldOperator.setBackground(Color.LIGHT_GRAY);
+		labelErgebnis.setFont(bold);
+		
 
-		setVisible(true);
 		setLocationRelativeTo(null);
 
+		this.setIconImage(icon.getImage());
+
+		setVisible(true);
 	}
 
 	private void initComponents() {
@@ -96,20 +121,9 @@ public class GuiTaschenrechner extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				/*
-				 * if ((fieldOperand1.getText().length() == 0) ||
-				 * (fieldOperand2.getText().length() == 0)) { valid_operands = false; } else {
-				 * valid_operands = true; }
-				 * 
-				 * 
-				 * 
-				 * if (valid_operands == true) {
-				 */
-				labelErgebnis.setText(calc.calc(fieldOperand1, fieldOperand2, mode, calcMode));
+				labelErgebnis.setText(calc.calc(GuiTaschenrechner.this, fieldOperand1, fieldOperand2, mode, calcMode));
+				
 
-				/*
-				 * } else { Log.errorSyntax(); }
-				 */
 			}
 		});
 		buttonDelete = new JButton("C");
@@ -292,6 +306,14 @@ public class GuiTaschenrechner extends JFrame {
 			break;
 		}
 		buttonSetSelection(button);
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 }
