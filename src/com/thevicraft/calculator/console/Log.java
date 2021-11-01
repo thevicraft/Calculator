@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 
 public class Log {
 	
+	// console = output on console with system time, errorLog = opens a JOptionPane window with a certain message
+	// input = opens a window with an input method
+	
 
 	public static void console(String text) {
 		LocalDateTime now = LocalDateTime.now();
