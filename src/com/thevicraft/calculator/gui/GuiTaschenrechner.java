@@ -4,7 +4,6 @@ import com.thevicraft.calculator.api.Calculation;
 import com.thevicraft.calculator.console.Log;
 
 import java.awt.FlowLayout;
-import java.awt.BorderLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -40,6 +41,8 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonDivide;
 	protected JButton buttonPow;
 	protected JButton buttonChangeMode;
+	
+	protected JCheckBox numPadCheck;
 
 	public static final int BUTTON_0 = 9;
 	public static final int BUTTON_1 = 6;
@@ -55,11 +58,11 @@ public class GuiTaschenrechner extends JFrame {
 	public static final int BUTTON__DOT = 10;
 	public static final int BUTTON__E = 11;
 	
-	public int WINDOW_WIDTH = 250;
-	public int WINDOW_HEIGHT = 170;
-
+	public int WINDOW_WIDTH = 340;
+	public int WINDOW_HEIGHT = 300;
 	// JButton[] numPad = new JButton[3];
 	JButton[] numPad = new JButton[13];
+	JPanel[] panels = new JPanel[7];
 
 
 	protected float ergebnis;
@@ -71,8 +74,8 @@ public class GuiTaschenrechner extends JFrame {
 	// -----------------------------------------------------------------------------------------------------------------
 	Calculation calc = new Calculation();
 
-	public static String textButtons[][] = { { "+", "log", "log b x" }, { "-", " √ ", "x!" }, { "*", "sin", "asin" },
-			{ "/", "cos", "acos" }, { "^", "tan", "atan" } };
+	public static String textButtons[][] = { { "  +  ", "log", "log b x" }, { "  -  ", " √ ", "x!" }, { "  x  ", "sin", "asin" },
+			{ "  /  ", "cos", "acos" }, { "  ^  ", "tan", "atan" } };
 
 	public GuiTaschenrechner(String titel/* , String operator */) {
 		/*
@@ -86,11 +89,12 @@ public class GuiTaschenrechner extends JFrame {
 		setLayout(new FlowLayout());
 		//setLayout(new BorderLayout());
 
-		setSize(250, 280);		// current 250, 170
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);		// current 250, 170
 		setResizable(false);
 
 		initComponents();
-
+		initPanels();
+		/*
 		add(fieldOperand1);
 		// add(labelOperator);
 		add(fieldOperator);
@@ -106,9 +110,13 @@ public class GuiTaschenrechner extends JFrame {
 		add(buttonErgebnis);
 		add(buttonDelete);
 		add(buttonChangeMode);
+		*/
 		//-----------------------------------------------------CHECKBOX MACHEN, MIT DER MAN DAS NUMPAD AKTIVIEREN KANN 
 		//-----------------------------------------------------(dann wird entweder addNumpads/ removeNumpads)
-		addNumPads(GuiTaschenrechner.this);
+		//addNumPads(GuiTaschenrechner.this);
+		addComponentsToPanels();
+		initToolTips();
+		addPanels();
 
 		fieldOperator.setEditable(false);
 		fieldOperator.setBackground(Color.LIGHT_GRAY);
@@ -121,9 +129,74 @@ public class GuiTaschenrechner extends JFrame {
 
 		setVisible(true);
 	}
+	
+	private void addComponentsToPanels(/*JFrame window*/) {
+		
+		panels[0].add(fieldOperand1);
+		panels[0].add(fieldOperator);
+		panels[0].add(fieldOperand2);
+		
+		panels[1].add(labelErgebnis);
+		
+		for(int i = 0; i<=2; i++) {
+			panels[2].add(getNumPad(i));
+		}
+		panels[2].add(buttonPow);
+		panels[2].add(buttonDelete);
+		
+		for(int i = 3; i<=5; i++) {
+			panels[3].add(getNumPad(i));
+		}
+		panels[3].add(buttonTimes);
+		panels[3].add(buttonDivide);
+		
+		for(int i = 6; i<=8; i++) {
+			panels[4].add(getNumPad(i));
+		}
+		panels[4].add(buttonPlus);
+		panels[4].add(buttonMinus);
+		
+		panels[5].add(getNumPad(BUTTON_0));
+		panels[5].add(getNumPad(BUTTON__DOT));
+		panels[5].add(getNumPad(BUTTON__E));
+		panels[5].add(getNumPad(BUTTON__ANS));
+		panels[5].add(buttonErgebnis);
+
+		panels[6].add(buttonChangeMode);
+
+	}
+	private void addPanels(/*JFrame window*/) {
+		for(JPanel pane: panels) {
+			add(pane);
+		}
+	}
+	private void initPanels() {
+		/*JPanel calculation = new JPanel();
+		JPanel operators = new JPanel();
+		JPanel result = new JPanel();
+		JPanel actionCalc = new JPanel();
+		JPanel numPad1 = new JPanel();
+		JPanel numPad2 = new JPanel();
+		JPanel numPad3 = new JPanel();
+		JPanel numPad4 = new JPanel();*/
+		/*for(JPanel panel: panels) {
+			*panel = new JPanel();
+		}*/
+		for(int i = 0; i<=6; i++) {
+			panels[i] = new JPanel();
+		}
+	}
+	
+	private void initToolTips() {
+		buttonDelete.setToolTipText("Delete Calculation");
+		getNumPad(BUTTON__ANS).setToolTipText("Get former result");
+		getNumPad(BUTTON__E).setToolTipText("*10^x");
+		buttonChangeMode.setToolTipText("Change mode to other Calculations (sin, cos, tan)");
+		buttonErgebnis.setToolTipText("Calculate");
+	}
 
 	private void initNumPads() {
-		String platzhalter = "   ";
+		String platzhalter = "  ";
 		for (int num = 6; num <= 8; num++) {
 			String buttonTitle = platzhalter+(num+1)+platzhalter;
 			numPad[num-6] = new JButton(buttonTitle);
@@ -137,9 +210,9 @@ public class GuiTaschenrechner extends JFrame {
 			numPad[num+6] = new JButton(buttonTitle);
 		}
 		numPad[9] = new JButton(platzhalter+"0"+platzhalter);
-		numPad[10] = new JButton(".");
-		numPad[11] = new JButton("E");
-		numPad[12] = new JButton("ANS");
+		numPad[10] = new JButton(platzhalter+"."+platzhalter);
+		numPad[11] = new JButton(platzhalter+"E"+platzhalter);
+		numPad[12] = new JButton(" ANS ");
 	}
 	private void addNumPads(JFrame window) {
 		for(JButton button: numPad) {
@@ -165,10 +238,10 @@ public class GuiTaschenrechner extends JFrame {
 		labelErgebnis = new JLabel(platz);
 
 		fieldOperand1 = new JTextField(8);
-		fieldOperator = new JTextField(1);
+		fieldOperator = new JTextField(3);
 		fieldOperand2 = new JTextField(8);
 
-		buttonErgebnis = new JButton("   =   ");
+		buttonErgebnis = new JButton("  =  ");
 		buttonErgebnis.addActionListener(new ActionListener() {
 
 			@Override
@@ -179,7 +252,7 @@ public class GuiTaschenrechner extends JFrame {
 
 			}
 		});
-		buttonDelete = new JButton("AC");
+		buttonDelete = new JButton(" AC ");
 		buttonDelete.addActionListener(new ActionListener() {
 
 			@Override
@@ -196,11 +269,11 @@ public class GuiTaschenrechner extends JFrame {
 				fieldOperator.setText("");
 			}
 		});
-		buttonPlus = new JButton("+");
-		buttonMinus = new JButton("-");
-		buttonTimes = new JButton("*");
-		buttonDivide = new JButton("/");
-		buttonPow = new JButton("^");
+		buttonPlus = new JButton(textButtons[0][0]);
+		buttonMinus = new JButton(textButtons[1][0]);
+		buttonTimes = new JButton(textButtons[2][0]);
+		buttonDivide = new JButton(textButtons[3][0]);
+		buttonPow = new JButton(textButtons[4][0]);
 
 		buttonPlus.addActionListener(new ActionListener() {
 
@@ -255,8 +328,8 @@ public class GuiTaschenrechner extends JFrame {
 					// op1 = 0;
 					// op2 = 0;
 					buttonMinus.setEnabled(true);
-					WINDOW_HEIGHT -= 30;
-					GuiTaschenrechner.this.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
+					//WINDOW_HEIGHT -= 30;
+					//GuiTaschenrechner.this.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 					break;
 				case 2:
 					fieldOperand1.setEnabled(false);
@@ -266,8 +339,8 @@ public class GuiTaschenrechner extends JFrame {
 					// op2 = 0;
 					// fieldOperand1.setText("");
 					// fieldOperator.setText("");
-					WINDOW_HEIGHT += 30;
-					GuiTaschenrechner.this.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
+					//WINDOW_HEIGHT += 30;
+					//GuiTaschenrechner.this.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 					break;
 				case 3:
 					fieldOperand1.setEnabled(false);
@@ -309,6 +382,8 @@ public class GuiTaschenrechner extends JFrame {
 				}
 			});
 		}
+		numPadCheck = new JCheckBox("NumPad",false);
+		numPadCheck.addItemListener(null);
 
 	}
 
