@@ -12,9 +12,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.text.AttributeSet.ColorAttribute;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
 @SuppressWarnings("serial")
@@ -60,6 +62,9 @@ public class GuiTaschenrechner extends JFrame {
 	
 	public int WINDOW_WIDTH = 340;
 	public int WINDOW_HEIGHT = 300;
+	
+	public int BUTTON_WIDTH = 60;
+	public int BUTTON_HEIGHT = 25;
 	// JButton[] numPad = new JButton[3];
 	JButton[] numPad = new JButton[13];
 	JPanel[] panels = new JPanel[7];
@@ -69,8 +74,8 @@ public class GuiTaschenrechner extends JFrame {
 
 	// Fonts
 	// -----------------------------------------------------------------------------------------------------------
-	public static Font bold = new Font("Tahoma", Font.BOLD, 12);
-
+	public static Font resultBold = new Font("Tahoma", Font.BOLD, 17);	// davor war es groesse 12
+	public static Font small = new Font("Tahoma", Font.BOLD, 11);
 	// -----------------------------------------------------------------------------------------------------------------
 	Calculation calc = new Calculation();
 
@@ -117,11 +122,42 @@ public class GuiTaschenrechner extends JFrame {
 		addComponentsToPanels();
 		initToolTips();
 		addPanels();
+		
+		
 
 		fieldOperator.setEditable(false);
 		fieldOperator.setBackground(Color.LIGHT_GRAY);
-		labelErgebnis.setFont(bold);
+		labelErgebnis.setFont(resultBold);
+		
+		
 
+		for(int i = 0; i<=8; i++) {
+			getNumPad(i).setBackground(Color.white);
+		}
+		getNumPad(BUTTON_0).setBackground(Color.white);
+		buttonDelete.setBackground(Color.orange);
+		getNumPad(BUTTON__ANS).setBackground(Color.LIGHT_GRAY);
+		getNumPad(BUTTON__DOT).setBackground(Color.white);
+		getNumPad(BUTTON__E).setBackground(Color.LIGHT_GRAY);
+		buttonErgebnis.setBackground(Color.green);
+		buttonChangeMode.setBackground(Color.cyan);
+		
+		
+		// change size of all buttons
+		for(JButton button: numPad) {
+			button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		}
+		buttonErgebnis.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonPlus.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonMinus.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonTimes.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonDivide.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonPow.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonDelete.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		
+		getNumPad(BUTTON__ANS).setFont(small);	// korrektur weil die beschriftung sonst nicht auf dem button angezeigt wird
+		
+		
 		setLocationRelativeTo(null);
 
 		// this.setIconImage(icon.getImage());
@@ -171,17 +207,6 @@ public class GuiTaschenrechner extends JFrame {
 		}
 	}
 	private void initPanels() {
-		/*JPanel calculation = new JPanel();
-		JPanel operators = new JPanel();
-		JPanel result = new JPanel();
-		JPanel actionCalc = new JPanel();
-		JPanel numPad1 = new JPanel();
-		JPanel numPad2 = new JPanel();
-		JPanel numPad3 = new JPanel();
-		JPanel numPad4 = new JPanel();*/
-		/*for(JPanel panel: panels) {
-			*panel = new JPanel();
-		}*/
 		for(int i = 0; i<=6; i++) {
 			panels[i] = new JPanel();
 		}
@@ -198,21 +223,18 @@ public class GuiTaschenrechner extends JFrame {
 	private void initNumPads() {
 		String platzhalter = "  ";
 		for (int num = 6; num <= 8; num++) {
-			String buttonTitle = platzhalter+(num+1)+platzhalter;
-			numPad[num-6] = new JButton(buttonTitle);
+			numPad[num-6] = new JButton(Integer.toString(num+1));
 		}
 		for (int num = 3; num <= 5; num++) {
-			String buttonTitle = platzhalter+(num+1)+platzhalter;
-			numPad[num] = new JButton(buttonTitle);
+			numPad[num] = new JButton(Integer.toString(num+1));
 		}
 		for (int num = 0; num <= 2; num++) {
-			String buttonTitle = platzhalter+(num+1)+platzhalter;
-			numPad[num+6] = new JButton(buttonTitle);
+			numPad[num+6] = new JButton(Integer.toString(num+1));
 		}
-		numPad[9] = new JButton(platzhalter+"0"+platzhalter);
-		numPad[10] = new JButton(platzhalter+"."+platzhalter);
-		numPad[11] = new JButton(platzhalter+"E"+platzhalter);
-		numPad[12] = new JButton(" ANS ");
+		numPad[9] = new JButton("0");
+		numPad[10] = new JButton(".");
+		numPad[11] = new JButton("E");
+		numPad[12] = new JButton("ANS");
 	}
 	private void addNumPads(JFrame window) {
 		for(JButton button: numPad) {
@@ -241,7 +263,7 @@ public class GuiTaschenrechner extends JFrame {
 		fieldOperator = new JTextField(3);
 		fieldOperand2 = new JTextField(8);
 
-		buttonErgebnis = new JButton("  =  ");
+		buttonErgebnis = new JButton("=");
 		buttonErgebnis.addActionListener(new ActionListener() {
 
 			@Override
@@ -252,7 +274,7 @@ public class GuiTaschenrechner extends JFrame {
 
 			}
 		});
-		buttonDelete = new JButton(" AC ");
+		buttonDelete = new JButton("AC");
 		buttonDelete.addActionListener(new ActionListener() {
 
 			@Override

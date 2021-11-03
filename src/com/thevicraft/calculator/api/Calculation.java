@@ -179,22 +179,22 @@ public class Calculation extends SimpleMath {
 			break;
 		}
 		if (valid_ergebnis != false) {
-			Log.console("Calculation went successfully.");
+			//Log.console("Calculation went successfully.");
 		}
 
-		int ergebnisLeere;
+		//int ergebnisLeere;
 		String ergebnisString;
 		ergebnisString = "";
-		int ergebnisLaenge = Float.toString(resultErgebnisStorage).length();
-		ergebnisLeere = GuiTaschenrechner.max_ergebnis_length - ergebnisLaenge;
-		for (int i = 1; i <= ergebnisLeere; i++) {
-			ergebnisString = ergebnisString + " ";
-		}
-		if (ergebnisLaenge >= GuiTaschenrechner.max_ergebnis_length) {
-			ergebnisString = Float.toString(resultErgebnisStorage);
-		} else {
-			ergebnisString = " = " + ergebnisString + Float.toString(resultErgebnisStorage) + "  ";
-		}
+		//int ergebnisLaenge = Float.toString(resultErgebnisStorage).length();
+		//ergebnisLeere = GuiTaschenrechner.max_ergebnis_length - ergebnisLaenge;
+		//for (int i = 1; i <= ergebnisLeere; i++) {
+		//	ergebnisString = ergebnisString + " ";
+		//}
+		//if (ergebnisLaenge >= GuiTaschenrechner.max_ergebnis_length) {
+		//	ergebnisString = Float.toString(resultErgebnisStorage);
+		//} else {
+			ergebnisString = " = " /*+ ergebnisString */+ Float.toString(resultErgebnisStorage) /*+ "  "*/;
+		//}
 
 		// JOptionPane.showMessageDialog(null, op1 + " " + calcMode + " " + op2 + " " +
 		// resultErgebnisStorage + " " + mode,
