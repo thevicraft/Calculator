@@ -22,14 +22,15 @@ public class Calculation extends SimpleMath {
 	private float ans;
 	// Images
 	// -------------------------------------------------------------------------------------------------------
-	//ImageIcon icon = new ImageIcon("src/resources/window-icon.png");
-	//ImageIcon iconWarning = new ImageIcon("src/resources/window-icon-warning.png");
+	// ImageIcon icon = new ImageIcon("src/resources/window-icon.png");
+	// ImageIcon iconWarning = new
+	// ImageIcon("src/resources/window-icon-warning.png");
 
 	public float tryConvertNumber(JTextField field, JFrame window) {
 		try {
 			Float.parseFloat(field.getText());
 		} catch (Exception e) {
-			//window.setIconImage(iconWarning.getImage());
+			// window.setIconImage(iconWarning.getImage());
 			window.setIconImage(new Images().imageDefaultInResources(new Images().ICON_WARNING));
 			Log.errorSyntax();
 			field.setCaretColor(Color.red);
@@ -38,7 +39,7 @@ public class Calculation extends SimpleMath {
 		}
 		field.setCaretColor(Color.black);
 		field.setForeground(Color.black);
-		//window.setIconImage(icon.getImage());
+		// window.setIconImage(icon.getImage());
 		window.setIconImage(new Images().imageDefaultInResources(new Images().ICON));
 		return Float.parseFloat(field.getText());
 	}
@@ -179,26 +180,19 @@ public class Calculation extends SimpleMath {
 			break;
 		}
 		if (valid_ergebnis != false) {
-			//Log.console("Calculation went successfully.");
+			// Log.console("Calculation went successfully.");
 		}
 
-		//int ergebnisLeere;
+		// int ergebnisLeere;
 		String ergebnisString;
 		ergebnisString = "";
-		//int ergebnisLaenge = Float.toString(resultErgebnisStorage).length();
-		//ergebnisLeere = GuiTaschenrechner.max_ergebnis_length - ergebnisLaenge;
-		//for (int i = 1; i <= ergebnisLeere; i++) {
-		//	ergebnisString = ergebnisString + " ";
-		//}
-		//if (ergebnisLaenge >= GuiTaschenrechner.max_ergebnis_length) {
-		//	ergebnisString = Float.toString(resultErgebnisStorage);
-		//} else {
-			ergebnisString = " = " /*+ ergebnisString */+ Float.toString(resultErgebnisStorage) /*+ "  "*/;
-		//}
-
-		// JOptionPane.showMessageDialog(null, op1 + " " + calcMode + " " + op2 + " " +
-		// resultErgebnisStorage + " " + mode,
-		// "Infinity", JOptionPane.WARNING_MESSAGE);
+		String resultSpaceHolder = "";
+		if (Float.toString(resultErgebnisStorage).length()<5) {
+			for(int i = 1; i <= (7-Float.toString(resultErgebnisStorage).length()); i ++) {
+			resultSpaceHolder = resultSpaceHolder + " ";
+			}
+		}
+		ergebnisString = " = "  + resultSpaceHolder  + Float.toString(resultErgebnisStorage);
 		// ------------------------------------------------------------------------------------------------
 		ans = resultErgebnisStorage;
 		return ergebnisString;

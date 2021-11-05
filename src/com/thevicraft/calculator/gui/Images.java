@@ -32,6 +32,8 @@ public class Images {
 	
 	public Image imageFromNameInResources(String imageName) {
 		ImageIcon picture = new ImageIcon(getClass().getClassLoader().getResource(imageName));
+		//Log.console(getClass().getClassLoader().toString());
+		//Log.console(getClass().getClassLoader().getResource(imageName).toString());
 		return picture.getImage();
 	}
 	public Image imageDefaultInResources(final int imageId) {

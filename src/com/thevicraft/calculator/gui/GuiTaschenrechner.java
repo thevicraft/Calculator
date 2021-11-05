@@ -28,8 +28,10 @@ public class GuiTaschenrechner extends JFrame {
 	private int mode = 1; // default mode, do not change
 	private static final int MODES = 3;
 	protected int calcMode;
+	private final String calcLabelEmpty = "                            ";
 
 	protected JLabel labelErgebnis;
+	protected JLabel labelCalc;
 
 	protected JTextField fieldOperand1;
 	protected JTextField fieldOperator; // neu für operatorfeld
@@ -45,8 +47,6 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonPow;
 	protected JButton buttonChangeMode;
 	
-	protected JCheckBox numPadCheck;
-
 	public static final int BUTTON_0 = 9;
 	public static final int BUTTON_1 = 6;
 	public static final int BUTTON_2 = 7;
@@ -66,7 +66,7 @@ public class GuiTaschenrechner extends JFrame {
 	
 	public int BUTTON_WIDTH = 60;
 	public int BUTTON_HEIGHT = 25;
-	// JButton[] numPad = new JButton[3];
+
 	JButton[] numPad = new JButton[13];
 	JPanel[] panels = new JPanel[7];
 
@@ -76,12 +76,16 @@ public class GuiTaschenrechner extends JFrame {
 	// Fonts
 	// -----------------------------------------------------------------------------------------------------------
 	public static Font resultBold = new Font("Tahoma", Font.BOLD, 17);	// davor war es groesse 12
+	public static Font calcBold = new Font("Tahoma", Font.BOLD, 17);
 	public static Font small = new Font("Tahoma", Font.BOLD, 11);
+	public static Font normal = new Font("Tahoma", Font.BOLD, 12);
+	public static Font xsmall = new Font("Tahoma", Font.BOLD, 10);
+	public static Font extremesmall = new Font("Tahoma", Font.PLAIN, 10);
 	// -----------------------------------------------------------------------------------------------------------------
 	Calculation calc = new Calculation();
 
-	public static String textButtons[][] = { { "  +  ", "log", "log b x" }, { "  -  ", " √ ", "x!" }, { "  x  ", "sin", "asin" },
-			{ "  /  ", "cos", "acos" }, { "  ^  ", "tan", "atan" } };
+	public static String textButtons[][] = { { " + ", "log", "log b x" }, { " - ", " √ ", "x!" }, { " x ", "sin", "asin" },
+			{ " / ", "cos", "acos" }, { " ^ ", "tan", "atan" } };
 
 	public GuiTaschenrechner(String titel/* , String operator */) {
 		/*
@@ -129,6 +133,7 @@ public class GuiTaschenrechner extends JFrame {
 		fieldOperator.setEditable(false);
 		fieldOperator.setBackground(Color.LIGHT_GRAY);
 		labelErgebnis.setFont(resultBold);
+		labelCalc.setFont(calcBold);
 		
 		
 
@@ -157,21 +162,23 @@ public class GuiTaschenrechner extends JFrame {
 		buttonDelete.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		
 		getNumPad(BUTTON__ANS).setFont(small);	// korrektur weil die beschriftung sonst nicht auf dem button angezeigt wird
-		
+
 		
 		setLocationRelativeTo(null);
 
 		// this.setIconImage(icon.getImage());
-		this.setIconImage((new Images().imageDefaultInResources(new Images().ICON)));
+		//this.setIconImage((new Images().imageDefaultInResources(new Images().ICON)));
+		this.setIconImage(new Images().imageFromNameInResources("window-icon.png"));
 
 		setVisible(true);
 	}
 	
 	private void addComponentsToPanels(/*JFrame window*/) {
 		
-		panels[0].add(fieldOperand1);
-		panels[0].add(fieldOperator);
-		panels[0].add(fieldOperand2);
+		//panels[0].add(fieldOperand1);
+		//panels[0].add(fieldOperator);
+		//panels[0].add(fieldOperand2);
+		panels[0].add(labelCalc);
 		
 		panels[1].add(labelErgebnis);
 		
@@ -257,6 +264,8 @@ public class GuiTaschenrechner extends JFrame {
 	}
 
 	private void initComponents() {
+		
+		labelCalc = new JLabel(calcLabelEmpty);
 
 		labelErgebnis = new JLabel(platz);
 
@@ -280,7 +289,7 @@ public class GuiTaschenrechner extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				labelErgebnis.setText(platz);
+				/*labelErgebnis.setText(platz);
 				switch (mode) {
 				case 1:
 					fieldOperand1.setText("");
@@ -289,7 +298,8 @@ public class GuiTaschenrechner extends JFrame {
 					break;
 				}
 				fieldOperand2.setText("");
-				fieldOperator.setText("");
+				fieldOperator.setText("");*/
+				labelCalc.setText(calcLabelEmpty);
 			}
 		});
 		buttonPlus = new JButton(textButtons[0][0]);
@@ -348,31 +358,35 @@ public class GuiTaschenrechner extends JFrame {
 					// fieldOperand1.setText("");
 					fieldOperand1.setEnabled(true);
 					fieldOperator.setEnabled(true);
-					// op1 = 0;
-					// op2 = 0;
 					buttonMinus.setEnabled(true);
-					//WINDOW_HEIGHT -= 30;
-					//GuiTaschenrechner.this.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
+					buttonPlus.setFont(normal);
+					buttonMinus.setFont(normal);
+					buttonTimes.setFont(normal);
+					buttonDivide.setFont(normal);
+					buttonPow.setFont(normal);
+					buttonPlus.setToolTipText("");
 					break;
 				case 2:
 					fieldOperand1.setEnabled(false);
 					fieldOperator.setEnabled(false);
 					buttonMinus.setEnabled(true);
-					// op1 = 0;
-					// op2 = 0;
-					// fieldOperand1.setText("");
-					// fieldOperator.setText("");
-					//WINDOW_HEIGHT += 30;
-					//GuiTaschenrechner.this.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
+					buttonPlus.setFont(normal);
+					buttonMinus.setFont(normal);
+					buttonTimes.setFont(normal);
+					buttonDivide.setFont(normal);
+					buttonPow.setFont(normal);
+					buttonPlus.setToolTipText("");
 					break;
 				case 3:
 					fieldOperand1.setEnabled(false);
 					fieldOperator.setEnabled(false);
 					buttonMinus.setEnabled(false);
-					// op1 = 0;
-					// op2 = 0;
-					// fieldOperand1.setText("");
-					// fieldOperator.setText("");
+					buttonPlus.setFont(extremesmall);
+					buttonMinus.setFont(xsmall);
+					buttonTimes.setFont(xsmall);
+					buttonDivide.setFont(xsmall);
+					buttonPow.setFont(xsmall);
+					buttonPlus.setToolTipText("Logarithm of base b and x");
 					break;
 				default:
 					break;
@@ -383,9 +397,10 @@ public class GuiTaschenrechner extends JFrame {
 				buttonDivide.setText(textButtons[3][mode - 1]);
 				buttonPow.setText(textButtons[4][mode - 1]);
 
-				fieldOperand1.setText("");
+				/*fieldOperand1.setText("");
 				fieldOperand2.setText("");
-				fieldOperator.setText("");
+				fieldOperator.setText("");*/
+				labelCalc.setText(calcLabelEmpty);
 			}
 		});
 		// hier foreachschleife nutzen
@@ -402,15 +417,15 @@ public class GuiTaschenrechner extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					Log.console(button.getText());
+					labelCalc.setText(labelCalc.getText()+button.getText());
 				}
 			});
 		}
-		numPadCheck = new JCheckBox("NumPad",false);
-		numPadCheck.addItemListener(null);
+
 
 	}
 
-	public void buttonsRemoveSelection() {
+	public void buttonsSetTextOnMode() {
 		buttonPlus.setText(textButtons[0][mode - 1]);
 		buttonMinus.setText(textButtons[1][mode - 1]);
 		buttonTimes.setText(textButtons[2][mode - 1]);
@@ -425,7 +440,9 @@ public class GuiTaschenrechner extends JFrame {
 	}
 
 	public void buttonActionOnPressed(JButton button) {
-		buttonsRemoveSelection();
+		//Log.console(GuiTaschenrechner.this.resultBold.getFontName().toString());
+		labelCalc.setText(labelCalc.getText()+button.getText());
+		buttonsSetTextOnMode();
 		switch (mode) {
 		case 1:
 			if (button.equals(buttonPlus)) {
@@ -478,7 +495,7 @@ public class GuiTaschenrechner extends JFrame {
 
 			break;
 		}
-		buttonSetSelection(button);
+		//buttonSetSelection(button);
 	}
 
 }
