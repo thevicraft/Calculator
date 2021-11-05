@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -161,7 +162,7 @@ public class GuiTaschenrechner extends JFrame {
 		setLocationRelativeTo(null);
 
 		// this.setIconImage(icon.getImage());
-		this.setIconImage(Images.image(Images.ICON));
+		this.setIconImage((new Images().imageDefaultInResources(new Images().ICON)));
 
 		setVisible(true);
 	}

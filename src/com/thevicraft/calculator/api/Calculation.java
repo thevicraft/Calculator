@@ -30,7 +30,7 @@ public class Calculation extends SimpleMath {
 			Float.parseFloat(field.getText());
 		} catch (Exception e) {
 			//window.setIconImage(iconWarning.getImage());
-			window.setIconImage(Images.image(Images.ICON_WARNING));
+			window.setIconImage(new Images().imageDefaultInResources(new Images().ICON_WARNING));
 			Log.errorSyntax();
 			field.setCaretColor(Color.red);
 			field.setForeground(Color.red);
@@ -39,7 +39,7 @@ public class Calculation extends SimpleMath {
 		field.setCaretColor(Color.black);
 		field.setForeground(Color.black);
 		//window.setIconImage(icon.getImage());
-		window.setIconImage(Images.image(Images.ICON));
+		window.setIconImage(new Images().imageDefaultInResources(new Images().ICON));
 		return Float.parseFloat(field.getText());
 	}
 
