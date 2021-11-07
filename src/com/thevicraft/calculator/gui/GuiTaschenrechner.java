@@ -185,6 +185,10 @@ public class GuiTaschenrechner extends JFrame {
 		// this.setIconImage(icon.getImage());
 		// this.setIconImage((new Images().imageDefaultInResources(new Images().ICON)));
 		this.setIconImage(new Images().imageFromNameInResources("window-icon.png"));
+		
+		//---------------------------------DER CHANGE BUTTON WIRD DISABLED	----------------------------------------------------------------
+		buttonChangeMode.setEnabled(false);
+		
 
 		setVisible(true);
 	}

@@ -2,6 +2,7 @@ package com.thevicraft.calculator.api;
 
 import java.lang.Math;
 import com.thevicraft.calculator.api.*;
+import com.thevicraft.calculator.console.Log;
 
 public class StringCalcFunctions {
 	private StringObject[] operators = new StringObject[100]; // = new StringObject[2];
@@ -31,7 +32,8 @@ public class StringCalcFunctions {
 							insertedConstant = "*10^";
 							break;
 						case " -":
-							if (!task.substring(i, i+1).equals(" ")) {
+							if (task.substring(i+2, i+3).equals(" ")) {
+								Log.console("["+task.substring(i+2, i+3)+"]");
 								insertedConstant = " -";
 							} else {
 								insertedConstant = "0-";

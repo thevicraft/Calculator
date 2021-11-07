@@ -20,7 +20,7 @@ public class StringCalculation {
 		} catch(Exception e) {
 			Log.errorSyntax();
 		}
-		
+		Log.console(calcTask);
 		storeResult = Double.parseDouble(result);
 		return result;
 
