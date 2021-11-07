@@ -8,7 +8,7 @@ public class StringCalcFunctions {
 	private StringObject[] operatorsRaw = new StringObject[100]; // = new StringObject[2];
 	private StringObject[] operands = new StringObject[100]; // = new StringObject[2];
 	private static String calcOperator[] = { " ^ ", " / ", " x ", " + ", " - " };
-	private static String constants[] = { "PI", "ANS", "E" };
+	private static String constants[] = { "n", "ANS", "e", "E"," -" };
 	private StringObject lastStore;
 
 	public String insertConstants(String task, double oldResult) {
@@ -16,24 +16,33 @@ public class StringCalcFunctions {
 			for (String constant : constants) {
 				if (i + constant.length() <= task.length()) {
 					if (task.substring(i, i + constant.length()).equals(constant)) {
-						double insertedConstant;
+						String insertedConstant;
 						switch (constant) {
-						case "PI":
-							insertedConstant = Math.PI;
+						case "n":
+							insertedConstant = Double.toString(Math.PI);
 							break;
-						case "E":
-							insertedConstant = Math.E;
+						case "e":
+							insertedConstant = Double.toString(Math.E);
 							break;
 						case "ANS":
-							insertedConstant = oldResult;
+							insertedConstant = Double.toString(oldResult);
+							break;
+						case "E":
+							insertedConstant = "*10^";
+							break;
+						case " -":
+							if (!task.substring(i, i+1).equals(" ")) {
+								insertedConstant = " -";
+							} else {
+								insertedConstant = "0-";
+							}
 							break;
 						default:
-							insertedConstant = 0;
+							insertedConstant = "0";
 							break;
 						}
-						task = task.substring(0, i) + "" + Double.toString(insertedConstant) + ""
+						task = task.substring(0, i) + "" + insertedConstant + ""
 								+ task.substring(i + constant.length(), task.length());
-
 					}
 
 				}

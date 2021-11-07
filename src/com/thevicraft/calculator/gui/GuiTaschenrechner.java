@@ -47,7 +47,12 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonDivide;
 	protected JButton buttonPow;
 	protected JButton buttonChangeMode;
+	
 	protected JButton buttonSignMinus;
+	protected JButton buttonMathPi;
+	protected JButton buttonMathE;
+	protected JButton buttonBracket;
+	//protected JButton buttonBracketCls;
 
 	public static final int BUTTON_0 = 9;
 	public static final int BUTTON_1 = 6;
@@ -62,6 +67,7 @@ public class GuiTaschenrechner extends JFrame {
 	public static final int BUTTON__ANS = 12;
 	public static final int BUTTON__DOT = 10;
 	public static final int BUTTON__E = 11;
+	
 
 	public int WINDOW_WIDTH = 340;
 	public int WINDOW_HEIGHT = 300;
@@ -72,7 +78,11 @@ public class GuiTaschenrechner extends JFrame {
 	JButton[] numPad = new JButton[13];
 	JPanel[] panels = new JPanel[7];
 
+	private static String constants[] = { "\u03c0", "\u2107" }; // pi, e
+	
 	protected float ergebnis;
+	
+	boolean bracket = false;
 
 	// Fonts
 	// -----------------------------------------------------------------------------------------------------------
@@ -130,6 +140,7 @@ public class GuiTaschenrechner extends JFrame {
 		labelErgebnis.setFont(resultBold);
 		labelCalc.setFont(calcBold);
 
+
 		for (int i = 0; i <= 8; i++) {
 			getNumPad(i).setBackground(Color.white);
 		}
@@ -140,6 +151,11 @@ public class GuiTaschenrechner extends JFrame {
 		getNumPad(BUTTON__E).setBackground(Color.LIGHT_GRAY);
 		buttonErgebnis.setBackground(Color.green);
 		buttonChangeMode.setBackground(Color.cyan);
+		buttonMathPi.setBackground(Color.white);
+		buttonMathE.setBackground(Color.white);
+		buttonSignMinus.setBackground(Color.white);
+		buttonBracket.setBackground(Color.white);
+		//buttonBracketCls.setBackground(Color.white);
 
 		// change size of all buttons
 		for (JButton button : numPad) {
@@ -152,6 +168,13 @@ public class GuiTaschenrechner extends JFrame {
 		buttonDivide.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		buttonPow.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		buttonDelete.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonMathE.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonMathPi.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonSignMinus.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonBracket.setPreferredSize(new Dimension(BUTTON_WIDTH,BUTTON_HEIGHT));
+		//buttonBracketCls.setPreferredSize(new Dimension(BUTTON_WIDTH/2,BUTTON_HEIGHT));
+		buttonChangeMode.setPreferredSize(new Dimension(BUTTON_WIDTH,BUTTON_HEIGHT));
+		
 		panels[0].setPreferredSize(new Dimension(300,30));
 		panels[1].setPreferredSize(new Dimension(300,30));
 
@@ -199,7 +222,12 @@ public class GuiTaschenrechner extends JFrame {
 		panels[5].add(getNumPad(BUTTON__E));
 		panels[5].add(getNumPad(BUTTON__ANS));
 		panels[5].add(buttonErgebnis);
-
+		
+		panels[6].add(buttonMathPi);
+		panels[6].add(buttonMathE);
+		panels[6].add(buttonSignMinus);
+		panels[6].add(buttonBracket);
+		//panels[6].add(buttonBracketCls);
 		panels[6].add(buttonChangeMode);
 
 	}
@@ -338,7 +366,7 @@ public class GuiTaschenrechner extends JFrame {
 			}
 		});
 
-		buttonChangeMode = new JButton("MODE");
+		buttonChangeMode = new JButton("M");
 		buttonChangeMode.addActionListener(new ActionListener() {
 
 			@Override
@@ -415,6 +443,49 @@ public class GuiTaschenrechner extends JFrame {
 					labelCalc.setText(labelCalc.getText() + button.getText());
 				}
 			});
+			buttonSignMinus = new JButton("(-)");
+			buttonMathPi = new JButton(constants[0]);
+			buttonMathE = new JButton(constants[1]);
+			
+			buttonSignMinus.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//Log.console(button.getText());
+					labelCalc.setText(labelCalc.getText() + " -");
+				}
+			});
+			
+			buttonMathPi.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//Log.console(button.getText());
+					labelCalc.setText(labelCalc.getText() + "n");
+				}
+			});
+			
+			buttonMathE.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//Log.console(button.getText());
+					labelCalc.setText(labelCalc.getText() + "e");
+				}
+			});
+			buttonBracket = new JButton("( )");
+			//buttonBracketCls = new JButton(")");
+			buttonBracket.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(bracket == false) {
+						labelCalc.setText(labelCalc.getText() + "(");
+					} else {
+						labelCalc.setText(labelCalc.getText() + ")");
+					}
+					bracket = !bracket;
+				}
+			});
+			//buttonBracketCls.addActionListener(new ActionListener() {
+			//	public void actionPerformed(ActionEvent e) {
+			//		//Log.console(button.getText());
+			//		buttonActionOnPressed(buttonBracketCls);
+			//	}
+			//});
+			
 		}
 
 	}
