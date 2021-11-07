@@ -29,7 +29,7 @@ public class GuiTaschenrechner extends JFrame {
 	private int mode = 1; // default mode, do not change
 	private static final int MODES = 3;
 	protected int calcMode;
-	private final String calcLabelEmpty = "                            ";
+	private final String calcLabelEmpty = ""; 	// "                            "
 
 	protected JLabel labelErgebnis;
 	protected JLabel labelCalc;
@@ -47,6 +47,7 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonDivide;
 	protected JButton buttonPow;
 	protected JButton buttonChangeMode;
+	protected JButton buttonSignMinus;
 
 	public static final int BUTTON_0 = 9;
 	public static final int BUTTON_1 = 6;
@@ -82,11 +83,11 @@ public class GuiTaschenrechner extends JFrame {
 	public static Font xsmall = new Font("Tahoma", Font.BOLD, 10);
 	public static Font extremesmall = new Font("Tahoma", Font.PLAIN, 10);
 	// -----------------------------------------------------------------------------------------------------------------
-	Calculation calc = new Calculation();
+	//Calculation calc = new Calculation();
 	StringCalculation calcString = new StringCalculation();
 
 	public static String textButtons[][] = { { " + ", "log", "log b x" }, { " - ", " √ ", "x!" },
-			{ " x ", "sin", "asin" }, { " / ", "cos", "acos" }, { " ^ ", "tan", "atan" } };
+			{ " * ", "sin", "asin" }, { " / ", "cos", "acos" }, { " ^ ", "tan", "atan" } };
 
 	public GuiTaschenrechner(String titel/* , String operator */) {
 		/*
@@ -151,6 +152,8 @@ public class GuiTaschenrechner extends JFrame {
 		buttonDivide.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		buttonPow.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		buttonDelete.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		panels[0].setPreferredSize(new Dimension(300,30));
+		panels[1].setPreferredSize(new Dimension(300,30));
 
 		getNumPad(BUTTON__ANS).setFont(small); // korrektur weil die beschriftung sonst nicht auf dem button angezeigt
 												// wird
@@ -277,11 +280,7 @@ public class GuiTaschenrechner extends JFrame {
 
 				// labelErgebnis.setText(calc.calc(GuiTaschenrechner.this, fieldOperand1,
 				// fieldOperand2, mode, calcMode));
-				try {
-					labelErgebnis.setText(Double.toString(calcString.calcResultFromString(labelCalc.getText())));
-				} catch (Exception i) {
-					Log.console(i.toString());
-				}
+					labelErgebnis.setText(calcString.calcResultFromString(labelCalc.getText()));
 			}
 		});
 		buttonDelete = new JButton("AC");
@@ -412,7 +411,7 @@ public class GuiTaschenrechner extends JFrame {
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Log.console(button.getText());
+					//Log.console(button.getText());
 					labelCalc.setText(labelCalc.getText() + button.getText());
 				}
 			});
