@@ -33,7 +33,6 @@ public class StringCalcFunctions {
 							break;
 						case " -":
 							if (task.substring(i+2, i+3).equals(" ")) {
-								Log.console("["+task.substring(i+2, i+3)+"]");
 								insertedConstant = " -";
 							} else {
 								insertedConstant = "0-";

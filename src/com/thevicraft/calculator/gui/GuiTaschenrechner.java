@@ -52,6 +52,9 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonMathPi;
 	protected JButton buttonMathE;
 	protected JButton buttonBracket;
+	
+	protected JLabel labelFuncOpn;
+	protected JLabel labelFuncCls;
 	// protected JButton buttonBracketCls;
 
 	public static final int BUTTON_0 = 9;
@@ -138,6 +141,8 @@ public class GuiTaschenrechner extends JFrame {
 		fieldOperator.setBackground(Color.LIGHT_GRAY);
 		labelErgebnis.setFont(resultBold);
 		labelCalc.setFont(calcBold);
+		labelFuncOpn.setFont(calcBold);
+		labelFuncCls.setFont(calcBold);
 
 		for (int i = 0; i <= 8; i++) {
 			getNumPad(i).setBackground(Color.white);
@@ -187,7 +192,7 @@ public class GuiTaschenrechner extends JFrame {
 		this.setIconImage(new Images().imageFromNameInResources("window-icon.png"));
 		
 		//---------------------------------DER CHANGE BUTTON WIRD DISABLED	----------------------------------------------------------------
-		buttonChangeMode.setEnabled(false);
+		//buttonChangeMode.setEnabled(false);
 		
 
 		setVisible(true);
@@ -312,7 +317,7 @@ public class GuiTaschenrechner extends JFrame {
 				// labelErgebnis.setText(calc.calc(GuiTaschenrechner.this, fieldOperand1,
 				// fieldOperand2, mode, calcMode));
 				try {
-					labelErgebnis.setText(calcString.calcResultFromString(labelCalc.getText()));
+					labelErgebnis.setText(calcString.calcResultFromString(labelCalc.getText(),mode, calcMode));
 				} catch (Exception er) {
 
 				}
@@ -372,7 +377,7 @@ public class GuiTaschenrechner extends JFrame {
 				buttonActionOnPressed(buttonPow);
 			}
 		});
-
+		//-----------------------------------------------------------------MODE BUTTON------------------------------------
 		buttonChangeMode = new JButton("M");
 		buttonChangeMode.addActionListener(new ActionListener() {
 
@@ -420,6 +425,7 @@ public class GuiTaschenrechner extends JFrame {
 				default:
 					break;
 				}
+				setPanel0ToMode(mode);
 				buttonPlus.setText(textButtons[0][mode - 1]);
 				buttonMinus.setText(textButtons[1][mode - 1]);
 				buttonTimes.setText(textButtons[2][mode - 1]);
@@ -486,6 +492,9 @@ public class GuiTaschenrechner extends JFrame {
 					bracket = !bracket;
 				}
 			});
+			
+			labelFuncOpn = new JLabel();
+			labelFuncCls = new JLabel(")");
 			// buttonBracketCls.addActionListener(new ActionListener() {
 			// public void actionPerformed(ActionEvent e) {
 			// //Log.console(button.getText());
@@ -496,8 +505,36 @@ public class GuiTaschenrechner extends JFrame {
 		}
 
 	}
+	
+	private void setPanel0ToMode(int modi) {
+		switch(modi) {
+		case 1:
+			labelFuncOpn.setText("");
+			labelFuncOpn.setVisible(false);
+			labelFuncCls.setVisible(false);
+			panels[0].remove(labelFuncOpn);
+			panels[0].remove(labelFuncCls);
+			panels[0].remove(labelCalc);
+			
+			panels[0].add(labelCalc);
+			break;
+		case 2:
+			labelFuncOpn.setVisible(true);
+			labelFuncCls.setVisible(true);
+			panels[0].remove(labelFuncOpn);
+			panels[0].remove(labelFuncCls);
+			panels[0].remove(labelCalc);
+			
+			panels[0].add(labelFuncOpn);
+			panels[0].add(labelCalc);
+			panels[0].add(labelFuncCls);
+			break;
+		case 3:
+			break;
+		}
+	}
 
-	public void buttonsSetTextOnMode() {
+	private void buttonsSetTextOnMode() {
 		buttonPlus.setText(textButtons[0][mode - 1]);
 		buttonMinus.setText(textButtons[1][mode - 1]);
 		buttonTimes.setText(textButtons[2][mode - 1]);
@@ -505,18 +542,19 @@ public class GuiTaschenrechner extends JFrame {
 		buttonPow.setText(textButtons[4][mode - 1]);
 	}
 
-	public void buttonSetSelection(JButton button) {
+	private void buttonSetSelection(JButton button) {
 		if (mode != 1) {
 			button.setText("[" + button.getText() + "]");
 		}
 	}
 
-	public void buttonActionOnPressed(JButton button) {
+	private void buttonActionOnPressed(JButton button) {
 		// Log.console(GuiTaschenrechner.this.resultBold.getFontName().toString());
-		labelCalc.setText(labelCalc.getText() + button.getText());
+		//labelCalc.setText(labelCalc.getText() + button.getText());
 		buttonsSetTextOnMode();
 		switch (mode) {
 		case 1:
+			labelCalc.setText(labelCalc.getText() + button.getText());
 			if (button.equals(buttonPlus)) {
 				calcMode = 1;
 			} else if (button.equals(buttonMinus)) {
@@ -531,7 +569,7 @@ public class GuiTaschenrechner extends JFrame {
 			fieldOperator.setText(button.getText());
 			break;
 		case 2:
-
+			labelFuncOpn.setText(button.getText()+"(");
 			if (button.equals(buttonPlus)) {
 				calcMode = 6;
 			} else if (button.equals(buttonMinus)) {
@@ -546,7 +584,7 @@ public class GuiTaschenrechner extends JFrame {
 			fieldOperand1.setText(button.getText());
 			break;
 		case 3:
-			fieldOperand1.setText(button.getText());
+			labelFuncOpn.setText(button.getText()+"(");
 			if (button.equals(buttonPlus)) {
 				fieldOperand1.setEnabled(true);
 				fieldOperand1.setText("");
@@ -564,7 +602,7 @@ public class GuiTaschenrechner extends JFrame {
 				calcMode = 15;
 				fieldOperand1.setEnabled(false);
 			}
-
+			fieldOperand1.setText(button.getText());
 			break;
 		}
 		// buttonSetSelection(button);
