@@ -15,6 +15,7 @@ public class StringCalculation {
 	
 	public String calcResultFromString(String calcTask, int mode, int calcMode) {
 		double ergebnis;
+		calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
 		switch(mode) {
 		case 1:
 			ergebnis = calcTask(calcTask);
@@ -52,23 +53,23 @@ public class StringCalculation {
 			case 15:
 				ergebnis = SimpleMath.atan(ergebnis);
 				break;
-			
 			}
 			break;
 		}
+		storeResult = ergebnis;
 		result = Double.toString(ergebnis);
 		return result;
 	}
 	
 	private double calcTask(String calcTask) {
 		double beforeResult = 0;
-		calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
+		//calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
 		try {
 		beforeResult = Double.parseDouble(CalcTaskUtil.getResultByStrCal(calcTask));
 		} catch(Exception e) {
 			Log.errorSyntax();
 		}
-		storeResult = beforeResult;
+		//storeResult = beforeResult;
 		return beforeResult;
 	}
 

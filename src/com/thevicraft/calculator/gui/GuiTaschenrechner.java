@@ -97,6 +97,8 @@ public class GuiTaschenrechner extends JFrame {
 	// -----------------------------------------------------------------------------------------------------------------
 	// Calculation calc = new Calculation();
 	StringCalculation calcString = new StringCalculation();
+	// Dimensions ------------------------------------------------------------------------------------------------------
+	Dimension buttonStandartSize = new Dimension(BUTTON_WIDTH,BUTTON_HEIGHT);
 
 	public static String textButtons[][] = { { " + ", "log", "log b x" }, { " - ", " √ ", "x!" },
 			{ " * ", "sin", "asin" }, { " / ", "cos", "acos" }, { " ^ ", "tan", "atan" } };
@@ -118,21 +120,7 @@ public class GuiTaschenrechner extends JFrame {
 
 		initComponents();
 		initPanels();
-		/*
-		 * add(fieldOperand1); // add(labelOperator); add(fieldOperator);
-		 * add(fieldOperand2);
-		 * 
-		 * add(buttonPlus); add(buttonMinus); add(buttonTimes); add(buttonDivide);
-		 * add(buttonPow);
-		 * 
-		 * add(labelErgebnis); add(buttonErgebnis); add(buttonDelete);
-		 * add(buttonChangeMode);
-		 */
-		// -----------------------------------------------------CHECKBOX MACHEN, MIT DER
-		// MAN DAS NUMPAD AKTIVIEREN KANN
-		// -----------------------------------------------------(dann wird entweder
-		// addNumpads/ removeNumpads)
-		// addNumPads(GuiTaschenrechner.this);
+
 		addComponentsToPanels();
 		initToolTips();
 		addPanels();
@@ -162,22 +150,22 @@ public class GuiTaschenrechner extends JFrame {
 
 		// change size of all buttons
 		for (JButton button : numPad) {
-			button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+			button.setPreferredSize(buttonStandartSize);
 		}
-		buttonErgebnis.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		buttonPlus.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		buttonMinus.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		buttonTimes.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		buttonDivide.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		buttonPow.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		buttonDelete.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		buttonMathE.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		buttonMathPi.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		buttonSignMinus.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		buttonBracket.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonErgebnis.setPreferredSize(buttonStandartSize);
+		buttonPlus.setPreferredSize(buttonStandartSize);
+		buttonMinus.setPreferredSize(buttonStandartSize);
+		buttonTimes.setPreferredSize(buttonStandartSize);
+		buttonDivide.setPreferredSize(buttonStandartSize);
+		buttonPow.setPreferredSize(buttonStandartSize);
+		buttonDelete.setPreferredSize(buttonStandartSize);
+		buttonMathE.setPreferredSize(buttonStandartSize);
+		buttonMathPi.setPreferredSize(buttonStandartSize);
+		buttonSignMinus.setPreferredSize(buttonStandartSize);
+		buttonBracket.setPreferredSize(buttonStandartSize);
 		// buttonBracketCls.setPreferredSize(new
 		// Dimension(BUTTON_WIDTH/2,BUTTON_HEIGHT));
-		buttonChangeMode.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		buttonChangeMode.setPreferredSize(buttonStandartSize);
 
 		panels[0].setPreferredSize(new Dimension(300, 30));
 		panels[1].setPreferredSize(new Dimension(300, 30));
