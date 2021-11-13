@@ -8,8 +8,10 @@ public class StringCalcFunctions {
 	private StringObject[] operators = new StringObject[100]; // = new StringObject[2];
 	private StringObject[] operatorsRaw = new StringObject[100]; // = new StringObject[2];
 	private StringObject[] operands = new StringObject[100]; // = new StringObject[2];
-	private static String calcOperator[] = { " ^ ", " / ", " x ", " + ", " - " };
-	private static String constants[] = { "n", "ANS", "e", "E"," -" };
+	private static String calcOperator[] = { " ^ ", " / ", " * ", " + ", " - " };
+	private static String constants[] = { "n", "ANS", "e", "E", " -" };
+	private static String checkAbleForCalc[] = { " ^ ", " / ", " * ", " + ", " - ", "n", "ANS", "e", "E", " -", "(",
+			")" };
 	private StringObject lastStore;
 
 	public String insertConstants(String task, double oldResult) {
@@ -32,7 +34,7 @@ public class StringCalcFunctions {
 							insertedConstant = "*10^";
 							break;
 						case " -":
-							if (task.substring(i+2, i+3).equals(" ")) {
+							if (task.substring(i + 2, i + 3).equals(" ")) {
 								insertedConstant = " -";
 							} else {
 								insertedConstant = "0-";
@@ -52,6 +54,20 @@ public class StringCalcFunctions {
 		}
 
 		return task;
+	}
+
+	public boolean detectOperators(String calcTask) {
+		int countops = 0;
+		for (String op : checkAbleForCalc) {
+			if (calcTask.indexOf(op) != -1) {
+				countops++;
+			}
+		}
+		if (countops == 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public void extractOperatorsFromString(String calcTask) {

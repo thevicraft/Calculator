@@ -9,7 +9,7 @@ public class StringCalculation {
 	private String result;
 	private double storeResult = 0;
 
-	public String calcResultFromString(String calcTask, int mode, int calcMode) {
+	public String calcResultFromString(String calcTask, int mode, int calcMode, String logBase, String logExponent) {
 		double ergebnis = 0;
 		calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
 		switch (mode) {
@@ -39,7 +39,19 @@ public class StringCalculation {
 				ergebnis = SimpleMath.tan(ergebnis);
 				break;
 			case 11:
-				Log.errorLog("feature not ready yet");
+				String exp = new StringCalcFunctions().insertConstants(logExponent, storeResult);
+				String base = new StringCalcFunctions().insertConstants(logBase, storeResult);
+				double exponent = 0;
+				double basis = 0;
+				try {
+					exponent = calcTask(exp);
+				} catch (Exception e) {
+				}
+				try {
+					basis = calcTask(base);
+				} catch (Exception e) {
+				}
+				ergebnis = SimpleMath.logarithm(exponent, basis);
 				break;
 			case 12:
 				break;
@@ -63,11 +75,17 @@ public class StringCalculation {
 	private double calcTask(String calcTask) {
 		double beforeResult = 0;
 		// calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
-		try {
-			beforeResult = Double.parseDouble(CalcTaskUtil.getResultByStrCal(calcTask));
-		} catch (Exception e) {
-			Log.errorSyntax();
+
+		if (new StringCalcFunctions().detectOperators(calcTask)==true) {
+			try {
+				beforeResult = Double.parseDouble(CalcTaskUtil.getResultByStrCal(calcTask));
+			} catch (Exception e) {
+				Log.errorSyntax();
+			}
+		} else {
+			return Double.parseDouble(calcTask);
 		}
+
 		// storeResult = beforeResult;
 		return beforeResult;
 	}
