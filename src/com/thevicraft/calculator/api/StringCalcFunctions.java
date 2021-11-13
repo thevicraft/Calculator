@@ -10,8 +10,7 @@ public class StringCalcFunctions {
 	private StringObject[] operands = new StringObject[100]; // = new StringObject[2];
 	private static String calcOperator[] = { " ^ ", " / ", " * ", " + ", " - " };
 	private static String constants[] = { "n", "ANS", "e", "E", " -" };
-	private static String checkAbleForCalc[] = { " ^ ", " / ", " * ", " + ", " - ", "n", "ANS", "e", "E", " -", "(",
-			")" };
+	private static String checkAbleForCalc[] = { "^", "/", "*", "+", "-", "n", " -", "(", ")" };
 	private StringObject lastStore;
 
 	public String insertConstants(String task, double oldResult) {
