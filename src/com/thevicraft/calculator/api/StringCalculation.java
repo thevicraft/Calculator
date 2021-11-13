@@ -1,29 +1,28 @@
 package com.thevicraft.calculator.api;
+
 import com.thevicraft.calculator.api.*;
 import java.lang.Math;
 import com.thevicraft.calculator.console.Log;
 
 public class StringCalculation {
-	
+
 	private String result;
 	private double storeResult = 0;
-	//private StringObject[] operators; // = new StringObject[2];
-	//private StringObject[] operands; // = new StringObject[2];
-	//private static String calcOperator[][] = { { " + ", "log", "log b x" }, { " - ", " √ ", "x!" }, { " x ", "sin", "asin" },
-	//		{ " / ", "cos", "acos" }, { " ^ ", "tan", "atan" } };
-	//private static String calcOperator[] = {" / "," * "," + "," - "};
-	
+
 	public String calcResultFromString(String calcTask, int mode, int calcMode) {
-		double ergebnis;
+		double ergebnis = 0;
 		calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
-		switch(mode) {
+		switch (mode) {
 		case 1:
 			ergebnis = calcTask(calcTask);
-			ergebnis = ergebnis + 0;	// dummer befehl ohne sinn xD
 			break;
 		default:
-			ergebnis = Double.parseDouble(calcTask);
-			switch(calcMode) {
+			try {
+				ergebnis = calcTask(calcTask);
+			} catch (Exception e) {
+			}
+
+			switch (calcMode) {
 			case 6:
 				ergebnis = Math.log10(ergebnis);
 				break;
@@ -60,16 +59,16 @@ public class StringCalculation {
 		result = Double.toString(ergebnis);
 		return result;
 	}
-	
+
 	private double calcTask(String calcTask) {
 		double beforeResult = 0;
-		//calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
+		// calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
 		try {
-		beforeResult = Double.parseDouble(CalcTaskUtil.getResultByStrCal(calcTask));
-		} catch(Exception e) {
+			beforeResult = Double.parseDouble(CalcTaskUtil.getResultByStrCal(calcTask));
+		} catch (Exception e) {
 			Log.errorSyntax();
 		}
-		//storeResult = beforeResult;
+		// storeResult = beforeResult;
 		return beforeResult;
 	}
 
