@@ -1,6 +1,7 @@
 package com.thevicraft.calculator.gui;
 
 import com.thevicraft.calculator.api.Calculation;
+import com.thevicraft.calculator.api.StringCalcFunctions;
 import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.console.Log;
 
@@ -40,6 +41,7 @@ public class GuiTaschenrechner extends JFrame {
 
 	protected JButton buttonErgebnis;
 	protected JButton buttonDelete;
+	protected JButton buttonDeleteLast;
 	protected JButton buttonPlus;
 	protected JButton buttonMinus;
 
@@ -51,10 +53,15 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonSignMinus;
 	protected JButton buttonMathPi;
 	protected JButton buttonMathE;
-	protected JButton buttonBracket;
+	protected JButton buttonBracketOpn;
+	protected JButton buttonBracketCls;
 
 	protected JButton buttonLogBase;
 	protected JButton buttonLogExp;
+
+	protected JButton buttonXPower2;
+	protected JButton buttonXPower3;
+	protected JButton buttonXPowerReverse;
 
 	protected JLabel labelFuncOpn;
 	protected JLabel labelFuncCls;
@@ -75,13 +82,14 @@ public class GuiTaschenrechner extends JFrame {
 	public static final int BUTTON__E = 11;
 
 	public int WINDOW_WIDTH = 340;
-	public int WINDOW_HEIGHT = 300;
+	public int WINDOW_HEIGHT = 340;	//300
 
 	public int BUTTON_WIDTH = 60;
 	public int BUTTON_HEIGHT = 25;
+	private final int PANELS = 7;
 
 	JButton[] numPad = new JButton[13];
-	JPanel[] panels = new JPanel[7];
+	JPanel[] panels = new JPanel[PANELS + 1];
 
 	private static String constants[] = { "\u03c0", "\u2107" }; // pi, e
 
@@ -105,22 +113,22 @@ public class GuiTaschenrechner extends JFrame {
 	// ------------------------------------------------------------------------------------------------------
 	Dimension buttonStandartSize = new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT);
 
-	public static String textButtons[][] = { { " + ", "log", "log b x" }, { " - ", " √ ", "x!" },
-			{ " * ", "sin", "asin" }, { " / ", "cos", "acos" }, { " ^ ", "tan", "atan" } };
+	// Images--------------------------------------------------------------------------------------------------
+	Images icon = new Images();
+	Color dark = Color.DARK_GRAY;
+	Color bright = Color.white;
 
-	public GuiTaschenrechner(String titel/* , String operator */) {
-		/*
-		 * { boolean lang1; boolean lang2; do {
-		 * setLanguage(Log.input("Select a language: [en; de]")); lang1 =
-		 * getLanguage().equals("de"); lang2 = getLanguage().equals("en"); } while
-		 * ((lang1 == false) & (lang2 == false)); }
-		 */
+	public static String textButtons[][] = { { " + ", "log", "log" }, { " - ", " √ ", "x!" }, { " * ", "sin", "asin" },
+			{ " / ", "cos", "acos" }, { " ^ ", "tan", "atan" } };
+
+	public GuiTaschenrechner(String titel) {
+
 		setTitle(titel);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
 		// setLayout(new BorderLayout());
 
-		setSize(WINDOW_WIDTH, WINDOW_HEIGHT); // current 250, 170
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setResizable(false);
 
 		initComponents();
@@ -136,22 +144,38 @@ public class GuiTaschenrechner extends JFrame {
 		labelCalc.setFont(calcBold);
 		labelFuncOpn.setFont(calcBold);
 		labelFuncCls.setFont(calcBold);
+		buttonXPowerReverse.setFont(extremesmall);
 
 		for (int i = 0; i <= 8; i++) {
-			getNumPad(i).setBackground(Color.white);
+			getNumPad(i).setBackground(bright);
 		}
-		getNumPad(BUTTON_0).setBackground(Color.white);
+		getNumPad(BUTTON_0).setBackground(bright);
 		buttonDelete.setBackground(Color.orange);
+		buttonDeleteLast.setBackground(Color.orange);
 		getNumPad(BUTTON__ANS).setBackground(Color.LIGHT_GRAY);
-		getNumPad(BUTTON__DOT).setBackground(Color.white);
+		getNumPad(BUTTON__DOT).setBackground(bright);
 		getNumPad(BUTTON__E).setBackground(Color.LIGHT_GRAY);
 		buttonErgebnis.setBackground(Color.green);
 		buttonChangeMode.setBackground(Color.cyan);
-		buttonMathPi.setBackground(Color.white);
-		buttonMathE.setBackground(Color.white);
-		buttonSignMinus.setBackground(Color.white);
-		buttonBracket.setBackground(Color.white);
-		// buttonBracketCls.setBackground(Color.white);
+		buttonMathPi.setBackground(dark);
+		buttonMathE.setBackground(dark);
+		buttonSignMinus.setBackground(dark);
+		buttonBracketOpn.setBackground(dark);
+		buttonBracketCls.setBackground(dark);
+		buttonXPower2.setBackground(dark);
+		buttonXPower3.setBackground(dark);
+		buttonXPowerReverse.setBackground(dark);
+		buttonPow.setBackground(dark);
+		
+		buttonMathPi.setForeground(bright);
+		buttonMathE.setForeground(bright);
+		buttonSignMinus.setForeground(bright);
+		buttonBracketOpn.setForeground(bright);
+		buttonBracketCls.setForeground(bright);
+		buttonXPower2.setForeground(bright);
+		buttonXPower3.setForeground(bright);
+		buttonXPowerReverse.setForeground(bright);
+		buttonPow.setForeground(bright);
 
 		// change size of all buttons
 		for (JButton button : numPad) {
@@ -167,12 +191,14 @@ public class GuiTaschenrechner extends JFrame {
 		buttonMathE.setPreferredSize(buttonStandartSize);
 		buttonMathPi.setPreferredSize(buttonStandartSize);
 		buttonSignMinus.setPreferredSize(buttonStandartSize);
-		buttonBracket.setPreferredSize(buttonStandartSize);
+		buttonBracketOpn.setPreferredSize(buttonStandartSize);
+		buttonBracketCls.setPreferredSize(buttonStandartSize);
 		// buttonLogBase.setPreferredSize(buttonStandartSize);
 		// buttonLogExp.setPreferredSize(buttonStandartSize);
-		// buttonBracketCls.setPreferredSize(new
-		// Dimension(BUTTON_WIDTH/2,BUTTON_HEIGHT));
 		buttonChangeMode.setPreferredSize(buttonStandartSize);
+		buttonXPower2.setPreferredSize(buttonStandartSize);
+		buttonXPower3.setPreferredSize(buttonStandartSize);
+		buttonXPowerReverse.setPreferredSize(buttonStandartSize);
 
 		panels[0].setPreferredSize(new Dimension(300, 30));
 		panels[1].setPreferredSize(new Dimension(300, 30));
@@ -184,7 +210,8 @@ public class GuiTaschenrechner extends JFrame {
 
 		// this.setIconImage(icon.getImage());
 		// this.setIconImage((new Images().imageDefaultInResources(new Images().ICON)));
-		this.setIconImage(new Images().imageFromNameInResources("window-icon.png"));
+		// this.setIconImage(new Images().imageFromNameInResources("window-icon.png"));
+		this.setIconImage(icon.imageDefaultInResources(icon.ICON));
 
 		// ---------------------------------DER CHANGE BUTTON WIRD DISABLED
 		// ----------------------------------------------------------------
@@ -213,7 +240,7 @@ public class GuiTaschenrechner extends JFrame {
 		for (int i = 0; i <= 2; i++) {
 			panels[2].add(getNumPad(i));
 		}
-		panels[2].add(buttonPow);
+		panels[2].add(buttonDeleteLast);
 		panels[2].add(buttonDelete);
 
 		for (int i = 3; i <= 5; i++) {
@@ -235,11 +262,17 @@ public class GuiTaschenrechner extends JFrame {
 		panels[5].add(buttonErgebnis);
 
 		panels[6].add(buttonMathPi);
-		panels[6].add(buttonMathE);
+
 		panels[6].add(buttonSignMinus);
-		panels[6].add(buttonBracket);
-		// panels[6].add(buttonBracketCls);
+		panels[6].add(buttonBracketOpn);
+		panels[6].add(buttonBracketCls);
 		panels[6].add(buttonChangeMode);
+
+		panels[7].add(buttonMathE);
+		panels[7].add(buttonXPower2);
+		panels[7].add(buttonPow);
+		panels[7].add(buttonXPower3);
+		panels[7].add(buttonXPowerReverse);
 
 	}
 
@@ -250,7 +283,7 @@ public class GuiTaschenrechner extends JFrame {
 	}
 
 	private void initPanels() {
-		for (int i = 0; i <= 6; i++) {
+		for (int i = 0; i <= PANELS; i++) {
 			panels[i] = new JPanel();
 		}
 	}
@@ -446,20 +479,12 @@ public class GuiTaschenrechner extends JFrame {
 				insertTextInField(calcLabelEmpty, true);
 			}
 		});
-		// hier foreachschleife nutzen
-		/*
-		 * BUTTON_0 = new JButton("0"); BUTTON_0.addActionListener(new ActionListener()
-		 * {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) {
-		 * buttonActionOnPressed(BUTTON_0); } });
-		 */
+
 		initNumPads();
 		for (JButton button : numPad) {
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// Log.console(button.getText());
 					insertTextInField(button.getText(), false);
 				}
 			});
@@ -469,39 +494,99 @@ public class GuiTaschenrechner extends JFrame {
 
 			buttonSignMinus.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// Log.console(button.getText());
-					// labelCalc.setText(labelCalc.getText() + " -");
 					insertTextInField(" -", false);
 				}
 			});
 
 			buttonMathPi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// Log.console(button.getText());
-					// labelCalc.setText(labelCalc.getText() + "n");
 					insertTextInField("n", false);
 				}
 			});
 
 			buttonMathE.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// Log.console(button.getText());
-					// labelCalc.setText(labelCalc.getText() + "e");
 					insertTextInField("e", false);
 				}
 			});
-			buttonBracket = new JButton("( )");
-			// buttonBracketCls = new JButton(")");
-			buttonBracket.addActionListener(new ActionListener() {
+
+			buttonBracketOpn = new JButton("(");
+			buttonBracketCls = new JButton(")");
+			buttonBracketOpn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (bracket == false) {
-						// labelCalc.setText(labelCalc.getText() + "(");
-						insertTextInField("(", false);
-					} else {
-						// labelCalc.setText(labelCalc.getText() + ")");
-						insertTextInField(")", false);
+					insertTextInField("(", false);
+
+				}
+			});
+			buttonBracketCls.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					insertTextInField(")", false);
+
+				}
+			});
+			buttonDeleteLast = new JButton("DEL");
+			buttonDeleteLast.addActionListener(new ActionListener() {
+				@SuppressWarnings("static-access")
+				public void actionPerformed(ActionEvent e) {
+					
+					// delete all if there is only one character
+					if (getTextInField().length() == 1) {
+						setTextInField(calcLabelEmpty);
 					}
-					bracket = !bracket;
+
+					boolean foundOperator = false;
+					String ops[] = new StringCalcFunctions().calcOperator;
+					// test for an operator to delete the empty spaces with it
+					try {
+						for (String o : ops) {
+							if (getTextInField().substring(getTextInField().length() - 3, getTextInField().length())
+									.equals(o)) {
+								foundOperator = true;
+								break;
+							} else {
+								foundOperator = false;
+							}
+						}
+					} catch (Exception in) {
+					}
+					try {
+						// test for a special sign minus, to delete the empty space with it
+						if (foundOperator) {
+							setTextInField(getTextInField().substring(0, getTextInField().length() - 3));
+
+						} else {
+							// normal delete of last sign, just inserts same text without last character
+							if (getTextInField().substring(getTextInField().length() - 2, getTextInField().length())
+									.equals(" -")) {
+								// löscht auch ein leerzeichen vom rechenoperator wenn eins da ist
+								setTextInField(getTextInField().substring(0, getTextInField().length() - 2));
+							} else {
+								setTextInField(getTextInField().substring(0, getTextInField().length() - 1));
+							}
+
+						}
+					} catch (Exception a) {
+					}
+
+				}
+			});
+
+			buttonXPower2 = new JButton("^2");
+			buttonXPower3 = new JButton("^3");
+			buttonXPowerReverse = new JButton("^(-1)");
+			buttonXPower2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					insertTextInField(buttonXPower2.getText(), false);
+				}
+			});
+			buttonXPower3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					insertTextInField(buttonXPower3.getText(), false);
+				}
+			});
+			buttonXPowerReverse.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					insertTextInField("^( -1)", false);
 				}
 			});
 
@@ -512,19 +597,17 @@ public class GuiTaschenrechner extends JFrame {
 			buttonLogBase.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					logWithBaseFocus = 2;
+					buttonLogBase.setBackground(Color.LIGHT_GRAY);
+					buttonLogExp.setBackground(Color.white);
 				}
 			});
 			buttonLogExp.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					logWithBaseFocus = 1;
+					buttonLogBase.setBackground(Color.white);
+					buttonLogExp.setBackground(Color.LIGHT_GRAY);
 				}
 			});
-			// buttonBracketCls.addActionListener(new ActionListener() {
-			// public void actionPerformed(ActionEvent e) {
-			// //Log.console(button.getText());
-			// buttonActionOnPressed(buttonBracketCls);
-			// }
-			// });
 
 		}
 
@@ -536,11 +619,7 @@ public class GuiTaschenrechner extends JFrame {
 			labelFuncOpn.setText("");
 			labelFuncOpn.setVisible(false);
 			labelFuncCls.setVisible(false);
-			//panels[0].remove(labelFuncOpn);
-			//panels[0].remove(labelFuncCls);
-			//panels[0].remove(labelCalc);
 
-			//panels[0].add(labelCalc);
 			labelCalc.setVisible(true);
 			logWithBaseFocus = 0;
 			buttonLogBase.setVisible(false);
@@ -549,13 +628,6 @@ public class GuiTaschenrechner extends JFrame {
 		case 2:
 			labelFuncOpn.setVisible(true);
 			labelFuncCls.setVisible(true);
-			//panels[0].remove(labelFuncOpn);
-			//panels[0].remove(labelFuncCls);
-			//panels[0].remove(labelCalc);
-
-			//panels[0].add(labelFuncOpn);
-			//panels[0].add(labelCalc);
-			//panels[0].add(labelFuncCls);
 			labelCalc.setVisible(true);
 			buttonLogBase.setVisible(false);
 			buttonLogExp.setVisible(false);
@@ -585,8 +657,6 @@ public class GuiTaschenrechner extends JFrame {
 	}
 
 	private void buttonActionOnPressed(JButton button) {
-		// Log.console(GuiTaschenrechner.this.resultBold.getFontName().toString());
-		// labelCalc.setText(labelCalc.getText() + button.getText());
 		buttonsSetTextOnMode();
 		boolean log = false;
 		switch (mode) {
@@ -650,19 +720,12 @@ public class GuiTaschenrechner extends JFrame {
 			buttonLogBase.setVisible(true);
 			buttonLogExp.setVisible(true);
 			labelCalc.setVisible(false);
-			//panels[0].remove(labelFuncOpn);
-			//panels[0].remove(labelFuncCls);
+
 			buttonLogBase.setVisible(true);
 			buttonLogExp.setVisible(true);
 
-			//panels[0].add(labelFuncOpn);
-			//panels[0].add(buttonLogExp);
-			//panels[0].add(buttonLogBase);
-			//panels[0].add(labelFuncCls);
 		} else {
 			labelCalc.setVisible(true);
-			//panels[0].remove(buttonLogExp);
-			//panels[0].remove(buttonLogBase);
 			buttonLogBase.setVisible(false);
 			buttonLogExp.setVisible(false);
 			logWithBaseFocus = 0;
@@ -695,6 +758,35 @@ public class GuiTaschenrechner extends JFrame {
 				buttonLogBase.setText(calcLabelEmpty);
 				break;
 			}
+		}
+	}
+
+	private String getTextInField() {
+		switch (logWithBaseFocus) {
+		case 0:
+			return labelCalc.getText();
+		case 1:
+			return buttonLogExp.getText();
+		case 2:
+			return buttonLogBase.getText();
+		default:
+			return null;
+		}
+
+	}
+
+	private void setTextInField(String text) {
+
+		switch (logWithBaseFocus) {
+		case 0:
+			labelCalc.setText(text);
+			break;
+		case 1:
+			buttonLogExp.setText(text);
+			break;
+		case 2:
+			buttonLogBase.setText(text);
+			break;
 		}
 	}
 
