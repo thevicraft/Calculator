@@ -5,7 +5,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		GuiTaschenrechner taschenrechner = new GuiTaschenrechner("Calculator"/*,"/"*/);
+		GuiTaschenrechner taschenrechner = new GuiTaschenrechner("Calculator","dark");
 		
 		
 		
