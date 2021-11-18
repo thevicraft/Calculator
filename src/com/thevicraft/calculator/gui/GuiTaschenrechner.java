@@ -4,6 +4,7 @@ import com.thevicraft.calculator.api.Calculation;
 import com.thevicraft.calculator.api.StringCalcFunctions;
 import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.console.Log;
+import com.thevicraft.calculator.gui.Images.Pictures;
 
 import java.awt.FlowLayout;
 
@@ -14,8 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.text.AttributeSet.ColorAttribute;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -62,6 +61,8 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonXPower3;
 	protected JButton buttonXPowerReverse;
 
+	protected JButton buttonAppearMode;
+
 	protected JLabel labelFuncOpn;
 	protected JLabel labelFuncMid;
 	protected JLabel labelFuncCls;
@@ -82,12 +83,12 @@ public class GuiTaschenrechner extends JFrame {
 	public static final int BUTTON__E = 11;
 
 	public int WINDOW_WIDTH = 340;
-	public int WINDOW_HEIGHT = 350; // 340
+	public int WINDOW_HEIGHT = 390; // 350
 	public int PANEL_WIDTH = 340;
-	public int PANEL_HEIGHT = 340;
+	public int PANEL_HEIGHT = 390;	//340
 	public int BUTTON_WIDTH = 60;
 	public int BUTTON_HEIGHT = 25;
-	private final int PANELS = 8;
+	private final int PANELS = 9;
 
 	JButton[] numPad = new JButton[13];
 	JButton[] funcPad = new JButton[5];
@@ -100,6 +101,8 @@ public class GuiTaschenrechner extends JFrame {
 
 	boolean bracket = false;
 	int logWithBaseFocus = 0;
+
+	private Color appearanceMode;
 
 	// Fonts
 	// -----------------------------------------------------------------------------------------------------------
@@ -125,16 +128,14 @@ public class GuiTaschenrechner extends JFrame {
 			{ " / ", "cos", "acos" }, { " ^ ", "tan", "atan" } };
 
 	public GuiTaschenrechner(String titel, String darkLight) {
-
-		Color mode;
 		switch (darkLight) {
 		case "dark":
-			mode = Color.black;
+			appearanceMode = dark;
 			break;
 		case "light":
-			mode = Color.white;
+			appearanceMode = bright;
 		default:
-			mode = Color.white;
+			appearanceMode = bright;
 		}
 
 		setTitle(titel);
@@ -151,28 +152,25 @@ public class GuiTaschenrechner extends JFrame {
 
 		// master panel
 		add(panelMaster);
-		panelMaster.setPreferredSize(new Dimension(340, 340));
+		panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 
-		// fieldOperator.setEditable(false);
-		// fieldOperator.setBackground(Color.LIGHT_GRAY);
 		setFontOfComponents();
 
-		setColorOfComponents(darkLight);
+		setColorOfComponents(appearanceMode);
 
 		setSizeOfComponents();
-		for (JPanel p : panels) {
-			p.setBackground(mode);
-		}
-		panelMaster.setBackground(mode);
-		getContentPane().setBackground(mode);
 
 		getNumPad(BUTTON__ANS).setFont(small); // korrektur weil die beschriftung sonst nicht auf dem button angezeigt
 												// wird
 
 		setLocationRelativeTo(null);
 
-		this.setIconImage(icon.imageDefaultInResources(icon.ICON));
-
+		this.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
+		
+		funcPadSetVisible(false);
+		
+		buttonAppearMode.setIcon(Images.scaleImageIconFromDefault(Pictures.DARK_LIGHT_MODE, 30, 30));
+		
 		setVisible(true);
 	}
 
@@ -198,12 +196,13 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPower2.setPreferredSize(buttonStandartSize);
 		buttonXPower3.setPreferredSize(buttonStandartSize);
 		buttonXPowerReverse.setPreferredSize(buttonStandartSize);
+		buttonAppearMode.setPreferredSize(new Dimension(30,30));
 
 		panels[0].setPreferredSize(new Dimension(300, 30));
 		panels[1].setPreferredSize(new Dimension(300, 30));
 	}
 
-	private void setColorOfComponents(String mode) {
+	private void setColorOfComponents(Color mode) {
 		for (int i = 0; i <= 8; i++) {
 			getNumPad(i).setBackground(bright);
 		}
@@ -234,22 +233,26 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPower3.setForeground(bright);
 		buttonXPowerReverse.setForeground(bright);
 		buttonPow.setForeground(bright);
-		switch (mode) {
-		case "light":
-			labelCalc.setForeground(dark);
-			labelErgebnis.setForeground(dark);
-			labelFuncOpn.setForeground(dark);
-			labelFuncMid.setForeground(dark);
-			labelFuncCls.setForeground(dark);
-			break;
-		case "dark":
+
+		for (JPanel p : panels) {
+			p.setBackground(mode);
+		}
+		panelMaster.setBackground(mode);
+		getContentPane().setBackground(mode);
+
+		if (mode.equals(dark)) {
 			labelCalc.setForeground(bright);
 			labelErgebnis.setForeground(bright);
 			labelFuncOpn.setForeground(bright);
 			labelFuncMid.setForeground(bright);
 			labelFuncCls.setForeground(bright);
-			break;
-		default:
+		} else if (mode.equals(bright)) {
+			labelCalc.setForeground(dark);
+			labelErgebnis.setForeground(dark);
+			labelFuncOpn.setForeground(dark);
+			labelFuncMid.setForeground(dark);
+			labelFuncCls.setForeground(dark);
+		} else {
 			labelCalc.setForeground(dark);
 			labelErgebnis.setForeground(dark);
 			labelFuncOpn.setForeground(dark);
@@ -330,6 +333,7 @@ public class GuiTaschenrechner extends JFrame {
 			panels[8].add(pad);
 		}
 
+		panels[9].add(buttonAppearMode);
 	}
 
 	private void addPanels(/* JFrame window */) {
@@ -381,9 +385,10 @@ public class GuiTaschenrechner extends JFrame {
 	}
 
 	private void funcPadSetVisible(boolean visible) {
-		for (JButton pad : funcPad) {
-			pad.setVisible(visible);
-		}
+		panels[8].setVisible(visible);
+		//for (JButton pad : funcPad) {
+		//	pad.setVisible(visible);
+		//}
 	}
 
 	private JButton getFuncPad(int d) {
@@ -654,6 +659,19 @@ public class GuiTaschenrechner extends JFrame {
 			}
 		});
 
+		buttonAppearMode = new JButton();
+		buttonAppearMode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(appearanceMode.equals(bright)) {
+					appearanceMode = dark;
+				} else if(appearanceMode.equals(dark)) {
+					appearanceMode = bright;
+				}
+				setColorOfComponents(appearanceMode);
+			}
+		});
+
+// last bracket
 	}
 
 	private void setPanel0ToMode(int modi) {

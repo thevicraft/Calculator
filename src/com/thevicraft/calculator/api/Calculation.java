@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.GuiTaschenrechner;
 import com.thevicraft.calculator.gui.Images;
+import com.thevicraft.calculator.gui.Images.Pictures;
 
 import java.awt.Color;
 
@@ -31,7 +32,7 @@ public class Calculation extends SimpleMath {
 			Float.parseFloat(field.getText());
 		} catch (Exception e) {
 			// window.setIconImage(iconWarning.getImage());
-			window.setIconImage(new Images().imageDefaultInResources(new Images().ICON_WARNING));
+			window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON_WARNING).getImage());
 			Log.errorSyntax();
 			field.setCaretColor(Color.red);
 			field.setForeground(Color.red);
@@ -40,7 +41,7 @@ public class Calculation extends SimpleMath {
 		field.setCaretColor(Color.black);
 		field.setForeground(Color.black);
 		// window.setIconImage(icon.getImage());
-		window.setIconImage(new Images().imageDefaultInResources(new Images().ICON));
+		window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
 		return Float.parseFloat(field.getText());
 	}
 

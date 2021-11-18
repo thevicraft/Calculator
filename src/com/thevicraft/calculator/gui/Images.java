@@ -8,37 +8,54 @@ import java.awt.Image;
 import java.io.File;
 
 public class Images {
-	
-	//public Images(String imageName) {
-	//	imageFromNameInResources(imageName);
-		
-	//}
-	//private static File here = new File(Images.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-	//private static File main = here.getParentFile().getParentFile().getParentFile().getParentFile().getParentFile();
-	//String [] paths = {""};
-	// add overlay images with "public static final ImageIcon <name> = new ImageIcon(<path>)"
-	//File path = new File("");
-	//public static final ImageIcon ICON = new ImageIcon(imageFromNameInResources("window-icon.png"));
-	//public static final ImageIcon ICON_WARNING = new ImageIcon(imageFromNameInResources("window-icon-warning.png"));
-	//public static final ImageIcon ICON_WARNING = new ImageIcon("src/resources/window-icon-warning.png");
 
-	//public static Image image(final ImageIcon PIC) {
-	//
-	//	return PIC.getImage();
-	//}
-	private String [] pictures = {"window-icon.png","window-icon-warning.png"};
-	public final int ICON = 0;
-	public final int ICON_WARNING = 1;
-	
-	public Image imageFromNameInResources(String imageName) {
-		ImageIcon picture = new ImageIcon(getClass().getClassLoader().getResource(imageName));
-		//Log.console(getClass().getClassLoader().toString());
-		//Log.console(getClass().getClassLoader().getResource(imageName).toString());
-		return picture.getImage();
+	private String[] pictures = { "window-icon.png", "window-icon-warning.png","mode-icon.png" };
+
+	public static enum Pictures {
+		ICON, ICON_WARNING, DARK_LIGHT_MODE
 	}
-	public Image imageDefaultInResources(final int imageId) {
+
+	public ImageIcon imageIconFromNameInResources(String imageName) {
+		ImageIcon picture = new ImageIcon(getClass().getClassLoader().getResource(imageName));
+		// Log.console(getClass().getClassLoader().toString());
+		// Log.console(getClass().getClassLoader().getResource(imageName).toString());
+		return picture;
+	}
+
+	private Image imageDefaultInResources(int imageId) {
 		ImageIcon picture = new ImageIcon(getClass().getClassLoader().getResource(pictures[imageId]));
 		return picture.getImage();
+	}
+
+	private ImageIcon imageIconDefaultInResources(int imageId) {
+		ImageIcon picture = new ImageIcon(getClass().getClassLoader().getResource(pictures[imageId]));
+		return picture;
+	}
+
+	public static ImageIcon getDefaultImageIcon(Pictures d) {
+		switch (d) {
+		case ICON:
+			return new Images().imageIconDefaultInResources(0);
+		case ICON_WARNING:
+			return new Images().imageIconDefaultInResources(1);
+		case DARK_LIGHT_MODE:
+			return new Images().imageIconDefaultInResources(2);
+		default:
+			return null;
+
+		}
+	}
+
+	public static ImageIcon scaleImageIcon(ImageIcon icon, int width, int height) {
+		Image img = icon.getImage();
+		Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+		return new ImageIcon(newimg);
+	}
+	
+	public static ImageIcon scaleImageIconFromDefault(Pictures icon, int width, int height) {
+		Image img = getDefaultImageIcon(icon).getImage();
+		Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+		return new ImageIcon(newimg);
 	}
 
 }
