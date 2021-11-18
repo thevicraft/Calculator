@@ -10,13 +10,10 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.plaf.DimensionUIResource;
 import javax.swing.text.AttributeSet.ColorAttribute;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -33,8 +30,6 @@ public class GuiTaschenrechner extends JFrame {
 	private static final int MODES = 3;
 	protected int calcMode;
 	private final String calcLabelEmpty = ""; // " "
-
-	private Color appOverlay;
 
 	protected JLabel labelErgebnis;
 	protected JLabel labelCalc;
@@ -88,12 +83,14 @@ public class GuiTaschenrechner extends JFrame {
 
 	public int WINDOW_WIDTH = 340;
 	public int WINDOW_HEIGHT = 350; // 340
-
+	public int PANEL_WIDTH = 340;
+	public int PANEL_HEIGHT = 340;
 	public int BUTTON_WIDTH = 60;
 	public int BUTTON_HEIGHT = 25;
-	private final int PANELS = 7;
+	private final int PANELS = 8;
 
 	JButton[] numPad = new JButton[13];
+	JButton[] funcPad = new JButton[5];
 	JPanel[] panels = new JPanel[PANELS + 1];
 	protected JPanel panelMaster;
 
@@ -161,7 +158,25 @@ public class GuiTaschenrechner extends JFrame {
 		setFontOfComponents();
 
 		setColorOfComponents(darkLight);
-		// change size of all buttons
+
+		setSizeOfComponents();
+		for (JPanel p : panels) {
+			p.setBackground(mode);
+		}
+		panelMaster.setBackground(mode);
+		getContentPane().setBackground(mode);
+
+		getNumPad(BUTTON__ANS).setFont(small); // korrektur weil die beschriftung sonst nicht auf dem button angezeigt
+												// wird
+
+		setLocationRelativeTo(null);
+
+		this.setIconImage(icon.imageDefaultInResources(icon.ICON));
+
+		setVisible(true);
+	}
+
+	private void setSizeOfComponents() {
 		for (JButton button : numPad) {
 			button.setPreferredSize(buttonStandartSize);
 		}
@@ -186,21 +201,6 @@ public class GuiTaschenrechner extends JFrame {
 
 		panels[0].setPreferredSize(new Dimension(300, 30));
 		panels[1].setPreferredSize(new Dimension(300, 30));
-
-		for (JPanel p : panels) {
-			p.setBackground(mode);
-		}
-		panelMaster.setBackground(mode);
-		getContentPane().setBackground(mode);
-
-		getNumPad(BUTTON__ANS).setFont(small); // korrektur weil die beschriftung sonst nicht auf dem button angezeigt
-												// wird
-
-		setLocationRelativeTo(null);
-
-		this.setIconImage(icon.imageDefaultInResources(icon.ICON));
-
-		setVisible(true);
 	}
 
 	private void setColorOfComponents(String mode) {
@@ -326,6 +326,10 @@ public class GuiTaschenrechner extends JFrame {
 		panels[7].add(buttonXPower3);
 		panels[7].add(buttonXPowerReverse);
 
+		for (JButton pad : funcPad) {
+			panels[8].add(pad);
+		}
+
 	}
 
 	private void addPanels(/* JFrame window */) {
@@ -366,26 +370,33 @@ public class GuiTaschenrechner extends JFrame {
 		numPad[12] = new JButton("ANS");
 	}
 
-	private void addNumPads(JFrame window) {
-		for (JButton button : numPad) {
-			window.add(button);
+	private void initFuncPad() {
+		for (int c = 0; c <= 4; c++) {
+			funcPad[c] = new JButton(textButtons[c][1]);
+			funcPad[c].setFont(xsmall);
+			funcPad[c].setPreferredSize(buttonStandartSize);
+			funcPad[c].setBackground(dark);
+			funcPad[c].setForeground(bright);
 		}
-		WINDOW_HEIGHT = WINDOW_HEIGHT + 90;
-		window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
 
-	private void removeNumPads(JFrame window) {
-		for (JButton button : numPad) {
-			window.remove(button);
+	private void funcPadSetVisible(boolean visible) {
+		for (JButton pad : funcPad) {
+			pad.setVisible(visible);
 		}
-		WINDOW_HEIGHT = WINDOW_HEIGHT - 90;
-		window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+	}
+
+	private JButton getFuncPad(int d) {
+		return funcPad[d];
 	}
 
 	private JButton getNumPad(final int d) {
 		return numPad[d];
 	}
 
+	// ----------------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------INIT
+	// COMPONENTS--------------------------------------------------------------------
 	private void initComponents() {
 
 		panelMaster = new JPanel();
@@ -433,35 +444,35 @@ public class GuiTaschenrechner extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buttonActionOnPressed(buttonPlus);
+				insertTextInField(buttonPlus.getText(), false);
 			}
 		});
 		buttonMinus.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buttonActionOnPressed(buttonMinus);
+				insertTextInField(buttonMinus.getText(), false);
 			}
 		});
 		buttonTimes.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buttonActionOnPressed(buttonTimes);
+				insertTextInField(buttonTimes.getText(), false);
 			}
 		});
 		buttonDivide.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buttonActionOnPressed(buttonDivide);
+				insertTextInField(buttonDivide.getText(), false);
 			}
 		});
 		buttonPow.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buttonActionOnPressed(buttonPow);
+				insertTextInField(buttonPow.getText(), false);
 			}
 		});
 		// -----------------------------------------------------------------MODE
@@ -475,55 +486,28 @@ public class GuiTaschenrechner extends JFrame {
 				if (mode > MODES) {
 					mode = 1;
 				}
+				setPanel0ToMode(mode);
+
 				switch (mode) {
 				case 1:
-					// fieldOperand1.setText("");
-					fieldOperand1.setEnabled(true);
-					fieldOperator.setEnabled(true);
-					buttonMinus.setEnabled(true);
-					buttonPlus.setFont(normal);
-					buttonMinus.setFont(normal);
-					buttonTimes.setFont(normal);
-					buttonDivide.setFont(normal);
-					buttonPow.setFont(normal);
-					buttonPlus.setToolTipText("");
+					funcPadSetVisible(false);
+					GuiTaschenrechner.this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+					panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 					break;
 				case 2:
-					fieldOperand1.setEnabled(false);
-					fieldOperator.setEnabled(false);
-					buttonMinus.setEnabled(true);
-					buttonPlus.setFont(normal);
-					buttonMinus.setFont(normal);
-					buttonTimes.setFont(normal);
-					buttonDivide.setFont(normal);
-					buttonPow.setFont(normal);
-					buttonPlus.setToolTipText("");
+					funcPadSetVisible(true);
+					GuiTaschenrechner.this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT + 40);
+					panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT + 40));
 					break;
 				case 3:
-					fieldOperand1.setEnabled(false);
-					fieldOperator.setEnabled(false);
-					buttonMinus.setEnabled(false);
-					buttonPlus.setFont(extremesmall);
-					buttonMinus.setFont(xsmall);
-					buttonTimes.setFont(xsmall);
-					buttonDivide.setFont(xsmall);
-					buttonPow.setFont(xsmall);
-					buttonPlus.setToolTipText("Logarithm of base b and x");
-					break;
-				default:
-					break;
+					funcPadSetVisible(true);
+					GuiTaschenrechner.this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT + 40);
+					panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT + 40));
 				}
-				setPanel0ToMode(mode);
-				buttonPlus.setText(textButtons[0][mode - 1]);
-				buttonMinus.setText(textButtons[1][mode - 1]);
-				buttonTimes.setText(textButtons[2][mode - 1]);
-				buttonDivide.setText(textButtons[3][mode - 1]);
-				buttonPow.setText(textButtons[4][mode - 1]);
+				for (int i = 0; i <= 4; i++) {
+					getFuncPad(i).setText(textButtons[i][mode - 1]);
+				}
 
-				/*
-				 * fieldOperand1.setText(""); fieldOperand2.setText("");
-				 * fieldOperator.setText("");
-				 */
 				logWithBaseFocus = 0;
 				insertTextInField(calcLabelEmpty, true);
 			}
@@ -537,129 +521,138 @@ public class GuiTaschenrechner extends JFrame {
 					insertTextInField(button.getText(), false);
 				}
 			});
-			buttonSignMinus = new JButton("(-)");
-			buttonMathPi = new JButton(constants[0]);
-			buttonMathE = new JButton(constants[1]);
-
-			buttonSignMinus.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					insertTextInField(" -", false);
-				}
-			});
-
-			buttonMathPi.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					insertTextInField("n", false);
-				}
-			});
-
-			buttonMathE.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					insertTextInField("e", false);
-				}
-			});
-
-			buttonBracketOpn = new JButton("(");
-			buttonBracketCls = new JButton(")");
-			buttonBracketOpn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					insertTextInField("(", false);
-
-				}
-			});
-			buttonBracketCls.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					insertTextInField(")", false);
-
-				}
-			});
-			buttonDeleteLast = new JButton("DEL");
-			buttonDeleteLast.addActionListener(new ActionListener() {
-				@SuppressWarnings("static-access")
-				public void actionPerformed(ActionEvent e) {
-
-					// delete all if there is only one character
-					if (getTextInField().length() == 1) {
-						setTextInField(calcLabelEmpty);
-					}
-
-					boolean foundOperator = false;
-					String ops[] = new StringCalcFunctions().calcOperator;
-					// test for an operator to delete the empty spaces with it
-					try {
-						for (String o : ops) {
-							if (getTextInField().substring(getTextInField().length() - 3, getTextInField().length())
-									.equals(o)) {
-								foundOperator = true;
-								break;
-							} else {
-								foundOperator = false;
-							}
-						}
-					} catch (Exception in) {
-					}
-					try {
-						// test for a special sign minus, to delete the empty space with it
-						if (foundOperator) {
-							setTextInField(getTextInField().substring(0, getTextInField().length() - 3));
-
-						} else {
-							// normal delete of last sign, just inserts same text without last character
-							if (getTextInField().substring(getTextInField().length() - 2, getTextInField().length())
-									.equals(" -")) {
-								// löscht auch ein leerzeichen vom rechenoperator wenn eins da ist
-								setTextInField(getTextInField().substring(0, getTextInField().length() - 2));
-							} else {
-								setTextInField(getTextInField().substring(0, getTextInField().length() - 1));
-							}
-
-						}
-					} catch (Exception a) {
-					}
-
-				}
-			});
-
-			buttonXPower2 = new JButton("^2");
-			buttonXPower3 = new JButton("^3");
-			buttonXPowerReverse = new JButton("^(-1)");
-			buttonXPower2.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					insertTextInField(buttonXPower2.getText(), false);
-				}
-			});
-			buttonXPower3.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					insertTextInField(buttonXPower3.getText(), false);
-				}
-			});
-			buttonXPowerReverse.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					insertTextInField("^( -1)", false);
-				}
-			});
-
-			labelFuncOpn = new JLabel();
-			labelFuncMid = new JLabel("(");
-			labelFuncCls = new JLabel(")");
-			buttonLogBase = new JButton("");
-			buttonLogExp = new JButton("");
-			buttonLogBase.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					logWithBaseFocus = 2;
-					buttonLogBase.setBackground(Color.LIGHT_GRAY);
-					buttonLogExp.setBackground(Color.white);
-				}
-			});
-			buttonLogExp.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					logWithBaseFocus = 1;
-					buttonLogBase.setBackground(Color.white);
-					buttonLogExp.setBackground(Color.LIGHT_GRAY);
-				}
-			});
-
 		}
+
+		initFuncPad();
+		for (JButton pad : funcPad) {
+			pad.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					buttonActionOnPressed(pad);
+				}
+			});
+		}
+		buttonSignMinus = new JButton("(-)");
+		buttonMathPi = new JButton(constants[0]);
+		buttonMathE = new JButton(constants[1]);
+
+		buttonSignMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				insertTextInField(" -", false);
+			}
+		});
+
+		buttonMathPi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				insertTextInField("n", false);
+			}
+		});
+
+		buttonMathE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				insertTextInField("e", false);
+			}
+		});
+
+		buttonBracketOpn = new JButton("(");
+		buttonBracketCls = new JButton(")");
+		buttonBracketOpn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				insertTextInField("(", false);
+
+			}
+		});
+		buttonBracketCls.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				insertTextInField(")", false);
+
+			}
+		});
+		buttonDeleteLast = new JButton("DEL");
+		buttonDeleteLast.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
+			public void actionPerformed(ActionEvent e) {
+
+				// delete all if there is only one character
+				if (getTextInField().length() == 1) {
+					setTextInField(calcLabelEmpty);
+				}
+
+				boolean foundOperator = false;
+				String ops[] = new StringCalcFunctions().calcOperator;
+				// test for an operator to delete the empty spaces with it
+				try {
+					for (String o : ops) {
+						if (getTextInField().substring(getTextInField().length() - 3, getTextInField().length())
+								.equals(o)) {
+							foundOperator = true;
+							break;
+						} else {
+							foundOperator = false;
+						}
+					}
+				} catch (Exception in) {
+				}
+				try {
+					// test for a special sign minus, to delete the empty space with it
+					if (foundOperator) {
+						setTextInField(getTextInField().substring(0, getTextInField().length() - 3));
+
+					} else {
+						// normal delete of last sign, just inserts same text without last character
+						if (getTextInField().substring(getTextInField().length() - 2, getTextInField().length())
+								.equals(" -")) {
+							// löscht auch ein leerzeichen vom rechenoperator wenn eins da ist
+							setTextInField(getTextInField().substring(0, getTextInField().length() - 2));
+						} else {
+							setTextInField(getTextInField().substring(0, getTextInField().length() - 1));
+						}
+
+					}
+				} catch (Exception a) {
+				}
+
+			}
+		});
+
+		buttonXPower2 = new JButton("^2");
+		buttonXPower3 = new JButton("^3");
+		buttonXPowerReverse = new JButton("^(-1)");
+		buttonXPower2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				insertTextInField(buttonXPower2.getText(), false);
+			}
+		});
+		buttonXPower3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				insertTextInField(buttonXPower3.getText(), false);
+			}
+		});
+		buttonXPowerReverse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				insertTextInField("^( -1)", false);
+			}
+		});
+
+		labelFuncOpn = new JLabel();
+		labelFuncMid = new JLabel("(");
+		labelFuncCls = new JLabel(")");
+		buttonLogBase = new JButton("");
+		buttonLogExp = new JButton("");
+		buttonLogBase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				logWithBaseFocus = 2;
+				buttonLogBase.setBackground(Color.LIGHT_GRAY);
+				buttonLogExp.setBackground(Color.white);
+			}
+		});
+		buttonLogExp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				logWithBaseFocus = 1;
+				buttonLogBase.setBackground(Color.white);
+				buttonLogExp.setBackground(Color.LIGHT_GRAY);
+			}
+		});
 
 	}
 
@@ -695,22 +688,7 @@ public class GuiTaschenrechner extends JFrame {
 		}
 	}
 
-	private void buttonsSetTextOnMode() {
-		buttonPlus.setText(textButtons[0][mode - 1]);
-		buttonMinus.setText(textButtons[1][mode - 1]);
-		buttonTimes.setText(textButtons[2][mode - 1]);
-		buttonDivide.setText(textButtons[3][mode - 1]);
-		buttonPow.setText(textButtons[4][mode - 1]);
-	}
-
-	private void buttonSetSelection(JButton button) {
-		if (mode != 1) {
-			button.setText("[" + button.getText() + "]");
-		}
-	}
-
 	private void buttonActionOnPressed(JButton button) {
-		buttonsSetTextOnMode();
 		boolean log = false;
 		switch (mode) {
 		case 1:
@@ -730,38 +708,38 @@ public class GuiTaschenrechner extends JFrame {
 			break;
 		case 2:
 			labelFuncOpn.setText(button.getText() + "(");
-			if (button.equals(buttonPlus)) {
+			if (button.equals(getFuncPad(0))) {
 				calcMode = 6;
-			} else if (button.equals(buttonMinus)) {
+			} else if (button.equals(getFuncPad(1))) {
 				calcMode = 7;
-			} else if (button.equals(buttonTimes)) {
+			} else if (button.equals(getFuncPad(2))) {
 				calcMode = 8;
-			} else if (button.equals(buttonDivide)) {
+			} else if (button.equals(getFuncPad(3))) {
 				calcMode = 9;
-			} else if (button.equals(buttonPow)) {
+			} else if (button.equals(getFuncPad(4))) {
 				calcMode = 10;
 			}
 			fieldOperand1.setText(button.getText());
 			break;
 		case 3:
 			labelFuncOpn.setText(button.getText() + "(");
-			if (button.equals(buttonPlus)) {
+			if (button.equals(getFuncPad(0))) {
 				fieldOperand1.setEnabled(true);
 				fieldOperand1.setText("");
 				calcMode = 11;
 				labelFuncOpn.setText("log");
 				log = true;
 
-			} else if (button.equals(buttonMinus)) {
+			} else if (button.equals(getFuncPad(1))) {
 				calcMode = 12;
 				fieldOperand1.setEnabled(false);
-			} else if (button.equals(buttonTimes)) {
+			} else if (button.equals(getFuncPad(2))) {
 				calcMode = 13;
 				fieldOperand1.setEnabled(false);
-			} else if (button.equals(buttonDivide)) {
+			} else if (button.equals(getFuncPad(3))) {
 				calcMode = 14;
 				fieldOperand1.setEnabled(false);
-			} else if (button.equals(buttonPow)) {
+			} else if (button.equals(getFuncPad(4))) {
 				calcMode = 15;
 				fieldOperand1.setEnabled(false);
 			}
