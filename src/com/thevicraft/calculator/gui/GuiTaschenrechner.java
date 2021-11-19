@@ -85,7 +85,7 @@ public class GuiTaschenrechner extends JFrame {
 	public int WINDOW_WIDTH = 340;
 	public int WINDOW_HEIGHT = 390; // 350
 	public int PANEL_WIDTH = 340;
-	public int PANEL_HEIGHT = 390;	//340
+	public int PANEL_HEIGHT = 390; // 340
 	public int BUTTON_WIDTH = 60;
 	public int BUTTON_HEIGHT = 25;
 	private final int PANELS = 9;
@@ -101,6 +101,8 @@ public class GuiTaschenrechner extends JFrame {
 
 	boolean bracket = false;
 	int logWithBaseFocus = 0;
+
+	private float sizeFactor = 1.8f;
 
 	private Color appearanceMode;
 
@@ -154,27 +156,28 @@ public class GuiTaschenrechner extends JFrame {
 		add(panelMaster);
 		panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 
-		setFontOfComponents();
+		setFontOfComponents(sizeFactor);
 
 		setColorOfComponents(appearanceMode);
 
-		setSizeOfComponents();
-
-		getNumPad(BUTTON__ANS).setFont(small); // korrektur weil die beschriftung sonst nicht auf dem button angezeigt
-												// wird
+		setSizeOfComponents(sizeFactor, 0);
 
 		setLocationRelativeTo(null);
 
 		this.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
-		
+
 		funcPadSetVisible(false);
-		
+
 		buttonAppearMode.setIcon(Images.scaleImageIconFromDefault(Pictures.DARK_LIGHT_MODE, 30, 30));
-		
+
 		setVisible(true);
 	}
 
-	private void setSizeOfComponents() {
+	private void setSizeOfComponents(float factor, int winPanel) {
+		buttonStandartSize = new Dimension((int) (factor * BUTTON_WIDTH), (int) (factor * BUTTON_HEIGHT));
+		Dimension buttonAppearModeSize = new Dimension((int) (factor * 30), (int) (factor * 30));
+		Dimension panelSize = new Dimension((int) (factor * 300), (int) (factor * 30));
+
 		for (JButton button : numPad) {
 			button.setPreferredSize(buttonStandartSize);
 		}
@@ -190,16 +193,27 @@ public class GuiTaschenrechner extends JFrame {
 		buttonSignMinus.setPreferredSize(buttonStandartSize);
 		buttonBracketOpn.setPreferredSize(buttonStandartSize);
 		buttonBracketCls.setPreferredSize(buttonStandartSize);
+		buttonDeleteLast.setPreferredSize(buttonStandartSize);
 		// buttonLogBase.setPreferredSize(buttonStandartSize);
 		// buttonLogExp.setPreferredSize(buttonStandartSize);
 		buttonChangeMode.setPreferredSize(buttonStandartSize);
 		buttonXPower2.setPreferredSize(buttonStandartSize);
 		buttonXPower3.setPreferredSize(buttonStandartSize);
 		buttonXPowerReverse.setPreferredSize(buttonStandartSize);
-		buttonAppearMode.setPreferredSize(new Dimension(30,30));
+		// buttonAppearMode.setPreferredSize(new Dimension(30,30));
+		buttonAppearMode.setPreferredSize(buttonAppearModeSize);
+		
+		for(JButton c: funcPad) {
+			c.setPreferredSize(buttonStandartSize);
+		}
 
-		panels[0].setPreferredSize(new Dimension(300, 30));
-		panels[1].setPreferredSize(new Dimension(300, 30));
+
+		// panels default size 300, 30
+		panels[0].setPreferredSize(panelSize);
+		panels[1].setPreferredSize(panelSize);
+		setSize((int) (WINDOW_WIDTH * factor), (int) ((WINDOW_HEIGHT + winPanel) * factor));
+		panelMaster.setPreferredSize(
+				new Dimension((int) (PANEL_WIDTH * factor), (int) ((PANEL_HEIGHT + winPanel) * factor)));
 	}
 
 	private void setColorOfComponents(Color mode) {
@@ -213,7 +227,7 @@ public class GuiTaschenrechner extends JFrame {
 		getNumPad(BUTTON__DOT).setBackground(bright);
 		getNumPad(BUTTON__E).setBackground(Color.LIGHT_GRAY);
 		buttonErgebnis.setBackground(Color.green);
-		buttonChangeMode.setBackground(Color.cyan);
+		buttonChangeMode.setBackground(Color.LIGHT_GRAY);
 		buttonMathPi.setBackground(dark);
 		buttonMathE.setBackground(dark);
 		buttonSignMinus.setBackground(dark);
@@ -234,6 +248,11 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPowerReverse.setForeground(bright);
 		buttonPow.setForeground(bright);
 
+		for(JButton x: funcPad) {
+			x.setForeground(bright);
+			x.setBackground(dark);
+		}
+		
 		for (JPanel p : panels) {
 			p.setBackground(mode);
 		}
@@ -262,7 +281,14 @@ public class GuiTaschenrechner extends JFrame {
 
 	}
 
-	private void setFontOfComponents() {
+	private void setFontOfComponents(float factor) {
+		resultBold = new Font("Tahoma", Font.BOLD, (int)(17 * factor)); // davor war es groesse 12
+		calcBold = new Font("Tahoma", Font.BOLD, (int) (17 * factor));
+		small = new Font("Tahoma", Font.BOLD, (int)(11 * factor));
+		normal = new Font("Tahoma", Font.BOLD, (int)(12 * factor));
+		xsmall = new Font("Tahoma", Font.BOLD, (int)(10 * factor));
+		extremesmall = new Font("Tahoma", Font.PLAIN, (int)(10 * factor));
+		
 		labelErgebnis.setFont(resultBold);
 		labelCalc.setFont(calcBold);
 		labelFuncOpn.setFont(calcBold);
@@ -271,6 +297,30 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPowerReverse.setFont(extremesmall);
 		buttonLogExp.setFont(extremesmall);
 		buttonLogBase.setFont(calcBold);
+		getNumPad(BUTTON__ANS).setFont(small); // korrektur weil die beschriftung sonst nicht auf dem button angezeigt
+		// wird
+		for(JButton x: funcPad) {
+			x.setFont(xsmall);
+		}
+		for(JButton p: numPad) {
+			p.setFont(normal);
+		}
+		buttonPlus.setFont(normal);
+		buttonMinus.setFont(normal);
+		buttonTimes.setFont(normal);
+		buttonDivide.setFont(normal);
+		buttonPow.setFont(normal);
+		
+		buttonChangeMode.setFont(normal);
+		buttonErgebnis.setFont(normal);
+		
+		buttonBracketOpn.setFont(normal);
+		buttonBracketCls.setFont(normal);
+		buttonSignMinus.setFont(normal);
+		buttonMathPi.setFont(normal);
+		buttonMathE.setFont(normal);
+		buttonXPower2.setFont(normal);
+		buttonXPower3.setFont(normal);
 	}
 
 	private void addComponentsToPanels(/* JFrame window */) {
@@ -355,6 +405,7 @@ public class GuiTaschenrechner extends JFrame {
 		getNumPad(BUTTON__E).setToolTipText("*10^x");
 		buttonChangeMode.setToolTipText("Change mode to other Calculations (sin, cos, tan)");
 		buttonErgebnis.setToolTipText("Calculate");
+		buttonAppearMode.setToolTipText("Toggle dark/light mode");
 	}
 
 	private void initNumPads() {
@@ -373,22 +424,18 @@ public class GuiTaschenrechner extends JFrame {
 		numPad[11] = new JButton("E");
 		numPad[12] = new JButton("ANS");
 	}
-
+//-----------------------------------------------------------------------------------------------------------
 	private void initFuncPad() {
 		for (int c = 0; c <= 4; c++) {
 			funcPad[c] = new JButton(textButtons[c][1]);
-			funcPad[c].setFont(xsmall);
-			funcPad[c].setPreferredSize(buttonStandartSize);
-			funcPad[c].setBackground(dark);
-			funcPad[c].setForeground(bright);
 		}
 	}
 
 	private void funcPadSetVisible(boolean visible) {
 		panels[8].setVisible(visible);
-		//for (JButton pad : funcPad) {
-		//	pad.setVisible(visible);
-		//}
+		// for (JButton pad : funcPad) {
+		// pad.setVisible(visible);
+		// }
 	}
 
 	private JButton getFuncPad(int d) {
@@ -496,18 +543,21 @@ public class GuiTaschenrechner extends JFrame {
 				switch (mode) {
 				case 1:
 					funcPadSetVisible(false);
-					GuiTaschenrechner.this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-					panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+					// GuiTaschenrechner.this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+					// panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+					setSizeOfComponents(sizeFactor, 0);
 					break;
 				case 2:
 					funcPadSetVisible(true);
-					GuiTaschenrechner.this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT + 40);
-					panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT + 40));
+					// GuiTaschenrechner.this.setSize(WINDOW_WIDTH,WINDOW_HEIGHT + 40);
+					// panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT + 40));
+					setSizeOfComponents(sizeFactor, 40);
 					break;
 				case 3:
 					funcPadSetVisible(true);
-					GuiTaschenrechner.this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT + 40);
-					panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT + 40));
+					// GuiTaschenrechner.this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT + 40);
+					// panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT + 40));
+					setSizeOfComponents(sizeFactor, 40);
 				}
 				for (int i = 0; i <= 4; i++) {
 					getFuncPad(i).setText(textButtons[i][mode - 1]);
@@ -662,9 +712,9 @@ public class GuiTaschenrechner extends JFrame {
 		buttonAppearMode = new JButton();
 		buttonAppearMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(appearanceMode.equals(bright)) {
+				if (appearanceMode.equals(bright)) {
 					appearanceMode = dark;
-				} else if(appearanceMode.equals(dark)) {
+				} else if (appearanceMode.equals(dark)) {
 					appearanceMode = bright;
 				}
 				setColorOfComponents(appearanceMode);
