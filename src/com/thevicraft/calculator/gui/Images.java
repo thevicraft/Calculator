@@ -9,10 +9,10 @@ import java.io.File;
 
 public class Images {
 
-	private String[] pictures = { "window-icon.png", "window-icon-warning.png","mode-icon.png" };
+	private String[] pictures = { "window-icon.png", "window-icon-warning.png","mode-icon.png","zoom-plus.png","zoom-minus.png" };
 
 	public static enum Pictures {
-		ICON, ICON_WARNING, DARK_LIGHT_MODE
+		ICON, ICON_WARNING, DARK_LIGHT_MODE, ZOOM_IN, ZOOM_OUT
 	}
 
 	public ImageIcon imageIconFromNameInResources(String imageName) {
@@ -40,6 +40,10 @@ public class Images {
 			return new Images().imageIconDefaultInResources(1);
 		case DARK_LIGHT_MODE:
 			return new Images().imageIconDefaultInResources(2);
+		case ZOOM_IN:
+			return new Images().imageIconDefaultInResources(3);
+		case ZOOM_OUT:
+			return new Images().imageIconDefaultInResources(4);
 		default:
 			return null;
 

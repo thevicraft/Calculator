@@ -62,6 +62,8 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonXPowerReverse;
 
 	protected JButton buttonAppearMode;
+	protected JButton buttonZoomIn;
+	protected JButton buttonZoomOut;
 
 	protected JLabel labelFuncOpn;
 	protected JLabel labelFuncMid;
@@ -102,7 +104,7 @@ public class GuiTaschenrechner extends JFrame {
 	boolean bracket = false;
 	int logWithBaseFocus = 0;
 
-	private float sizeFactor = 1.8f;
+	private float sizeFactor = 1.5f;
 
 	private Color appearanceMode;
 
@@ -156,21 +158,34 @@ public class GuiTaschenrechner extends JFrame {
 		add(panelMaster);
 		panelMaster.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 
-		setFontOfComponents(sizeFactor);
-
 		setColorOfComponents(appearanceMode);
-
-		setSizeOfComponents(sizeFactor, 0);
 
 		setLocationRelativeTo(null);
 
 		this.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
 
+		changeSizeWindow(sizeFactor);
+
 		funcPadSetVisible(false);
-
-		buttonAppearMode.setIcon(Images.scaleImageIconFromDefault(Pictures.DARK_LIGHT_MODE, 30, 30));
-
+		
+		//GuiTaschenrechner.this.setJMenuBar(null);
+		
 		setVisible(true);
+	}
+
+	public void changeSizeWindow(float factor) {
+		setSizeOfComponents(factor, 0);
+		setIconOfComponents(factor);
+		setFontOfComponents(factor);
+
+	}
+
+	private void setIconOfComponents(float factor) {
+
+		buttonAppearMode.setIcon(
+				Images.scaleImageIconFromDefault(Pictures.DARK_LIGHT_MODE, (int) (30 * factor), ((int) (30 * factor))));
+		buttonZoomIn.setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_IN, 30, 30));
+		buttonZoomOut.setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_OUT, 30, 30));
 	}
 
 	private void setSizeOfComponents(float factor, int winPanel) {
@@ -202,18 +217,19 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPowerReverse.setPreferredSize(buttonStandartSize);
 		// buttonAppearMode.setPreferredSize(new Dimension(30,30));
 		buttonAppearMode.setPreferredSize(buttonAppearModeSize);
-		
-		for(JButton c: funcPad) {
+		buttonZoomIn.setPreferredSize(buttonAppearModeSize);
+		buttonZoomOut.setPreferredSize(buttonAppearModeSize);
+
+		for (JButton c : funcPad) {
 			c.setPreferredSize(buttonStandartSize);
 		}
-
 
 		// panels default size 300, 30
 		panels[0].setPreferredSize(panelSize);
 		panels[1].setPreferredSize(panelSize);
-		setSize((int) (WINDOW_WIDTH * factor), (int) ((WINDOW_HEIGHT + winPanel) * factor));
+		setSize((int) (WINDOW_WIDTH * factor), (int) ((WINDOW_HEIGHT + winPanel) * (factor * 0.88)));
 		panelMaster.setPreferredSize(
-				new Dimension((int) (PANEL_WIDTH * factor), (int) ((PANEL_HEIGHT + winPanel) * factor)));
+				new Dimension((int) (PANEL_WIDTH * factor), (int) ((PANEL_HEIGHT + winPanel) * (factor * 0.88))));
 	}
 
 	private void setColorOfComponents(Color mode) {
@@ -248,11 +264,14 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPowerReverse.setForeground(bright);
 		buttonPow.setForeground(bright);
 
-		for(JButton x: funcPad) {
+		buttonZoomIn.setBackground(bright);
+		buttonZoomOut.setBackground(bright);
+
+		for (JButton x : funcPad) {
 			x.setForeground(bright);
 			x.setBackground(dark);
 		}
-		
+
 		for (JPanel p : panels) {
 			p.setBackground(mode);
 		}
@@ -282,13 +301,13 @@ public class GuiTaschenrechner extends JFrame {
 	}
 
 	private void setFontOfComponents(float factor) {
-		resultBold = new Font("Tahoma", Font.BOLD, (int)(17 * factor)); // davor war es groesse 12
+		resultBold = new Font("Tahoma", Font.BOLD, (int) (17 * factor)); // davor war es groesse 12
 		calcBold = new Font("Tahoma", Font.BOLD, (int) (17 * factor));
-		small = new Font("Tahoma", Font.BOLD, (int)(11 * factor));
-		normal = new Font("Tahoma", Font.BOLD, (int)(12 * factor));
-		xsmall = new Font("Tahoma", Font.BOLD, (int)(10 * factor));
-		extremesmall = new Font("Tahoma", Font.PLAIN, (int)(10 * factor));
-		
+		small = new Font("Tahoma", Font.BOLD, (int) (11 * factor));
+		normal = new Font("Tahoma", Font.BOLD, (int) (12 * factor));
+		xsmall = new Font("Tahoma", Font.BOLD, (int) (10 * factor));
+		extremesmall = new Font("Tahoma", Font.PLAIN, (int) (10 * factor));
+
 		labelErgebnis.setFont(resultBold);
 		labelCalc.setFont(calcBold);
 		labelFuncOpn.setFont(calcBold);
@@ -299,10 +318,10 @@ public class GuiTaschenrechner extends JFrame {
 		buttonLogBase.setFont(calcBold);
 		getNumPad(BUTTON__ANS).setFont(small); // korrektur weil die beschriftung sonst nicht auf dem button angezeigt
 		// wird
-		for(JButton x: funcPad) {
+		for (JButton x : funcPad) {
 			x.setFont(xsmall);
 		}
-		for(JButton p: numPad) {
+		for (JButton p : numPad) {
 			p.setFont(normal);
 		}
 		buttonPlus.setFont(normal);
@@ -310,10 +329,10 @@ public class GuiTaschenrechner extends JFrame {
 		buttonTimes.setFont(normal);
 		buttonDivide.setFont(normal);
 		buttonPow.setFont(normal);
-		
+
 		buttonChangeMode.setFont(normal);
 		buttonErgebnis.setFont(normal);
-		
+
 		buttonBracketOpn.setFont(normal);
 		buttonBracketCls.setFont(normal);
 		buttonSignMinus.setFont(normal);
@@ -321,6 +340,9 @@ public class GuiTaschenrechner extends JFrame {
 		buttonMathE.setFont(normal);
 		buttonXPower2.setFont(normal);
 		buttonXPower3.setFont(normal);
+
+		buttonDelete.setFont(normal);
+		buttonDeleteLast.setFont(normal);
 	}
 
 	private void addComponentsToPanels(/* JFrame window */) {
@@ -382,8 +404,9 @@ public class GuiTaschenrechner extends JFrame {
 		for (JButton pad : funcPad) {
 			panels[8].add(pad);
 		}
-
 		panels[9].add(buttonAppearMode);
+		panels[9].add(buttonZoomOut);
+		panels[9].add(buttonZoomIn);
 	}
 
 	private void addPanels(/* JFrame window */) {
@@ -406,6 +429,9 @@ public class GuiTaschenrechner extends JFrame {
 		buttonChangeMode.setToolTipText("Change mode to other Calculations (sin, cos, tan)");
 		buttonErgebnis.setToolTipText("Calculate");
 		buttonAppearMode.setToolTipText("Toggle dark/light mode");
+
+		buttonZoomIn.setToolTipText("Zoom in");
+		buttonZoomOut.setToolTipText("Zoom out");
 	}
 
 	private void initNumPads() {
@@ -424,6 +450,7 @@ public class GuiTaschenrechner extends JFrame {
 		numPad[11] = new JButton("E");
 		numPad[12] = new JButton("ANS");
 	}
+
 //-----------------------------------------------------------------------------------------------------------
 	private void initFuncPad() {
 		for (int c = 0; c <= 4; c++) {
@@ -718,6 +745,25 @@ public class GuiTaschenrechner extends JFrame {
 					appearanceMode = bright;
 				}
 				setColorOfComponents(appearanceMode);
+			}
+		});
+
+		buttonZoomIn = new JButton();
+		buttonZoomOut = new JButton();
+		buttonZoomIn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (sizeFactor <= 2.5) {
+					sizeFactor += 0.1;
+					changeSizeWindow(sizeFactor);
+				}
+			}
+		});
+		buttonZoomOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (sizeFactor >= 1.3) {
+					sizeFactor -= 0.1;
+					changeSizeWindow(sizeFactor);
+				}
 			}
 		});
 
