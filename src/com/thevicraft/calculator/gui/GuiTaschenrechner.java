@@ -1,6 +1,5 @@
 package com.thevicraft.calculator.gui;
 
-import com.thevicraft.calculator.api.Calculation;
 import com.thevicraft.calculator.api.StringCalcFunctions;
 import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.console.Log;
@@ -14,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -24,7 +24,7 @@ import java.awt.Font;
 public class GuiTaschenrechner extends JFrame {
 	private String platz = "                                                 ";
 
-	public static int max_ergebnis_length = 48;
+	// public static int max_ergebnis_length = 48;
 	private int mode = 1; // default mode, do not change
 	private static final int MODES = 3;
 	protected int calcMode;
@@ -32,10 +32,6 @@ public class GuiTaschenrechner extends JFrame {
 
 	protected JLabel labelErgebnis;
 	protected JLabel labelCalc;
-
-	protected JTextField fieldOperand1;
-	protected JTextField fieldOperator; // neu für operatorfeld
-	protected JTextField fieldOperand2;
 
 	protected JButton buttonErgebnis;
 	protected JButton buttonDelete;
@@ -61,14 +57,16 @@ public class GuiTaschenrechner extends JFrame {
 	protected JButton buttonXPower3;
 	protected JButton buttonXPowerReverse;
 
-	protected JButton buttonAppearMode;
-	protected JButton buttonZoomIn;
-	protected JButton buttonZoomOut;
+	// protected JButton buttonAppearMode;
+	// protected JButton buttonZoomIn;
+	// protected JButton buttonZoomOut;
 
 	protected JLabel labelFuncOpn;
 	protected JLabel labelFuncMid;
 	protected JLabel labelFuncCls;
 	// protected JButton buttonBracketCls;
+
+	protected GuiMenuBar menu;
 
 	public static final int BUTTON_0 = 9;
 	public static final int BUTTON_1 = 6;
@@ -85,12 +83,12 @@ public class GuiTaschenrechner extends JFrame {
 	public static final int BUTTON__E = 11;
 
 	public int WINDOW_WIDTH = 340;
-	public int WINDOW_HEIGHT = 390; // 350
+	public int WINDOW_HEIGHT = 380; // 400
 	public int PANEL_WIDTH = 340;
-	public int PANEL_HEIGHT = 390; // 340
+	public int PANEL_HEIGHT = 370; // 390
 	public int BUTTON_WIDTH = 60;
 	public int BUTTON_HEIGHT = 25;
-	private final int PANELS = 9;
+	private final int PANELS = 8;
 
 	JButton[] numPad = new JButton[13];
 	JButton[] funcPad = new JButton[5];
@@ -125,13 +123,13 @@ public class GuiTaschenrechner extends JFrame {
 
 	// Images--------------------------------------------------------------------------------------------------
 	Images icon = new Images();
-	Color dark = Color.DARK_GRAY;
-	Color bright = Color.white;
+	public static Color dark = Color.DARK_GRAY;
+	public static Color bright = Color.white;
 
 	public static String textButtons[][] = { { " + ", "log", "log" }, { " - ", " √ ", "x!" }, { " * ", "sin", "asin" },
 			{ " / ", "cos", "acos" }, { " ^ ", "tan", "atan" } };
 
-	public GuiTaschenrechner(String titel, String darkLight) {
+	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
 		switch (darkLight) {
 		case "dark":
 			appearanceMode = dark;
@@ -160,16 +158,19 @@ public class GuiTaschenrechner extends JFrame {
 
 		setColorOfComponents(appearanceMode);
 
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(location);
 
 		this.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
 
 		changeSizeWindow(sizeFactor);
 
 		funcPadSetVisible(false);
-		
-		//GuiTaschenrechner.this.setJMenuBar(null);
-		
+
+		menu = new GuiMenuBar(appearanceMode);
+		initMenuBar(titel);
+
+		setJMenuBar(menu);
+
 		setVisible(true);
 	}
 
@@ -182,10 +183,15 @@ public class GuiTaschenrechner extends JFrame {
 
 	private void setIconOfComponents(float factor) {
 
-		buttonAppearMode.setIcon(
-				Images.scaleImageIconFromDefault(Pictures.DARK_LIGHT_MODE, (int) (30 * factor), ((int) (30 * factor))));
-		buttonZoomIn.setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_IN, 30, 30));
-		buttonZoomOut.setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_OUT, 30, 30));
+		// buttonAppearMode.setIcon(
+		// Images.scaleImageIconFromDefault(Pictures.DARK_LIGHT_MODE, (int) (30 *
+		// factor), ((int) (30 * factor))));
+		// buttonZoomIn.setIcon(
+		// Images.scaleImageIconFromDefault(Pictures.ZOOM_IN, (int) (25 * factor),
+		// ((int) (25 * factor))));
+		// buttonZoomOut.setIcon(
+		// Images.scaleImageIconFromDefault(Pictures.ZOOM_OUT, (int) (25 * factor),
+		// ((int) (25 * factor))));
 	}
 
 	private void setSizeOfComponents(float factor, int winPanel) {
@@ -215,10 +221,10 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPower2.setPreferredSize(buttonStandartSize);
 		buttonXPower3.setPreferredSize(buttonStandartSize);
 		buttonXPowerReverse.setPreferredSize(buttonStandartSize);
-		// buttonAppearMode.setPreferredSize(new Dimension(30,30));
-		buttonAppearMode.setPreferredSize(buttonAppearModeSize);
-		buttonZoomIn.setPreferredSize(buttonAppearModeSize);
-		buttonZoomOut.setPreferredSize(buttonAppearModeSize);
+
+		// buttonAppearMode.setPreferredSize(buttonAppearModeSize);
+		// buttonZoomIn.setPreferredSize(buttonAppearModeSize);
+		// buttonZoomOut.setPreferredSize(buttonAppearModeSize);
 
 		for (JButton c : funcPad) {
 			c.setPreferredSize(buttonStandartSize);
@@ -264,8 +270,8 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPowerReverse.setForeground(bright);
 		buttonPow.setForeground(bright);
 
-		buttonZoomIn.setBackground(bright);
-		buttonZoomOut.setBackground(bright);
+		// buttonZoomIn.setBackground(bright);
+		// buttonZoomOut.setBackground(bright);
 
 		for (JButton x : funcPad) {
 			x.setForeground(bright);
@@ -404,9 +410,8 @@ public class GuiTaschenrechner extends JFrame {
 		for (JButton pad : funcPad) {
 			panels[8].add(pad);
 		}
-		panels[9].add(buttonAppearMode);
-		panels[9].add(buttonZoomOut);
-		panels[9].add(buttonZoomIn);
+		// panels[9].add(buttonZoomOut);
+		// panels[9].add(buttonZoomIn);
 	}
 
 	private void addPanels(/* JFrame window */) {
@@ -428,10 +433,9 @@ public class GuiTaschenrechner extends JFrame {
 		getNumPad(BUTTON__E).setToolTipText("*10^x");
 		buttonChangeMode.setToolTipText("Change mode to other Calculations (sin, cos, tan)");
 		buttonErgebnis.setToolTipText("Calculate");
-		buttonAppearMode.setToolTipText("Toggle dark/light mode");
 
-		buttonZoomIn.setToolTipText("Zoom in");
-		buttonZoomOut.setToolTipText("Zoom out");
+		// buttonZoomIn.setToolTipText("Zoom in");
+		// buttonZoomOut.setToolTipText("Zoom out");
 	}
 
 	private void initNumPads() {
@@ -483,10 +487,6 @@ public class GuiTaschenrechner extends JFrame {
 		labelCalc = new JLabel(calcLabelEmpty);
 
 		labelErgebnis = new JLabel(platz);
-
-		fieldOperand1 = new JTextField(8);
-		fieldOperator = new JTextField(3);
-		fieldOperand2 = new JTextField(8);
 
 		buttonErgebnis = new JButton("=");
 		buttonErgebnis.addActionListener(new ActionListener() {
@@ -736,36 +736,24 @@ public class GuiTaschenrechner extends JFrame {
 			}
 		});
 
-		buttonAppearMode = new JButton();
-		buttonAppearMode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (appearanceMode.equals(bright)) {
-					appearanceMode = dark;
-				} else if (appearanceMode.equals(dark)) {
-					appearanceMode = bright;
-				}
-				setColorOfComponents(appearanceMode);
-			}
-		});
-
-		buttonZoomIn = new JButton();
-		buttonZoomOut = new JButton();
-		buttonZoomIn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (sizeFactor <= 2.5) {
-					sizeFactor += 0.1;
-					changeSizeWindow(sizeFactor);
-				}
-			}
-		});
-		buttonZoomOut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (sizeFactor >= 1.3) {
-					sizeFactor -= 0.1;
-					changeSizeWindow(sizeFactor);
-				}
-			}
-		});
+		// buttonZoomIn = new JButton();
+		// buttonZoomOut = new JButton();
+		// buttonZoomIn.addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent e) {
+		// if (sizeFactor <= 2.5) {
+		// sizeFactor += 0.1;
+		// changeSizeWindow(sizeFactor);
+		// }
+		// }
+		// });
+		// buttonZoomOut.addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent e) {
+		// if (sizeFactor >= 1.3) {
+		// sizeFactor -= 0.1;
+		// changeSizeWindow(sizeFactor);
+		// }
+		// }
+		// });
 
 // last bracket
 	}
@@ -818,7 +806,6 @@ public class GuiTaschenrechner extends JFrame {
 			} else if (button.equals(buttonPow)) {
 				calcMode = 5;
 			}
-			fieldOperator.setText(button.getText());
 			break;
 		case 2:
 			labelFuncOpn.setText(button.getText() + "(");
@@ -833,31 +820,23 @@ public class GuiTaschenrechner extends JFrame {
 			} else if (button.equals(getFuncPad(4))) {
 				calcMode = 10;
 			}
-			fieldOperand1.setText(button.getText());
 			break;
 		case 3:
 			labelFuncOpn.setText(button.getText() + "(");
 			if (button.equals(getFuncPad(0))) {
-				fieldOperand1.setEnabled(true);
-				fieldOperand1.setText("");
 				calcMode = 11;
 				labelFuncOpn.setText("log");
 				log = true;
 
 			} else if (button.equals(getFuncPad(1))) {
 				calcMode = 12;
-				fieldOperand1.setEnabled(false);
 			} else if (button.equals(getFuncPad(2))) {
 				calcMode = 13;
-				fieldOperand1.setEnabled(false);
 			} else if (button.equals(getFuncPad(3))) {
 				calcMode = 14;
-				fieldOperand1.setEnabled(false);
 			} else if (button.equals(getFuncPad(4))) {
 				calcMode = 15;
-				fieldOperand1.setEnabled(false);
 			}
-			fieldOperand1.setText(button.getText());
 
 			break;
 		}
@@ -935,6 +914,65 @@ public class GuiTaschenrechner extends JFrame {
 			buttonLogBase.setText(text);
 			break;
 		}
+	}
+
+	private void initMenuBar(String titel) {
+		menu.items[0][0].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (sizeFactor <= 2.5) {
+					sizeFactor += 0.1;
+					changeSizeWindow(sizeFactor);
+				}
+			}
+		});
+		menu.items[0][1].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (sizeFactor >= 1.3) {
+					sizeFactor -= 0.1;
+					changeSizeWindow(sizeFactor);
+				}
+			}
+		});
+
+		menu.items[0][2].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (appearanceMode.equals(bright)) {
+					appearanceMode = dark;
+				} else if (appearanceMode.equals(dark)) {
+					appearanceMode = bright;
+				}
+				setColorOfComponents(appearanceMode);
+				menu.setColorOfComponents(appearanceMode);
+
+				// Log.console(menu.items[0][2].getSize(new Dimension()).toString());
+			}
+		});
+		menu.items[1][0].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String mode;
+				if (appearanceMode.equals(dark)) {
+					mode = "dark";
+				} else {
+					mode = "light";
+				}
+				GuiTaschenrechner extraWin = new GuiTaschenrechner(titel + " (copy)", mode, GuiTaschenrechner.this);
+				extraWin.sizeFactor = GuiTaschenrechner.this.sizeFactor;
+				extraWin.changeSizeWindow(extraWin.sizeFactor);
+				extraWin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				extraWin.setColorOfComponents(appearanceMode);
+				extraWin.menu.setColorOfComponents(appearanceMode);
+				// GuiTaschenrechner.this.setTitle(titelText + " (main)");
+			}
+		});
+
 	}
 
 }
