@@ -1,16 +1,11 @@
 package com.thevicraft.calculator.gui;
 
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
-import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.Images.Pictures;
-
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+
 
 @SuppressWarnings("serial")
 public class GuiMenuBar extends JMenuBar {
@@ -19,8 +14,8 @@ public class GuiMenuBar extends JMenuBar {
 	protected JMenu window;
 
 	public JMenuItem[][] items = new JMenuItem[2][5]; // index 1 = menu number, index 2 = menu item number
-	private String[][] itemsTextConfig = { { "Zoom In     [Ctrl++]", "Zoom Out    [Ctrl+-]", "Toggle dark/light mode" },
-			{ "New Window", "Help", "Report Bug","Join Discord Server","About" } };
+	private String[][] itemsTextConfig = { { "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode" },
+			{ "New Window        [Ctrl+W]", "Help", "Report Bug","Join Discord Server","About" } };
 
 	public GuiMenuBar(Color darkLight) {
 		initMenus();
