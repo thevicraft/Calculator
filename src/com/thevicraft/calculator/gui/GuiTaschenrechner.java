@@ -4,6 +4,7 @@ import com.thevicraft.calculator.api.StringCalcFunctions;
 import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.Images.Pictures;
+import com.thevicraft.keyboard.activity.KeyEventClass;
 
 import java.awt.FlowLayout;
 
@@ -11,12 +12,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 
@@ -33,29 +36,29 @@ public class GuiTaschenrechner extends JFrame {
 	protected JLabel labelErgebnis;
 	protected JLabel labelCalc;
 
-	protected JButton buttonErgebnis;
-	protected JButton buttonDelete;
-	protected JButton buttonDeleteLast;
-	protected JButton buttonPlus;
-	protected JButton buttonMinus;
+	public JButton buttonErgebnis;
+	public JButton buttonDelete;
+	public JButton buttonDeleteLast;
+	public JButton buttonPlus;
+	public JButton buttonMinus;
 
-	protected JButton buttonTimes;
-	protected JButton buttonDivide;
-	protected JButton buttonPow;
-	protected JButton buttonChangeMode;
+	public JButton buttonTimes;
+	public JButton buttonDivide;
+	public JButton buttonPow;
+	public JButton buttonChangeMode;
 
-	protected JButton buttonSignMinus;
-	protected JButton buttonMathPi;
-	protected JButton buttonMathE;
-	protected JButton buttonBracketOpn;
-	protected JButton buttonBracketCls;
+	public JButton buttonSignMinus;
+	public JButton buttonMathPi;
+	public JButton buttonMathE;
+	public JButton buttonBracketOpn;
+	public JButton buttonBracketCls;
 
-	protected JButton buttonLogBase;
-	protected JButton buttonLogExp;
+	public JButton buttonLogBase;
+	public JButton buttonLogExp;
 
-	protected JButton buttonXPower2;
-	protected JButton buttonXPower3;
-	protected JButton buttonXPowerReverse;
+	public JButton buttonXPower2;
+	public JButton buttonXPower3;
+	public JButton buttonXPowerReverse;
 
 	// protected JButton buttonAppearMode;
 	// protected JButton buttonZoomIn;
@@ -90,8 +93,8 @@ public class GuiTaschenrechner extends JFrame {
 	public int BUTTON_HEIGHT = 25;
 	private final int PANELS = 8;
 
-	JButton[] numPad = new JButton[13];
-	JButton[] funcPad = new JButton[5];
+	public JButton[] numPad = new JButton[13];
+	public JButton[] funcPad = new JButton[5];
 	JPanel[] panels = new JPanel[PANELS + 1];
 	protected JPanel panelMaster;
 
@@ -171,7 +174,21 @@ public class GuiTaschenrechner extends JFrame {
 
 		setJMenuBar(menu);
 
+		for (JPanel p : panels) {
+			removeFocusFromAllObjects(p.getComponents());
+		}
+
+		//addKeyListener(new KeyEventClass());
+
 		setVisible(true);
+	}
+
+	private void removeFocusFromAllObjects(Component[] container) {
+		for (Component child : container) {
+			if (child instanceof JButton) {
+				child.setFocusable(false);
+			}
+		}
 	}
 
 	public void changeSizeWindow(float factor) {
@@ -963,12 +980,12 @@ public class GuiTaschenrechner extends JFrame {
 				} else {
 					mode = "light";
 				}
-				GuiTaschenrechner extraWin = new GuiTaschenrechner(titel + " (copy)", mode, GuiTaschenrechner.this);
-				extraWin.sizeFactor = GuiTaschenrechner.this.sizeFactor;
-				extraWin.changeSizeWindow(extraWin.sizeFactor);
-				extraWin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // dispose on close
-				extraWin.setColorOfComponents(appearanceMode);
-				extraWin.menu.setColorOfComponents(appearanceMode);
+				KeyEventClass extraWin = new KeyEventClass(titel + " (copy)", mode, GuiTaschenrechner.this);
+				extraWin.tr.sizeFactor = GuiTaschenrechner.this.sizeFactor;
+				extraWin.tr.changeSizeWindow(extraWin.tr.sizeFactor);
+				extraWin.tr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // dispose on close
+				extraWin.tr.setColorOfComponents(appearanceMode);
+				extraWin.tr.menu.setColorOfComponents(appearanceMode);
 				// GuiTaschenrechner.this.setTitle(titelText + " (main)");
 			}
 		});
@@ -976,7 +993,7 @@ public class GuiTaschenrechner extends JFrame {
 			// opens help
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				HelpWindow help = new HelpWindow("Help",400,520,1.5f,appearanceMode);
+				HelpWindow help = new HelpWindow("Help", 400, 520, 1.5f, appearanceMode);
 			}
 		});
 
@@ -998,7 +1015,7 @@ public class GuiTaschenrechner extends JFrame {
 			// opens github
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CreditsWindow credit = new CreditsWindow("About",340,200,sizeFactor);
+				CreditsWindow credit = new CreditsWindow("About", 340, 200, 1.5f, appearanceMode);
 			}
 		});
 

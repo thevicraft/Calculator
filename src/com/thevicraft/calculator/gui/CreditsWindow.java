@@ -27,7 +27,7 @@ public class CreditsWindow extends JFrame {
 
 	private float sizeFactor;
 
-	public CreditsWindow(String titel, int width, int height, float factor) {
+	public CreditsWindow(String titel, int width, int height, float factor, Color mode) {
 		FRAME_HEIGHT = (int) (height * factor);
 		FRAME_WIDTH = (int) (width * factor);
 		sizeFactor = factor;
@@ -41,6 +41,7 @@ public class CreditsWindow extends JFrame {
 		mainPanel.add(mainLabel);
 		add(mainPanel);
 		setLocationRelativeTo(null);
+		setColorOfComponents(mode);
 		setVisible(true);
 	}
 
@@ -57,6 +58,19 @@ public class CreditsWindow extends JFrame {
 		mainLabel.setBackground(Color.black);
 		mainLabel.setFont(normal);
 		mainLabel.setText(label);
+	}
+	private void setColorOfComponents(Color d){
+		getContentPane().setBackground(d);
+		mainPanel.setBackground(d);
+		mainLabel.setBackground(d);
+		
+		if(d.equals(GuiTaschenrechner.dark)) {
+			d = GuiTaschenrechner.bright;
+		}else {
+			d = GuiTaschenrechner.dark;
+		}
+		mainLabel.setForeground(d);
+		
 	}
 
 }
