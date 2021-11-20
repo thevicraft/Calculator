@@ -5,6 +5,7 @@ import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.Images.Pictures;
 import com.thevicraft.keyboard.activity.KeyEventClass;
+import com.thevicraft.keyboard.activity.WindowCloseEvent;
 
 import java.awt.FlowLayout;
 
@@ -69,7 +70,7 @@ public class GuiTaschenrechner extends JFrame {
 	protected JLabel labelFuncCls;
 	// protected JButton buttonBracketCls;
 
-	protected GuiMenuBar menu;
+	public GuiMenuBar menu;
 
 	public static final int BUTTON_0 = 9;
 	public static final int BUTTON_1 = 6;
@@ -994,6 +995,7 @@ public class GuiTaschenrechner extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				HelpWindow help = new HelpWindow("Help", 400, 520, 1.5f, appearanceMode);
+				help.addKeyListener(new WindowCloseEvent(help));
 			}
 		});
 
@@ -1016,6 +1018,7 @@ public class GuiTaschenrechner extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CreditsWindow credit = new CreditsWindow("About", 340, 200, 1.5f, appearanceMode);
+				credit.addKeyListener(new WindowCloseEvent(credit));
 			}
 		});
 

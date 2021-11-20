@@ -8,12 +8,14 @@ import javax.swing.JFrame;
 import com.thevicraft.calculator.gui.GuiTaschenrechner;
 
 public class KeyEventClass implements KeyListener {
+	private boolean ctrlPressed = false;
 	public GuiTaschenrechner tr;
 	String[] numPadLabel = new String[13];
+
 	public KeyEventClass(String titel, String mode, JFrame location) {
 		tr = new GuiTaschenrechner(titel, mode, location);
 		tr.addKeyListener(this);
-		for(int i = 0; i <= 12; i++){
+		for (int i = 0; i <= 12; i++) {
 			numPadLabel[i] = tr.numPad[i].getText();
 		}
 	}
@@ -21,14 +23,17 @@ public class KeyEventClass implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		int key = e.getKeyCode();
+		if (key == 17) {
+			ctrlPressed = true;
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
-		switch(key) {
+		switch (key) {
 		case 10:
 			tr.buttonErgebnis.doClick();
 			break;
@@ -39,33 +44,48 @@ public class KeyEventClass implements KeyListener {
 			tr.buttonDelete.doClick();
 			break;
 		case 27:
-			//programm beenden
+			// programm beenden
 			tr.dispose();
 			break;
 		}
-
+		
+		if (key == 17) {
+			ctrlPressed = false;
+		}
+		if((key == 87) && (ctrlPressed == true)) {
+			tr.menu.items[1][0].doClick();
+			ctrlPressed = false;
+		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		//System.out.println(e.getKeyCode());
+		// System.out.println(e.getKeyCode());
 		// TODO Auto-generated method stub
 		Character key = e.getKeyChar();
-		for(int i = 0; i <= 12; i++) {
-			if(Character.toString(key).equals(numPadLabel[i])) {
+		for (int i = 0; i <= 12; i++) {
+			if (Character.toString(key).equals(numPadLabel[i])) {
 				tr.numPad[i].doClick();
 				break;
-			}else if(Character.toString(key).equals(",")) {
+			} else if (Character.toString(key).equals(",")) {
 				tr.numPad[10].doClick();
 				break;
 			}
 		}
-		switch(key) {
+		switch (key) {
 		case '+':
-			tr.buttonPlus.doClick();
+			if(ctrlPressed == false) {
+				tr.buttonPlus.doClick();
+				break;
+			}
+			tr.menu.items[0][0].doClick();
 			break;
 		case '-':
-			tr.buttonMinus.doClick();
+			if(ctrlPressed == false) {
+				tr.buttonMinus.doClick();
+				break;
+			}
+			tr.menu.items[0][1].doClick();
 			break;
 		case '*':
 			tr.buttonTimes.doClick();
@@ -95,7 +115,6 @@ public class KeyEventClass implements KeyListener {
 			tr.buttonChangeMode.doClick();
 			break;
 		}
-		
 
 	}
 

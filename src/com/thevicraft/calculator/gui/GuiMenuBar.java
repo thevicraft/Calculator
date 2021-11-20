@@ -18,8 +18,8 @@ public class GuiMenuBar extends JMenuBar {
 	protected JMenu config;
 	protected JMenu window;
 
-	protected JMenuItem[][] items = new JMenuItem[2][5]; // index 1 = menu number, index 2 = menu item number
-	private String[][] itemsTextConfig = { { "Zoom In", "Zoom Out", "Toggle dark/light mode" },
+	public JMenuItem[][] items = new JMenuItem[2][5]; // index 1 = menu number, index 2 = menu item number
+	private String[][] itemsTextConfig = { { "Zoom In     [Ctrl++]", "Zoom Out    [Ctrl+-]", "Toggle dark/light mode" },
 			{ "New Window", "Help", "Report Bug","Join Discord Server","About" } };
 
 	public GuiMenuBar(Color darkLight) {
