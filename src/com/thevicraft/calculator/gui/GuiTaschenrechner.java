@@ -966,10 +966,39 @@ public class GuiTaschenrechner extends JFrame {
 				GuiTaschenrechner extraWin = new GuiTaschenrechner(titel + " (copy)", mode, GuiTaschenrechner.this);
 				extraWin.sizeFactor = GuiTaschenrechner.this.sizeFactor;
 				extraWin.changeSizeWindow(extraWin.sizeFactor);
-				extraWin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				extraWin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // dispose on close
 				extraWin.setColorOfComponents(appearanceMode);
 				extraWin.menu.setColorOfComponents(appearanceMode);
 				// GuiTaschenrechner.this.setTitle(titelText + " (main)");
+			}
+		});
+		menu.items[1][1].addActionListener(new ActionListener() {
+			// opens help
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HelpWindow help = new HelpWindow("Help",400,520,1.5f,appearanceMode);
+			}
+		});
+
+		menu.items[1][2].addActionListener(new ActionListener() {
+			// opens github
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				NetLink.openUrl("https://github.com/thevicraft/Calculator/issues");
+			}
+		});
+		menu.items[1][3].addActionListener(new ActionListener() {
+			// join discord server
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				NetLink.openUrl("https://discord.com/invite/fhAdBZEQ2J");
+			}
+		});
+		menu.items[1][4].addActionListener(new ActionListener() {
+			// opens github
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CreditsWindow credit = new CreditsWindow("About",340,200,sizeFactor);
 			}
 		});
 
