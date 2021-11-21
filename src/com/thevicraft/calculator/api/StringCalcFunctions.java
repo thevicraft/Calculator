@@ -3,13 +3,14 @@ package com.thevicraft.calculator.api;
 import java.lang.Math;
 import com.thevicraft.calculator.api.*;
 import com.thevicraft.calculator.console.Log;
+import com.thevicraft.calculator.gui.GuiTaschenrechner;
 
 public class StringCalcFunctions {
 	private StringObject[] operators = new StringObject[100]; // = new StringObject[2];
 	private StringObject[] operatorsRaw = new StringObject[100]; // = new StringObject[2];
 	private StringObject[] operands = new StringObject[100]; // = new StringObject[2];
 	public static String calcOperator[] = { " ^ ", " / ", " * ", " + ", " - " };
-	private static String constants[] = { "n", "ANS", "e", "E", " -" };
+	private static final String constants[] = { GuiTaschenrechner.constants[0], "ANS", GuiTaschenrechner.constants[1], "E", " -" };
 	private static String checkAbleForCalc[] = { "^", "/", "*", "+", "-", "n", " -", "(", ")" };
 	private StringObject lastStore;
 
@@ -20,10 +21,10 @@ public class StringCalcFunctions {
 					if (task.substring(i, i + constant.length()).equals(constant)) {
 						String insertedConstant;
 						switch (constant) {
-						case "n":
+						case "\u03c0":
 							insertedConstant = Double.toString(Math.PI);
 							break;
-						case "e":
+						case "\u2107":
 							insertedConstant = Double.toString(Math.E);
 							break;
 						case "ANS":

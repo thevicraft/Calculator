@@ -3,14 +3,20 @@ package com.thevicraft.calculator.api;
 import com.thevicraft.calculator.api.*;
 import java.lang.Math;
 import com.thevicraft.calculator.console.Log;
+import com.thevicraft.calculator.gui.GuiTaschenrechner;
+import com.thevicraft.calculator.gui.Images;
+import com.thevicraft.calculator.gui.Images.Pictures;
 
 public class StringCalculation {
 
 	private String result;
 	private double storeResult = 0;
+	private GuiTaschenrechner window;
 
-	public String calcResultFromString(String calcTask, int mode, int calcMode, String logBase, String logExponent) {
+	public String calcResultFromString(String calcTask, int mode, int calcMode, String logBase, String logExponent,
+			GuiTaschenrechner window) {
 		double ergebnis = 0;
+		this.window = window;
 		calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
 		switch (mode) {
 		case 1:
@@ -76,13 +82,16 @@ public class StringCalculation {
 		double beforeResult = 0;
 		// calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
 
-		if (new StringCalcFunctions().detectOperators(calcTask)==true) {
+		if (new StringCalcFunctions().detectOperators(calcTask) == true) {
 			try {
 				beforeResult = Double.parseDouble(CalcTaskUtil.getResultByStrCal(calcTask));
+				window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
 			} catch (Exception e) {
+				window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON_WARNING).getImage());
 				Log.errorSyntax();
 			}
 		} else {
+			window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
 			return Double.parseDouble(calcTask);
 		}
 

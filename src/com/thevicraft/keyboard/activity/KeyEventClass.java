@@ -99,6 +99,9 @@ public class KeyEventClass implements KeyListener {
 		case 'n':
 			tr.buttonMathPi.doClick();
 			break;
+		case 'p':
+			tr.buttonMathPi.doClick();
+			break;
 		case 'e':
 			tr.buttonMathE.doClick();
 			break;
