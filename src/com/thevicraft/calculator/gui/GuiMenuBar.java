@@ -6,7 +6,6 @@ import javax.swing.JMenuItem;
 import com.thevicraft.calculator.gui.Images.Pictures;
 import java.awt.Color;
 
-
 @SuppressWarnings("serial")
 public class GuiMenuBar extends JMenuBar {
 
@@ -14,8 +13,9 @@ public class GuiMenuBar extends JMenuBar {
 	protected JMenu window;
 
 	public JMenuItem[][] items = new JMenuItem[2][5]; // index 1 = menu number, index 2 = menu item number
-	private String[][] itemsTextConfig = { { "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode" },
-			{ "New Window        [Ctrl+W]", "Help", "Report Bug","Join Discord Server","About" } };
+	private String[][] itemsTextConfig = {
+			{ "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode" },
+			{ "New Window        [Ctrl+W]", "Help", "Report Bug", "Join Discord Server", "About" } };
 
 	public GuiMenuBar(Color darkLight) {
 		initMenus();
@@ -27,7 +27,7 @@ public class GuiMenuBar extends JMenuBar {
 		setIconOfComponents();
 	}
 
-	public GuiMenuBar() {
+	public GuiMenuBar() throws Exception {
 		initMenus();
 		setColorOfComponents(GuiTaschenrechner.dark);
 		initMenuItems();
@@ -49,7 +49,7 @@ public class GuiMenuBar extends JMenuBar {
 		}
 		config.setForeground(d);
 		window.setForeground(d);
-		
+
 		setForeground(d);
 
 	}
@@ -58,13 +58,12 @@ public class GuiMenuBar extends JMenuBar {
 		items[0][0].setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_IN, 18, 18));
 		items[0][1].setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_OUT, 18, 18));
 		items[0][2].setIcon(Images.scaleImageIconFromDefault(Pictures.DARK_LIGHT_MODE, 18, 18));
-		
+
 		items[1][1].setIcon(Images.scaleImageIconFromDefault(Pictures.HELP_ICON, 18, 18));
 		items[1][2].setIcon(Images.scaleImageIconFromDefault(Pictures.GITHUB_ICON, 18, 18));
 		items[1][3].setIcon(Images.scaleImageIconFromDefault(Pictures.DISCORD_ICON, 18, 18));
 		items[1][4].setIcon(Images.scaleImageIconFromDefault(Pictures.AUTHOR, 18, 18));
-		
-		
+
 		// Log.console(Double.toString(items[0][0].getSize(new
 		// Dimension()).getHeight()));
 	}

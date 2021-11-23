@@ -132,7 +132,7 @@ public class GuiTaschenrechner extends JFrame {
 		default:
 			appearanceMode = bright;
 		}
-
+		Images.initImages();
 		setTitle(titel);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
@@ -179,9 +179,10 @@ public class GuiTaschenrechner extends JFrame {
 			}
 		}
 	}
+
 	private void setActionListenerToComponent(Component[] buttons) {
-		for(Component child : buttons) {
-			if(child instanceof JButton) {
+		for (Component child : buttons) {
+			if (child instanceof JButton) {
 				((JButton) child).addActionListener(new ButtonActionListener(this));
 			}
 		}
@@ -232,8 +233,6 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPower2.setPreferredSize(buttonStandartSize);
 		buttonXPower3.setPreferredSize(buttonStandartSize);
 		buttonXPowerReverse.setPreferredSize(buttonStandartSize);
-
-
 
 		for (JButton c : funcPad) {
 			c.setPreferredSize(buttonStandartSize);
@@ -483,9 +482,9 @@ public class GuiTaschenrechner extends JFrame {
 		labelErgebnis = new JLabel(platz);
 
 		buttonErgebnis = new JButton("=");
-		
+
 		buttonDelete = new JButton("AC");
-		
+
 		buttonPlus = new JButton(textButtons[0][0]);
 		buttonMinus = new JButton(textButtons[1][0]);
 		buttonTimes = new JButton(textButtons[2][0]);
@@ -509,7 +508,7 @@ public class GuiTaschenrechner extends JFrame {
 
 		buttonBracketOpn = new JButton("(");
 		buttonBracketCls = new JButton(")");
-		
+
 		buttonDeleteLast = new JButton("DEL");
 
 		buttonXPower2 = new JButton("^2");
@@ -728,7 +727,8 @@ public class GuiTaschenrechner extends JFrame {
 				} else {
 					mode = "light";
 				}
-				KeyEventClass extraWin = new KeyEventClass(titel + " (copy)", mode, GuiTaschenrechner.this);
+				KeyEventClass extraWin;
+				extraWin = new KeyEventClass(titel + " (copy)", mode, GuiTaschenrechner.this);
 				extraWin.tr.sizeFactor = GuiTaschenrechner.this.sizeFactor;
 				extraWin.tr.changeSizeWindow(extraWin.tr.sizeFactor);
 				extraWin.tr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // dispose on close

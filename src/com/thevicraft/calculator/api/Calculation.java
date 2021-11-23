@@ -27,7 +27,7 @@ public class Calculation extends SimpleMath {
 	// ImageIcon iconWarning = new
 	// ImageIcon("src/resources/window-icon-warning.png");
 
-	public float tryConvertNumber(JTextField field, JFrame window) {
+	public float tryConvertNumber(JTextField field, JFrame window) throws Exception {
 		try {
 			Float.parseFloat(field.getText());
 		} catch (Exception e) {
@@ -45,7 +45,7 @@ public class Calculation extends SimpleMath {
 		return Float.parseFloat(field.getText());
 	}
 
-	public String calc(JFrame window, JTextField opfield1, JTextField opfield2, int mode, int calcMode) {
+	public String calc(JFrame window, JTextField opfield1, JTextField opfield2, int mode, int calcMode) throws Exception {
 
 		switch (mode) {
 		// -------------------------------------------------------------------------------------------------------

@@ -14,7 +14,7 @@ public class StringCalculation {
 	private GuiTaschenrechner window;
 
 	public String calcResultFromString(String calcTask, int mode, int calcMode, String logBase, String logExponent,
-			GuiTaschenrechner window) {
+			GuiTaschenrechner window) throws Exception {
 		double ergebnis = 0;
 		this.window = window;
 		calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
@@ -78,7 +78,7 @@ public class StringCalculation {
 		return result;
 	}
 
-	private double calcTask(String calcTask) {
+	private double calcTask(String calcTask) throws Exception {
 		double beforeResult = 0;
 		// calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
 

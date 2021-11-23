@@ -12,7 +12,7 @@ public class KeyEventClass implements KeyListener {
 	public GuiTaschenrechner tr;
 	String[] numPadLabel = new String[13];
 
-	public KeyEventClass(String titel, String mode, JFrame location) {
+	public KeyEventClass(String titel, String mode, JFrame location){
 		tr = new GuiTaschenrechner(titel, mode, location);
 		tr.addKeyListener(this);
 		for (int i = 0; i <= 12; i++) {
