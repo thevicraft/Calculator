@@ -2,10 +2,13 @@ package com.thevicraft.calculator.gui;
 
 import javax.swing.ImageIcon;
 
+import com.thevicraft.calculator.console.Log;
+
 import static java.util.Collections.sort;
 
 import java.awt.Image;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -13,11 +16,12 @@ import java.util.List;
 public class Images {
 
 	public static enum Pictures {
-		AUTHOR, d, DISCORD_ICON, GITHUB_ICON, HELP_ICON, DARK_LIGHT_MODE, WARNING_SIGN, ICON_WARNING, ICON, ZOOM_OUT,
+		AUTHOR,  DISCORD_ICON, GITHUB_ICON, HELP_ICON, DARK_LIGHT_MODE, WARNING_SIGN, ICON_WARNING, ICON, ZOOM_OUT,
 		ZOOM_IN
 	}
 
-	private static List listFileImages = null;
+	@SuppressWarnings("rawtypes")
+	private static List<String> listFileImages = null;
 	private static File fileDir;
 
 	@SuppressWarnings("unchecked")
@@ -27,8 +31,31 @@ public class Images {
 			listFileImages = Arrays.asList(fileDir.list());
 		}
 		sort(listFileImages, Collections.reverseOrder().reversed());
-		// listFileImages.forEach(images -> System.out.println(images.toString()));
+		String[] acceptedFormat = {"png","jpg"};
+		listFileImages = filterFileFormat(listFileImages,acceptedFormat);
+		listFileImages.forEach(images -> System.out.println(images.toString()));
 	}
+
+	
+	@SuppressWarnings({ "rawtypes" })
+	public static List filterFileFormat(List<String> d, String[] format) {
+		List<String> dummy = new ArrayList<String>(d);
+		d.forEach(files -> {
+			int removeFile = 0;
+			for (String data : format) {
+				if (files.toString().indexOf("."+data) == -1){
+					removeFile ++;
+					//removeIndex.add(d.indexOf(files));
+					//Log.console(files.toString()+" lies in "+dummy.indexOf(files)+" and was removed, it was not "+data);
+				}
+			}
+			if(removeFile == format.length) {
+				dummy.remove(files);
+				//System.out.println(files.toString()+" was removed it did not belong to the current filter setting");
+			}	
+		});
+		return dummy;
+		}
 
 	public static ImageIcon getDefaultImageIcon(Pictures d) {
 		int counter = 0;
