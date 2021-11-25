@@ -97,9 +97,12 @@ public class StringCalculation {
 				}
 			}
 		} else {
-			window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
+			if (window != null) {
+				window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
+			}
 			return Double.parseDouble(calcTask);
 		}
+		//System.out.println(calcTask + " = " + beforeResult);
 
 		// storeResult = beforeResult;
 		return beforeResult;

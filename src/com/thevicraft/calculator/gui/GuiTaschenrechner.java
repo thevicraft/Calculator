@@ -1,6 +1,5 @@
 package com.thevicraft.calculator.gui;
 
-import com.thevicraft.calculator.api.StringCalcFunctions;
 import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.gui.Images.Pictures;
 import com.thevicraft.keyboard.activity.KeyEventClass;

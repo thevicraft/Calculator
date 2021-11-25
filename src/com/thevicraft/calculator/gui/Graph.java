@@ -26,7 +26,7 @@ public class Graph extends JPanel {
 
 	private Point origin;
 	private String function;
-
+	private int scaleFactor;
 	public Graph(int width, int height, int scaleFactor, int originX, int originY, String function) {
 		setPreferredSize(new Dimension(width, height));
 		setSize(width, height);
@@ -38,7 +38,7 @@ public class Graph extends JPanel {
 	}
 
 	Graphics2D panel;
-	int scaleFactor = 40;
+	//int scaleFactor = 40;
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -53,7 +53,7 @@ public class Graph extends JPanel {
 
 		Coordinates cords = new Coordinates(origin, scaleFactor, this, 2, true);
 		// cords.addPoint(2, 4);
-		for (float x = -7; x <= 7; x += 0.001) {
+		for (float x = -7; x <= 7; x += 0.001) { // 0,001
 			panel.setColor(Color.green);
 			float xcord = x;
 			float ycord; /*= (float) new StringCalculation()

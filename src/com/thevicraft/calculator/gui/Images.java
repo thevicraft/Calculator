@@ -16,8 +16,8 @@ import java.util.List;
 public class Images {
 
 	public static enum Pictures {
-		AUTHOR,  DISCORD_ICON, GITHUB_ICON, HELP_ICON, DARK_LIGHT_MODE, WARNING_SIGN, ICON_WARNING, ICON, ZOOM_OUT,
-		ZOOM_IN
+		ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT,ARROW_UP, AUTHOR, DISCORD_ICON, GITHUB_ICON, HELP_ICON, DARK_LIGHT_MODE,
+		WARNING_SIGN, ICON_WARNING, ICON, ZOOM_OUT, ZOOM_IN
 	}
 
 	private static List<String> listFileImages = null;
@@ -30,32 +30,33 @@ public class Images {
 			listFileImages = Arrays.asList(fileDir.list());
 		}
 		sort(listFileImages, Collections.reverseOrder().reversed());
-		String[] acceptedFormat = {"png","jpg"};
-		listFileImages = filterFileFormat(listFileImages,acceptedFormat);
+		String[] acceptedFormat = { "png", "jpg" };
+		listFileImages = filterFileFormat(listFileImages, acceptedFormat);
 		listFileImages.forEach(images -> System.out.println(images.toString()));
-		//listFileImages.size();
+		// listFileImages.size();
 	}
 
-	
 	@SuppressWarnings({ "rawtypes" })
 	public static List filterFileFormat(List<String> d, String[] format) {
 		List<String> dummy = new ArrayList<String>(d);
 		d.forEach(files -> {
 			int removeFile = 0;
 			for (String data : format) {
-				if (files.toString().indexOf("."+data) == -1){
-					removeFile ++;
-					//removeIndex.add(d.indexOf(files));
-					//Log.console(files.toString()+" lies in "+dummy.indexOf(files)+" and was removed, it was not "+data);
+				if (files.toString().indexOf("." + data) == -1) {
+					removeFile++;
+					// removeIndex.add(d.indexOf(files));
+					// Log.console(files.toString()+" lies in "+dummy.indexOf(files)+" and was
+					// removed, it was not "+data);
 				}
 			}
-			if(removeFile == format.length) {
+			if (removeFile == format.length) {
 				dummy.remove(files);
-				//System.out.println(files.toString()+" was removed it did not belong to the current filter setting");
-			}	
+				// System.out.println(files.toString()+" was removed it did not belong to the
+				// current filter setting");
+			}
 		});
 		return dummy;
-		}
+	}
 
 	public static ImageIcon getDefaultImageIcon(Pictures d) {
 		int counter = 0;
