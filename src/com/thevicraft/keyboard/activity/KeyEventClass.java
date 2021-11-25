@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
+import com.thevicraft.calculator.gui.GeoDraw;
 import com.thevicraft.calculator.gui.GuiTaschenrechner;
 
 public class KeyEventClass implements KeyListener {
@@ -56,6 +57,11 @@ public class KeyEventClass implements KeyListener {
 			tr.menu.items[1][0].doClick();
 			ctrlPressed = false;
 		}
+		if((key == 70) && (ctrlPressed == true)) {
+			GeoDraw func =new GeoDraw("Function", 800, 600, 1, GuiTaschenrechner.dark);
+			func.addKeyListener(new WindowCloseEvent(func));
+		}
+		//System.out.println("key :"+key);
 	}
 
 	@Override

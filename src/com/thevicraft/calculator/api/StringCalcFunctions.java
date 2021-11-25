@@ -55,6 +55,18 @@ public class StringCalcFunctions {
 
 		return task;
 	}
+	public static String insertNumberInFunction(String function, String x,String number) {
+		String calcFunc = function;
+		for(int i = 0; i<=calcFunc.length(); i++) {
+			if(i+1<=calcFunc.length()) {
+				if(calcFunc.substring(i, i+1).equals(x)) {
+					calcFunc = calcFunc.substring(0,i)+number+calcFunc.substring(i+1,calcFunc.length());
+				}
+			}
+		}
+		//System.out.println(calcFunc);
+		return calcFunc;
+	}
 
 	public boolean detectOperators(String calcTask) {
 		int countops = 0;

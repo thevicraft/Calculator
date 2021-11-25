@@ -1,23 +1,15 @@
 package com.thevicraft.calculator.gui;
-
-import java.awt.FlowLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
-
 @SuppressWarnings("serial")
-public class CreditsWindow extends JFrame {
+public class GeoDraw extends JFrame{
 	public Font normal; // = new Font("Tahoma", Font.BOLD, 12);
 
-	private static String label = "<html><body>This GUI-Calculator, published under the name Simple Calculator, "
-			+ "has the open-source license and is only a test project. If you wish to share this project, "
-			+ "you should link to the github-page and the author 'thevicraft'. If you wish to report a bug, "
-			+ "then you should use then you should the 'Report Bug' button to do so.";
-	// <html><body>Textzeile1<br>Textzeile2</body></html>
 	private int FRAME_WIDTH;
 	private int FRAME_HEIGHT;
 
@@ -27,7 +19,7 @@ public class CreditsWindow extends JFrame {
 
 	private float sizeFactor;
 
-	public CreditsWindow(String titel, int width, int height, float factor, Color mode) {
+	public GeoDraw(String titel, int width, int height, float factor, Color mode) {
 		FRAME_HEIGHT = (int) (height * factor);
 		FRAME_WIDTH = (int) (width * factor);
 		sizeFactor = factor;
@@ -39,10 +31,10 @@ public class CreditsWindow extends JFrame {
 		initPanel();
 		initComponents();
 		mainPanel.add(mainLabel);
-		add(mainPanel);
+		//add(mainPanel);
 		setLocationRelativeTo(null);
 		setColorOfComponents(mode);
-		//add(new Graph(FRAME_WIDTH, FRAME_HEIGHT));
+		add(new Graph(FRAME_WIDTH, FRAME_HEIGHT,40,400,300,"1/X"));
 		//add(new JLabel("U+2119"));
 		setVisible(true);
 	}
@@ -59,7 +51,6 @@ public class CreditsWindow extends JFrame {
 		mainLabel.setPreferredSize(new Dimension(FRAME_WIDTH - 10, FRAME_HEIGHT - 10));
 		mainLabel.setBackground(Color.black);
 		mainLabel.setFont(normal);
-		mainLabel.setText(label);
 	}
 	private void setColorOfComponents(Color d){
 		getContentPane().setBackground(d);
@@ -74,5 +65,4 @@ public class CreditsWindow extends JFrame {
 		mainLabel.setForeground(d);
 		
 	}
-
 }

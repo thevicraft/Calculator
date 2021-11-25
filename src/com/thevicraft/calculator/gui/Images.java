@@ -20,7 +20,6 @@ public class Images {
 		ZOOM_IN
 	}
 
-	@SuppressWarnings("rawtypes")
 	private static List<String> listFileImages = null;
 	private static File fileDir;
 
@@ -34,6 +33,7 @@ public class Images {
 		String[] acceptedFormat = {"png","jpg"};
 		listFileImages = filterFileFormat(listFileImages,acceptedFormat);
 		listFileImages.forEach(images -> System.out.println(images.toString()));
+		//listFileImages.size();
 	}
 
 	

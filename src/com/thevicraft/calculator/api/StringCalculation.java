@@ -14,17 +14,17 @@ public class StringCalculation {
 	private GuiTaschenrechner window;
 
 	public String calcResultFromString(String calcTask, int mode, int calcMode, String logBase, String logExponent,
-			GuiTaschenrechner window) throws Exception {
+			GuiTaschenrechner window) {
 		double ergebnis = 0;
 		this.window = window;
 		calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
 		switch (mode) {
 		case 1:
-			ergebnis = calcTask(calcTask);
+			ergebnis = calcTask(calcTask, true);
 			break;
 		default:
 			try {
-				ergebnis = calcTask(calcTask);
+				ergebnis = calcTask(calcTask, true);
 			} catch (Exception e) {
 			}
 
@@ -50,11 +50,11 @@ public class StringCalculation {
 				double exponent = 0;
 				double basis = 0;
 				try {
-					exponent = calcTask(exp);
+					exponent = calcTask(exp, true);
 				} catch (Exception e) {
 				}
 				try {
-					basis = calcTask(base);
+					basis = calcTask(base, true);
 				} catch (Exception e) {
 				}
 				ergebnis = SimpleMath.logarithm(exponent, basis);
@@ -78,17 +78,23 @@ public class StringCalculation {
 		return result;
 	}
 
-	private double calcTask(String calcTask) throws Exception {
+	public double calcTask(String calcTask, boolean giveError) {
 		double beforeResult = 0;
 		// calcTask = new StringCalcFunctions().insertConstants(calcTask, storeResult);
 
 		if (new StringCalcFunctions().detectOperators(calcTask) == true) {
 			try {
 				beforeResult = Double.parseDouble(CalcTaskUtil.getResultByStrCal(calcTask));
-				window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
+				if (window != null) {
+					window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
+				}
 			} catch (Exception e) {
-				window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON_WARNING).getImage());
-				Log.errorSyntax();
+				if (window != null) {
+					window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON_WARNING).getImage());
+				}
+				if (giveError) {
+					Log.errorSyntax();
+				}
 			}
 		} else {
 			window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
