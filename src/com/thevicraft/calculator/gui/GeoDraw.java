@@ -134,6 +134,9 @@ public class GeoDraw extends JFrame {
 		zoomOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				scaleFactor -= jumpTo();
+				if(scaleFactor < 10) {
+					scaleFactor = 10;
+				}
 				updateGraph();
 			}
 		});

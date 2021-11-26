@@ -27,10 +27,13 @@ public class Graph extends JPanel {
 	private Point origin;
 	private String function;
 	private int scaleFactor;
+	
+	private int drawFrom;
+	private int drawTo;
+	
 	public Graph(int width, int height, int scaleFactor, int originX, int originY, String function) {
 		setPreferredSize(new Dimension(width, height));
 		setSize(width, height);
-		// setBackground(Color.white);
 		this.scaleFactor = scaleFactor;
 		origin = new Point(originX, originY);
 		this.function = function;
@@ -45,14 +48,10 @@ public class Graph extends JPanel {
 		panel.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		panel.setColor(Color.white);
 		panel.setBackground(Color.white);
-		// panel.drawLine(1, 2, 40, 60);
-		// panel.fillOval(10,10,2,2);
-		// panel.fillOval(0,0,2,2);
-		// Point origin = new Point(40, 100);
 
 		Coordinates cords = new Coordinates(origin, scaleFactor, this, 2, true);
 		// cords.addPoint(2, 4);
-		for (float x = -7; x <= 7; x += 0.001) { // 0,001
+		for (float x = drawFrom; x <= drawTo; x += 0.001) { // 0,001
 			panel.setColor(Color.green);
 			float xcord = x;
 			float ycord; /*= (float) new StringCalculation()
@@ -88,6 +87,8 @@ public class Graph extends JPanel {
 					(float) ((float) center.getY() + markerLength * 2.5));
 			counter++;
 		}
+		drawTo = counter;
+		//System.out.println("x positiv bis "+counter);
 		counter = 0;
 		// marker für eine einheit auf negativ X
 		for (int i = (int) o.getX(); i > 0; i -= scaleFactor) {
@@ -100,6 +101,8 @@ public class Graph extends JPanel {
 			}
 			counter++;
 		}
+		drawFrom = -counter;
+		//System.out.println("x negativ bis "+counter);
 		counter = 0;
 		// marker für eine einheit auf negativ Y
 		for (int i = (int) o.getY(); i < this.getHeight(); i += scaleFactor) {

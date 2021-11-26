@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -28,7 +30,9 @@ public class GuiTaschenrechner extends JFrame {
 	final String calcLabelEmpty = ""; // " "
 
 	protected JLabel labelErgebnis;
-	protected JLabel labelCalc;
+	//----------------------------------------------------------------------------------
+	protected JTextField labelCalc;
+	//----------------------------------------------------------------------------------
 
 	public JButton buttonErgebnis;
 	public JButton buttonDelete;
@@ -90,6 +94,7 @@ public class GuiTaschenrechner extends JFrame {
 	public static final String constants[] = { "\u213c", "\u212f", "\u03c0", "\u2107" }; // pi, e
 
 	public static final String X = "\uD835\uDC65";
+	// public static final String X = "\uDC65";
 
 	protected float ergebnis;
 
@@ -169,6 +174,8 @@ public class GuiTaschenrechner extends JFrame {
 			removeFocusFromComponent(p.getComponents());
 			setActionListenerToComponent(p.getComponents());
 		}
+		labelCalc.setEditable(false);
+		labelCalc.setFocusable(false);
 
 		setVisible(true);
 	}
@@ -211,8 +218,9 @@ public class GuiTaschenrechner extends JFrame {
 
 	void setSizeOfComponents(float factor, int winPanel) {
 		buttonStandartSize = new Dimension((int) (factor * BUTTON_WIDTH), (int) (factor * BUTTON_HEIGHT));
-		Dimension panelSize = new Dimension((int) (factor * 300), (int) (factor * 30));
 
+		Dimension panelSize = new Dimension((int) (factor * 300), (int) (factor * 30));
+		
 		for (JButton button : numPad) {
 			button.setPreferredSize(buttonStandartSize);
 		}
@@ -238,6 +246,8 @@ public class GuiTaschenrechner extends JFrame {
 		for (JButton c : funcPad) {
 			c.setPreferredSize(buttonStandartSize);
 		}
+		
+		labelCalc.setPreferredSize(new Dimension((int)(200*factor),(int)(25*factor)));
 
 		// panels default size 300, 30
 		panels[0].setPreferredSize(panelSize);
@@ -291,12 +301,14 @@ public class GuiTaschenrechner extends JFrame {
 		getContentPane().setBackground(mode);
 
 		if (mode.equals(dark)) {
+			labelCalc.setBackground(dark);
 			labelCalc.setForeground(bright);
 			labelErgebnis.setForeground(bright);
 			labelFuncOpn.setForeground(bright);
 			labelFuncMid.setForeground(bright);
 			labelFuncCls.setForeground(bright);
 		} else if (mode.equals(bright)) {
+			labelCalc.setBackground(bright);
 			labelCalc.setForeground(dark);
 			labelErgebnis.setForeground(dark);
 			labelFuncOpn.setForeground(dark);
@@ -477,8 +489,9 @@ public class GuiTaschenrechner extends JFrame {
 	private void initComponents() {
 
 		panelMaster = new JPanel();
-
-		labelCalc = new JLabel(calcLabelEmpty);
+		//--------------------------------------------------------------------------------
+		labelCalc = new JTextField(/*calcLabelEmpty*/);
+		//-------------------------------------------------------------------------------
 
 		labelErgebnis = new JLabel(platz);
 
@@ -555,8 +568,8 @@ public class GuiTaschenrechner extends JFrame {
 		case 4:
 			numPad[BUTTON__ANS].setText(X);
 			buttonErgebnis.setText("");
-			buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.GRAPH_ICON, (int) ((BUTTON_HEIGHT * 1.28) * sizeFactor),
-					(int) (BUTTON_HEIGHT * sizeFactor)));
+			buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.GRAPH_ICON,
+					(int) ((BUTTON_HEIGHT * 1.28) * sizeFactor), (int) (BUTTON_HEIGHT * sizeFactor)));
 			buttonErgebnis.setBackground(Color.white);
 			this.funcPadSetVisible(false);
 			this.setSizeOfComponents(this.sizeFactor, 0);
@@ -691,6 +704,7 @@ public class GuiTaschenrechner extends JFrame {
 			labelFuncMid.setVisible(false);
 			logWithBaseFocus = 0;
 		}
+		testForTextOverflow(labelCalc, this, 20);
 	}
 
 	void insertTextInField(String text, boolean deleteall) {
@@ -698,6 +712,7 @@ public class GuiTaschenrechner extends JFrame {
 			switch (logWithBaseFocus) {
 			case 0:
 				labelCalc.setText(labelCalc.getText() + text);
+				testForTextOverflow(labelCalc, this, 20);
 				break;
 			case 1:
 				buttonLogExp.setText(buttonLogExp.getText() + text);
@@ -722,6 +737,21 @@ public class GuiTaschenrechner extends JFrame {
 		}
 	}
 
+	public void testForTextOverflow(JTextField calcLabel, JFrame container, int maxLength) {
+		/*String text = calcLabel.getText();
+		float proportionals = text.length() / maxLength;
+		if (text.length() / 20.0 > 1) {
+			System.out.println(calcPanel + " " + windowSize + " " + mainPanel);
+			calcPanel = new Dimension((int) (calcPanel.getWidth() / sizeFactor),
+					(int) (calcPanel.getHeight() * proportionals / sizeFactor));
+			windowSize = new Dimension((int) (windowSize.getWidth() / sizeFactor),
+					(int) (windowSize.getHeight() + (calcPanel.getHeight() * proportionals/sizeFactor)));
+			mainPanel = new Dimension((int) (mainPanel.getWidth()/sizeFactor),
+					(int) ((mainPanel.getHeight() + (calcPanel.getHeight() * proportionals)/sizeFactor)));
+			changeSizeWindow(sizeFactor);
+		}*/
+	}
+
 	String getTextInField() {
 		switch (logWithBaseFocus) {
 		case 0:
@@ -741,6 +771,7 @@ public class GuiTaschenrechner extends JFrame {
 		switch (logWithBaseFocus) {
 		case 0:
 			labelCalc.setText(text);
+			testForTextOverflow(labelCalc, this, 20);
 			break;
 		case 1:
 			buttonLogExp.setText(text);
