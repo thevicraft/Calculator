@@ -60,7 +60,7 @@ public class KeyEventClass implements KeyListener {
 		if((key == 70) && (ctrlPressed == true)) {
 			//GeoDraw func =new GeoDraw("Function", 800, 600, 1, GuiTaschenrechner.dark);
 			//func.addKeyListener(new WindowCloseEvent(func));
-			GeoDrawKeyEvent func = new GeoDrawKeyEvent("Function", 800, 600, 1, GuiTaschenrechner.dark);
+			GeoDrawKeyEvent func = new GeoDrawKeyEvent("Test Window", 800, 600, 1, GuiTaschenrechner.dark,GuiTaschenrechner.X+"^2");
 		}
 		//System.out.println("key :"+key);
 	}
@@ -124,6 +124,10 @@ public class KeyEventClass implements KeyListener {
 		case 'M':
 			tr.buttonChangeMode.doClick();
 			break;
+		case 'x':
+			if(tr.mode == 4) {
+				tr.numPad[12].doClick();
+			}
 		}
 
 	}

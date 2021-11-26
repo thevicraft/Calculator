@@ -34,7 +34,6 @@ public class Graph extends JPanel {
 		this.scaleFactor = scaleFactor;
 		origin = new Point(originX, originY);
 		this.function = function;
-
 	}
 
 	Graphics2D panel;
@@ -64,7 +63,7 @@ public class Graph extends JPanel {
 			}else {
 				xToInsert = Float.toString(xcord);
 			}
-			String calcTaskY = StringCalcFunctions.insertNumberInFunction(function, "X", xToInsert);
+			String calcTaskY = StringCalcFunctions.insertNumberInFunction(function, GuiTaschenrechner.X, xToInsert);
 			calcTaskY = new StringCalcFunctions().insertConstants(calcTaskY, 0);
 			ycord = (float)(new StringCalculation().calcTask(calcTaskY,false));
 			cords.addPoint(xcord, ycord);

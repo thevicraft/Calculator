@@ -22,8 +22,8 @@ import java.awt.Font;
 @SuppressWarnings("serial")
 public class GuiTaschenrechner extends JFrame {
 	private String platz = "                                                 ";
-	int mode = 1; // default mode, do not change
-	static final int MODES = 3;
+	public int mode = 1; // default mode, do not change
+	static final int MODES = 4;
 	protected int calcMode;
 	final String calcLabelEmpty = ""; // " "
 
@@ -87,7 +87,9 @@ public class GuiTaschenrechner extends JFrame {
 	JPanel[] panels = new JPanel[PANELS + 1];
 	protected JPanel panelMaster;
 
-	public static final String constants[] = { "\u03c0", "\u2107" }; // pi, e
+	public static final String constants[] = { "\u213c", "\u212f", "\u03c0", "\u2107" }; // pi, e
+
+	public static final String X = "\uD835\uDC65";
 
 	protected float ergebnis;
 
@@ -118,8 +120,8 @@ public class GuiTaschenrechner extends JFrame {
 	public static Color dark = Color.DARK_GRAY;
 	public static Color bright = Color.white;
 
-	public static String textButtons[][] = { { " + ", "log", "log" }, { " - ", " √ ", "x!" }, { " * ", "sin", "asin" },
-			{ " / ", "cos", "acos" }, { " ^ ", "tan", "atan" } };
+	public static String textButtons[][] = { { " + ", "log", "log", "" }, { " - ", " √ ", "x!", "" },
+			{ " * ", "sin", "asin", "" }, { " / ", "cos", "acos", "" }, { " ^ ", "tan", "atan", "" } };
 
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
 		switch (darkLight) {
@@ -523,6 +525,49 @@ public class GuiTaschenrechner extends JFrame {
 // last bracket
 	}
 
+	@SuppressWarnings("static-access")
+	void changeMode() {
+		this.setPanel0ToMode(this.mode);
+
+		switch (this.mode) {
+		case 1:
+			numPad[BUTTON__ANS].setText("ANS");
+			buttonErgebnis.setText("=");
+			buttonErgebnis.setIcon(null);
+			buttonErgebnis.setBackground(Color.green);
+			this.funcPadSetVisible(false);
+			this.setSizeOfComponents(this.sizeFactor, 0);
+			break;
+		case 2:
+			numPad[BUTTON__ANS].setText("ANS");
+			buttonErgebnis.setText("=");
+			buttonErgebnis.setIcon(null);
+			this.funcPadSetVisible(true);
+			this.setSizeOfComponents(this.sizeFactor, 40);
+			break;
+		case 3:
+			numPad[BUTTON__ANS].setText("ANS");
+			buttonErgebnis.setText("=");
+			buttonErgebnis.setIcon(null);
+			this.funcPadSetVisible(true);
+			this.setSizeOfComponents(this.sizeFactor, 40);
+			break;
+		case 4:
+			numPad[BUTTON__ANS].setText(X);
+			buttonErgebnis.setText("");
+			buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.GRAPH_ICON, (int) ((BUTTON_HEIGHT * 1.28) * sizeFactor),
+					(int) (BUTTON_HEIGHT * sizeFactor)));
+			buttonErgebnis.setBackground(Color.white);
+			this.funcPadSetVisible(false);
+			this.setSizeOfComponents(this.sizeFactor, 0);
+			break;
+		}
+		for (int i = 0; i <= this.MODES; i++) {
+			this.getFuncPad(i).setText(this.textButtons[i][this.mode - 1]);
+		}
+		this.logWithBaseFocus = 0;
+	}
+
 	void setPanel0ToMode(int modi) {
 		switch (modi) {
 		case 1:
@@ -551,6 +596,17 @@ public class GuiTaschenrechner extends JFrame {
 			buttonLogBase.setVisible(false);
 			buttonLogExp.setVisible(false);
 			logWithBaseFocus = 0;
+			break;
+		case 4:
+			labelFuncOpn.setText("\u2a0d" + "(" + X + ") = ");
+			labelFuncOpn.setVisible(true);
+			labelFuncMid.setVisible(false);
+			labelFuncCls.setVisible(false);
+
+			labelCalc.setVisible(true);
+			logWithBaseFocus = 0;
+			buttonLogBase.setVisible(false);
+			buttonLogExp.setVisible(false);
 			break;
 		}
 	}
@@ -603,6 +659,20 @@ public class GuiTaschenrechner extends JFrame {
 				calcMode = 15;
 			}
 
+			break;
+		case 4:
+			labelCalc.setText(labelCalc.getText() + button.getText());
+			if (button.equals(buttonPlus)) {
+				calcMode = 1;
+			} else if (button.equals(buttonMinus)) {
+				calcMode = 2;
+			} else if (button.equals(buttonTimes)) {
+				calcMode = 3;
+			} else if (button.equals(buttonDivide)) {
+				calcMode = 4;
+			} else if (button.equals(buttonPow)) {
+				calcMode = 5;
+			}
 			break;
 		}
 		if (log == true) {

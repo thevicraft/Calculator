@@ -16,7 +16,7 @@ import java.util.List;
 public class Images {
 
 	public static enum Pictures {
-		ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT,ARROW_UP, AUTHOR, DISCORD_ICON, GITHUB_ICON, HELP_ICON, DARK_LIGHT_MODE,
+		ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT,ARROW_UP, AUTHOR, DISCORD_ICON, GITHUB_ICON, GRAPH_ICON,HELP_ICON, DARK_LIGHT_MODE,
 		WARNING_SIGN, ICON_WARNING, ICON, ZOOM_OUT, ZOOM_IN
 	}
 
@@ -25,6 +25,7 @@ public class Images {
 
 	@SuppressWarnings("unchecked")
 	public static void initImages() {
+		Log.console("Loading Images ...");
 		fileDir = new File(new Images().getClass().getClassLoader().getResource("").getFile());
 		if (fileDir.isDirectory()) {
 			listFileImages = Arrays.asList(fileDir.list());

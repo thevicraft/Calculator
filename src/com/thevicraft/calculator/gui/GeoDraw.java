@@ -41,10 +41,15 @@ public class GeoDraw extends JFrame {
 	private int scaleFactor;
 	private int originX;
 	private int originY;
+	
+	private String function;
+	
+	public boolean ctrlPressed = false;
 
-	public GeoDraw(String titel, int width, int height, float factor, Color mode) {
+	public GeoDraw(String titel, int width, int height, float factor, Color mode,String function) {
 		FRAME_HEIGHT = (int) (height * factor);
 		FRAME_WIDTH = (int) (width * factor);
+		this.function = function;
 		sizeFactor = factor;
 		scaleFactor = 40;
 		originX = 400;
@@ -59,7 +64,7 @@ public class GeoDraw extends JFrame {
 		setLocationRelativeTo(null);
 		setColorOfComponents(mode);
 		
-		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT , 40, originX, originY, "(X^3)+2*(X^2)-X-3"/* "X" */);
+		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT , 40, originX, originY, this.function/* "X" */);
 		
 		mainPanel.add(graphPanel);
 		graphPanel.add(graph);
@@ -97,7 +102,7 @@ public class GeoDraw extends JFrame {
 	
 	private void updateGraph() {
 		graphPanel.removeAll();
-		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, "(X^3)+2*(X^2)-X-3"/* "X" */);
+		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, function/* "X" */);
 		graphPanel.add(graph);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT-1);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -112,41 +117,47 @@ public class GeoDraw extends JFrame {
 		padPanel.setPreferredSize(new Dimension(100,50));
 		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT - 100));
 	}
+	private int jumpTo() {
+		if(ctrlPressed == true) {
+			return 50;
+		}
+		return 10;
+	}
 	private void addActionListeners() {
 		zoomIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				scaleFactor += 10;
+				scaleFactor += jumpTo();
 				updateGraph();
 			}
 		});
 		
 		zoomOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				scaleFactor -= 10;
+				scaleFactor -= jumpTo();
 				updateGraph();
 			}
 		});
 		up.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				originY += 10;
+				originY += jumpTo();
 				updateGraph();
 			}
 		});
 		down.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				originY -= 10;
+				originY -= jumpTo();
 				updateGraph();
 			}
 		});
 		left.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				originX += 10;
+				originX += jumpTo();
 				updateGraph();
 			}
 		});
 		right.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				originX -= 10;
+				originX -= jumpTo();
 				updateGraph();
 			}
 		});

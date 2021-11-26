@@ -9,15 +9,19 @@ import com.thevicraft.calculator.gui.GeoDraw;
 
 public class GeoDrawKeyEvent implements KeyListener{
 	private GeoDraw geo;
-	public GeoDrawKeyEvent(String titel, int width, int height, float factor, Color mode) {
-		geo = new GeoDraw(titel, width, height, factor, mode);
+	
+	public GeoDrawKeyEvent(String titel, int width, int height, float factor, Color mode, String function) {
+		geo = new GeoDraw(titel, width, height, factor, mode,function);
 		geo.addKeyListener(this);
 		geo.addKeyListener(new WindowCloseEvent(geo));
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		int key = e.getKeyCode();
+		if (key == 17) {
+			geo.ctrlPressed = true;
+		}
 	}
 
 	@Override
@@ -37,6 +41,9 @@ public class GeoDrawKeyEvent implements KeyListener{
 		case 40:
 			geo.down.doClick();
 			break;
+		}
+		if (key == 17) {
+			geo.ctrlPressed = false;
 		}
 	}
 

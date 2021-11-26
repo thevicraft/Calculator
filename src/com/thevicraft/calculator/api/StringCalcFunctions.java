@@ -21,10 +21,10 @@ public class StringCalcFunctions {
 					if (task.substring(i, i + constant.length()).equals(constant)) {
 						String insertedConstant;
 						switch (constant) {
-						case "\u03c0":
+						case "\u213c":
 							insertedConstant = Double.toString(Math.PI);
 							break;
-						case "\u2107":
+						case "\u212f":
 							insertedConstant = Double.toString(Math.E);
 							break;
 						case "ANS":
@@ -58,9 +58,9 @@ public class StringCalcFunctions {
 	public static String insertNumberInFunction(String function, String x,String number) {
 		String calcFunc = function;
 		for(int i = 0; i<=calcFunc.length(); i++) {
-			if(i+1<=calcFunc.length()) {
-				if(calcFunc.substring(i, i+1).equals(x)) {
-					calcFunc = calcFunc.substring(0,i)+number+calcFunc.substring(i+1,calcFunc.length());
+			if(i+x.length()<=calcFunc.length()) {
+				if(calcFunc.substring(i, i+x.length()).equals(x)) {
+					calcFunc = calcFunc.substring(0,i)+number+calcFunc.substring(i+x.length(),calcFunc.length());
 				}
 			}
 		}
