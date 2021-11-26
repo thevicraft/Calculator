@@ -104,6 +104,8 @@ public class GuiTaschenrechner extends JFrame {
 	float sizeFactor = 1.5f;
 
 	private Color appearanceMode;
+	
+	private int labelCalcLength = 300;
 
 	// Fonts
 	// -----------------------------------------------------------------------------------------------------------
@@ -197,7 +199,7 @@ public class GuiTaschenrechner extends JFrame {
 	}
 
 	public void changeSizeWindow(float factor) {
-		setSizeOfComponents(factor, 0);
+		setSizeOfComponents(factor, 0, labelCalcLength);
 		setIconOfComponents(factor);
 		setFontOfComponents(factor);
 
@@ -216,7 +218,7 @@ public class GuiTaschenrechner extends JFrame {
 		// ((int) (25 * factor))));
 	}
 
-	void setSizeOfComponents(float factor, int winPanel) {
+	void setSizeOfComponents(float factor, int winPanel, int labelCalcLength) {
 		buttonStandartSize = new Dimension((int) (factor * BUTTON_WIDTH), (int) (factor * BUTTON_HEIGHT));
 
 		Dimension panelSize = new Dimension((int) (factor * 300), (int) (factor * 30));
@@ -247,7 +249,7 @@ public class GuiTaschenrechner extends JFrame {
 			c.setPreferredSize(buttonStandartSize);
 		}
 		
-		labelCalc.setPreferredSize(new Dimension((int)(200*factor),(int)(25*factor)));
+		labelCalc.setPreferredSize(new Dimension((int)(labelCalcLength*factor),(int)(25*factor)));
 
 		// panels default size 300, 30
 		panels[0].setPreferredSize(panelSize);
@@ -541,6 +543,8 @@ public class GuiTaschenrechner extends JFrame {
 	@SuppressWarnings("static-access")
 	void changeMode() {
 		this.setPanel0ToMode(this.mode);
+		final int normal = 300;
+		final int depressed = 240;
 
 		switch (this.mode) {
 		case 1:
@@ -549,21 +553,24 @@ public class GuiTaschenrechner extends JFrame {
 			buttonErgebnis.setIcon(null);
 			buttonErgebnis.setBackground(Color.green);
 			this.funcPadSetVisible(false);
-			this.setSizeOfComponents(this.sizeFactor, 0);
+			labelCalcLength = normal;
+			this.setSizeOfComponents(this.sizeFactor, 0,labelCalcLength);
 			break;
 		case 2:
 			numPad[BUTTON__ANS].setText("ANS");
 			buttonErgebnis.setText("=");
 			buttonErgebnis.setIcon(null);
 			this.funcPadSetVisible(true);
-			this.setSizeOfComponents(this.sizeFactor, 40);
+			labelCalcLength = depressed;
+			this.setSizeOfComponents(this.sizeFactor, 40,labelCalcLength);
 			break;
 		case 3:
 			numPad[BUTTON__ANS].setText("ANS");
 			buttonErgebnis.setText("=");
 			buttonErgebnis.setIcon(null);
 			this.funcPadSetVisible(true);
-			this.setSizeOfComponents(this.sizeFactor, 40);
+			labelCalcLength = depressed-10;
+			this.setSizeOfComponents(this.sizeFactor, 40,labelCalcLength);
 			break;
 		case 4:
 			numPad[BUTTON__ANS].setText(X);
@@ -572,7 +579,8 @@ public class GuiTaschenrechner extends JFrame {
 					(int) ((BUTTON_HEIGHT * 1.28) * sizeFactor), (int) (BUTTON_HEIGHT * sizeFactor)));
 			buttonErgebnis.setBackground(Color.white);
 			this.funcPadSetVisible(false);
-			this.setSizeOfComponents(this.sizeFactor, 0);
+			labelCalcLength = depressed-10;
+			this.setSizeOfComponents(this.sizeFactor, 0,labelCalcLength);
 			break;
 		}
 		for (int i = 0; i <= this.MODES; i++) {
