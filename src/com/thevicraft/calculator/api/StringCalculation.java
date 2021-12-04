@@ -6,6 +6,7 @@ import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.GuiTaschenrechner;
 import com.thevicraft.calculator.gui.Images;
 import com.thevicraft.calculator.gui.Images.Pictures;
+import java.awt.Dimension;
 
 public class StringCalculation {
 
@@ -87,22 +88,27 @@ public class StringCalculation {
 				beforeResult = Double.parseDouble(CalcTaskUtil.getResultByStrCal(calcTask));
 				if (window != null) {
 					window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
+					window.labelErgebnis.setIcon(null);
 				}
 			} catch (Exception e) {
 				if (window != null) {
 					window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON_WARNING).getImage());
+					window.labelErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.WARNING_SIGN,
+							(int) window.labelErgebnis.getPreferredSize().getHeight(),
+							(int) window.labelErgebnis.getPreferredSize().getHeight()));
 				}
-				if (giveError) {
+				/*if (giveError) {
 					Log.errorSyntax();
-				}
+				}*/
 			}
 		} else {
 			if (window != null) {
 				window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
+				window.labelErgebnis.setIcon(null);
 			}
 			return Double.parseDouble(calcTask);
 		}
-		//System.out.println(calcTask + " = " + beforeResult);
+		// System.out.println(calcTask + " = " + beforeResult);
 
 		// storeResult = beforeResult;
 		return beforeResult;

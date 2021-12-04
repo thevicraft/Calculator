@@ -4,12 +4,13 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
 
+import com.thevicraft.calculator.api.Numbers;
 import com.thevicraft.calculator.api.StringCalcFunctions;
+import com.thevicraft.calculator.integration.Copy;
 import com.thevicraft.keyboard.activity.GeoDrawKeyEvent;
 
 public class ButtonActionListener implements ActionListener {
@@ -39,7 +40,7 @@ public class ButtonActionListener implements ActionListener {
 
 				}
 			} else if (window.mode == 4) {
-				GeoDrawKeyEvent func = new GeoDrawKeyEvent("Function", 800, 600, 1, GuiTaschenrechner.dark,window.labelCalc.getText());
+				GeoDrawKeyEvent func = new GeoDrawKeyEvent("Function", 800, 600, 1,window.appearanceMode ,window.labelCalc.getText());
 			}
 		} else if (d.equals(window.buttonDelete)) {
 			window.insertTextInField(window.calcLabelEmpty, true);
@@ -113,7 +114,16 @@ public class ButtonActionListener implements ActionListener {
 			window.logWithBaseFocus = 2;
 			window.buttonLogBase.setBackground(Color.LIGHT_GRAY);
 			window.buttonLogExp.setBackground(Color.white);
+		} else if(d.equals(window.buttonCopyResult)) {
+			Copy.toClipboard(Numbers.optimizeNumber(window.labelErgebnis.getText(), true));
+			//Copy.toClipboard(window.labelErgebnis.getText());
 		}
+		
+		
+		
+		
+		
+		
 
 		else {
 			window.insertTextInField(d.getText(), false);

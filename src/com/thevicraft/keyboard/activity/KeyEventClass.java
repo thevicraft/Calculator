@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
-import com.thevicraft.calculator.gui.GeoDraw;
+import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.GuiTaschenrechner;
 
 public class KeyEventClass implements KeyListener {
@@ -13,7 +13,7 @@ public class KeyEventClass implements KeyListener {
 	public GuiTaschenrechner tr;
 	String[] numPadLabel = new String[13];
 
-	public KeyEventClass(String titel, String mode, JFrame location){
+	public KeyEventClass(String titel, String mode, JFrame location) {
 		tr = new GuiTaschenrechner(titel, mode, location);
 		tr.addKeyListener(this);
 		for (int i = 0; i <= 12; i++) {
@@ -34,6 +34,7 @@ public class KeyEventClass implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
+		//System.out.println(key);
 		switch (key) {
 		case 10:
 			tr.buttonErgebnis.doClick();
@@ -48,21 +49,28 @@ public class KeyEventClass implements KeyListener {
 			// programm beenden
 			tr.dispose();
 			break;
+
 		}
-		
+
 		if (key == 17) {
 			ctrlPressed = false;
 		}
-		if((key == 87) && (ctrlPressed == true)) {
+		if ((key == 87) && (ctrlPressed == true)) {
 			tr.menu.items[1][0].doClick();
 			ctrlPressed = false;
 		}
-		if((key == 70) && (ctrlPressed == true)) {
-			//GeoDraw func =new GeoDraw("Function", 800, 600, 1, GuiTaschenrechner.dark);
-			//func.addKeyListener(new WindowCloseEvent(func));
-			GeoDrawKeyEvent func = new GeoDrawKeyEvent("Test Window", 800, 600, 1, GuiTaschenrechner.dark,GuiTaschenrechner.X+"^2");
+		if ((key == 70) && (ctrlPressed == true)) {
+			// GeoDraw func =new GeoDraw("Function", 800, 600, 1, GuiTaschenrechner.dark);
+			// func.addKeyListener(new WindowCloseEvent(func));
+			GeoDrawKeyEvent func = new GeoDrawKeyEvent("Test Window", 800, 600, 1, GuiTaschenrechner.dark,
+					GuiTaschenrechner.X + "^2");
 		}
-		//System.out.println("key :"+key);
+		if ((key == 67) && (ctrlPressed == true)) {
+			tr.buttonCopyResult.doClick();
+			ctrlPressed = false;
+		}
+
+		// System.out.println("key :"+key);
 	}
 
 	@Override
@@ -81,14 +89,14 @@ public class KeyEventClass implements KeyListener {
 		}
 		switch (key) {
 		case '+':
-			if(ctrlPressed == false) {
+			if (ctrlPressed == false) {
 				tr.buttonPlus.doClick();
 				break;
 			}
 			tr.menu.items[0][0].doClick();
 			break;
 		case '-':
-			if(ctrlPressed == false) {
+			if (ctrlPressed == false) {
 				tr.buttonMinus.doClick();
 				break;
 			}
@@ -125,7 +133,7 @@ public class KeyEventClass implements KeyListener {
 			tr.buttonChangeMode.doClick();
 			break;
 		case 'x':
-			if(tr.mode == 4) {
+			if (tr.mode == 4) {
 				tr.numPad[12].doClick();
 			}
 		}

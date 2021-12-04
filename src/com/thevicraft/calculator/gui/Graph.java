@@ -1,6 +1,5 @@
 package com.thevicraft.calculator.gui;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.thevicraft.calculator.api.StringCalcFunctions;
@@ -9,17 +8,11 @@ import com.thevicraft.calculator.gui.coordinatesystem.BetterPoint;
 import com.thevicraft.calculator.gui.coordinatesystem.Coordinates;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.RenderingHints;
-
-import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Graph extends JPanel {
@@ -27,44 +20,55 @@ public class Graph extends JPanel {
 	private Point origin;
 	private String function;
 	private int scaleFactor;
-	
+
 	private int drawFrom;
 	private int drawTo;
-	
-	public Graph(int width, int height, int scaleFactor, int originX, int originY, String function) {
+
+	private Color mode;
+
+	public Graph(int width, int height, int scaleFactor, int originX, int originY, String function, Color mode) {
 		setPreferredSize(new Dimension(width, height));
 		setSize(width, height);
 		this.scaleFactor = scaleFactor;
 		origin = new Point(originX, originY);
 		this.function = function;
+		this.mode = mode;
 	}
 
 	Graphics2D panel;
-	//int scaleFactor = 40;
+	// int scaleFactor = 40;
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		panel = (Graphics2D) g;
 		panel.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		panel.setColor(Color.white);
-		panel.setBackground(Color.white);
+		if (mode.equals(GuiTaschenrechner.dark)) {
+			panel.setColor(Color.white);
+		} else {
+			panel.setColor(Color.black);
+		}
+		// panel.setBackground(Color.white);
 
 		Coordinates cords = new Coordinates(origin, scaleFactor, this, 2, true);
-		// cords.addPoint(2, 4);
+		//cords.addPoint(2, 4);
+		//cords.addPoint(2, 2);
 		for (float x = drawFrom; x <= drawTo; x += 0.001) { // 0,001
 			panel.setColor(Color.green);
 			float xcord = x;
-			float ycord; /*= (float) new StringCalculation()
-					.calcTask(StringCalcFunctions.insertNumberInFunction(function, "X", Float.toString(x)));*/
+			float ycord; /*
+							 * = (float) new StringCalculation()
+							 * .calcTask(StringCalcFunctions.insertNumberInFunction(function, "X",
+							 * Float.toString(x)));
+							 */
 			String xToInsert;
-			if(x < 0) {
-				xToInsert = "( "+xcord+")";
-			}else {
+			if (x < 0) {
+				xToInsert = "( " + xcord + ")";
+			} else {
 				xToInsert = Float.toString(xcord);
 			}
 			String calcTaskY = StringCalcFunctions.insertNumberInFunction(function, GuiTaschenrechner.X, xToInsert);
 			calcTaskY = new StringCalcFunctions().insertConstants(calcTaskY, 0);
-			ycord = (float)(new StringCalculation().calcTask(calcTaskY,false));
+			ycord = (float) (new StringCalculation().calcTask(calcTaskY, false));
 			cords.addPoint(xcord, ycord);
 		}
 
@@ -88,7 +92,7 @@ public class Graph extends JPanel {
 			counter++;
 		}
 		drawTo = counter;
-		//System.out.println("x positiv bis "+counter);
+		// System.out.println("x positiv bis "+counter);
 		counter = 0;
 		// marker für eine einheit auf negativ X
 		for (int i = (int) o.getX(); i > 0; i -= scaleFactor) {
@@ -102,7 +106,7 @@ public class Graph extends JPanel {
 			counter++;
 		}
 		drawFrom = -counter;
-		//System.out.println("x negativ bis "+counter);
+		// System.out.println("x negativ bis "+counter);
 		counter = 0;
 		// marker für eine einheit auf negativ Y
 		for (int i = (int) o.getY(); i < this.getHeight(); i += scaleFactor) {

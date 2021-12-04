@@ -3,8 +3,6 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JFrame;
-
 import com.thevicraft.calculator.gui.GeoDraw;
 
 public class GeoDrawKeyEvent implements KeyListener{

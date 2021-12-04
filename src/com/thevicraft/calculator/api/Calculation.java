@@ -3,7 +3,6 @@ package com.thevicraft.calculator.api;
 import javax.swing.JOptionPane;
 
 import com.thevicraft.calculator.console.Log;
-import com.thevicraft.calculator.gui.GuiTaschenrechner;
 import com.thevicraft.calculator.gui.Images;
 import com.thevicraft.calculator.gui.Images.Pictures;
 
@@ -12,7 +11,6 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-@SuppressWarnings("serial")
 public class Calculation extends SimpleMath {
 	// GuiTaschenrechner tr = new GuiTaschenrechner("Calculator XX");
 

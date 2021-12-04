@@ -1,10 +1,13 @@
 package com.thevicraft.calculator.gui;
 
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
 import javax.swing.JButton;
+import com.thevicraft.calculator.integration.Print;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.Images.Pictures;
 
 import java.awt.Component;
@@ -29,7 +32,7 @@ public class GeoDraw extends JFrame {
 	private JPanel padPanel;
 
 	private float sizeFactor;
-	
+
 	private Graph graph;
 	public JButton zoomIn;
 	public JButton zoomOut;
@@ -37,19 +40,24 @@ public class GeoDraw extends JFrame {
 	public JButton right;
 	public JButton down;
 	public JButton left;
-	
+
 	private int scaleFactor;
 	private int originX;
 	private int originY;
-	
+
+	private JButton print;
+
 	private String function;
-	
+
+	private Color mode;
+
 	public boolean ctrlPressed = false;
 
-	public GeoDraw(String titel, int width, int height, float factor, Color mode,String function) {
+	public GeoDraw(String titel, int width, int height, float factor, Color mode, String function) {
 		FRAME_HEIGHT = (int) (height * factor);
 		FRAME_WIDTH = (int) (width * factor);
 		this.function = function;
+		this.mode = mode;
 		sizeFactor = factor;
 		scaleFactor = 40;
 		originX = 400;
@@ -63,26 +71,26 @@ public class GeoDraw extends JFrame {
 		initComponents();
 		setLocationRelativeTo(null);
 		setColorOfComponents(mode);
-		
-		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT , 40, originX, originY, this.function/* "X" */);
-		
+
+		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT, 40, originX, originY, this.function, mode);
 		mainPanel.add(graphPanel);
 		graphPanel.add(graph);
-		
+
 		addActionListeners();
-		
+
 		mainPanel.add(zoomOut);
 		mainPanel.add(zoomIn);
-		
+		mainPanel.add(print);
+
 		mainPanel.add(padPanel);
-		
-		//--------------------------------------------
-		padPanel.add(up,"North");
-		padPanel.add(right,"East");
-		padPanel.add(down,"Center");
-		padPanel.add(left,"West");
-		//-------------------------------------------
-		
+
+		// --------------------------------------------
+		padPanel.add(up, "North");
+		padPanel.add(right, "East");
+		padPanel.add(down, "Center");
+		padPanel.add(left, "West");
+		// -------------------------------------------
+
 		for (Component c : mainPanel.getComponents()) {
 			c.setFocusable(false);
 		}
@@ -92,19 +100,21 @@ public class GeoDraw extends JFrame {
 		add(mainPanel);
 		setIconOfComponents();
 		setVisible(true);
+		//graph.print(graph.getGraphics());
 	}
+
 	private void setIconOfComponents() {
 		up.setIcon(Images.scaleImageIconFromDefault(Pictures.ARROW_UP, 25, 25));
 		down.setIcon(Images.scaleImageIconFromDefault(Pictures.ARROW_DOWN, 25, 25));
 		left.setIcon(Images.scaleImageIconFromDefault(Pictures.ARROW_LEFT, 25, 25));
 		right.setIcon(Images.scaleImageIconFromDefault(Pictures.ARROW_RIGHT, 25, 25));
 	}
-	
+
 	private void updateGraph() {
 		graphPanel.removeAll();
-		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, function/* "X" */);
+		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, function, mode);
 		graphPanel.add(graph);
-		setSize(FRAME_WIDTH, FRAME_HEIGHT-1);
+		setSize(FRAME_WIDTH, FRAME_HEIGHT - 1);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 	}
 
@@ -114,15 +124,17 @@ public class GeoDraw extends JFrame {
 		graphPanel = new JPanel();
 		padPanel = new JPanel();
 		padPanel.setLayout(new BorderLayout());
-		padPanel.setPreferredSize(new Dimension(100,50));
+		padPanel.setPreferredSize(new Dimension(100, 50));
 		graphPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT - 100));
 	}
+
 	private int jumpTo() {
-		if(ctrlPressed == true) {
+		if (ctrlPressed == true) {
 			return 50;
 		}
 		return 10;
 	}
+
 	private void addActionListeners() {
 		zoomIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -130,11 +142,11 @@ public class GeoDraw extends JFrame {
 				updateGraph();
 			}
 		});
-		
+
 		zoomOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				scaleFactor -= jumpTo();
-				if(scaleFactor < 10) {
+				if (scaleFactor < 10) {
 					scaleFactor = 10;
 				}
 				updateGraph();
@@ -164,22 +176,38 @@ public class GeoDraw extends JFrame {
 				updateGraph();
 			}
 		});
+		print.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// PrintService printService=PrintServiceLookup
+				// .lookupDefaultPrintService();
+				// System.out.println(printService.getName());
+				// graph.setBackground(GuiTaschenrechner.dark);
+				try {
+					Print.printComponent(graphPanel);
+					//new Print(graphPanel).print(graphPanel.getGraphics(), null, 1);
+				} catch (Exception e2) {
+					// TODO: handle exception
+					Log.console(e2.toString());
+				}
+			}
+		});
 	}
 
 	private void initComponents() {
 		normal = new Font("Tahoma", Font.BOLD, (int) (12 * sizeFactor));
-		
+
 		zoomOut = new JButton("-");
 		zoomIn = new JButton("+");
-		Dimension pad = new Dimension(25,25);
+		Dimension pad = new Dimension(25, 25);
 		up = new JButton();
-		right  = new JButton();
-		down  = new JButton();
-		left  = new JButton();
+		right = new JButton();
+		down = new JButton();
+		left = new JButton();
 		up.setPreferredSize(pad);
 		right.setPreferredSize(pad);
 		down.setPreferredSize(pad);
 		left.setPreferredSize(pad);
+		print = new JButton("PRINT");
 	}
 
 	private void setColorOfComponents(Color d) {
@@ -191,7 +219,7 @@ public class GeoDraw extends JFrame {
 		down.setBackground(d);
 		left.setBackground(d);
 		right.setBackground(d);
-		
+
 		if (d.equals(GuiTaschenrechner.dark)) {
 			d = GuiTaschenrechner.bright;
 		} else {

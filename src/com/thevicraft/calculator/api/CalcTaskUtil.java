@@ -1,5 +1,5 @@
 package com.thevicraft.calculator.api;
-import com.thevicraft.calculator.api.SimpleMath;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Stack;
 
 public class CalcTaskUtil {
 	static final String symbol = "+-*/^()"; // Operator
-	static final String[] priority = { "+-", "*/", "^", "()" }; // Operator priority
+	static final String[] priority = { "+-", "*/", "^%", "()" }; // Operator priority
 
 	/**
 	 * Operator comparator
@@ -130,19 +130,35 @@ public class CalcTaskUtil {
 		double result = 0;
 		while (list.size() > 0) {
 			String s = list.remove(0);
+			
+			boolean negative = false;
+			
 			if (symbol.indexOf(s) >= 0) {
 				double d1 = val.pop();
-				double d2 = val.pop();
+				//System.out.println("op2 :"+d1);
+				double d2;
+				//try {
+					d2 = val.pop();
+				//	System.out.println("op1: "+d2);
+				//} catch (Exception e) {
+				//	System.out.println("minus entdeckt vor op1 "+d1);
+				//	d2 = 0;
+				//	negative = true;
+				//}
 				if ("+".equals(s)) {
 					result = d2 + d1;
 				} else if ("-".equals(s)) {
-					result = d2 - d1;
+					//if (negative == true) {
+					//	result = -d1;
+					//} else {
+						result = d2 - d1;
+					//}
 				} else if ("*".equals(s)) {
 					result = d2 * d1;
 				} else if ("/".equals(s)) {
 					result = d2 / d1;
 				} else if ("^".equals(s)) {
-					result = SimpleMath.power(d2, d1);
+					result = Math.pow(d2, d1);
 				} else {
 					throw new Exception("illigal symbol(" + s + ").");
 				}
@@ -151,7 +167,11 @@ public class CalcTaskUtil {
 				if (!s.matches("\\d+([.]\\d+)?")) {
 					throw new Exception("illigal variable(" + s + ").");
 				}
+				//if((s.equals("-")) || (negative == true)) {
+					
+				//}
 				val.push(Double.valueOf(s));
+				//System.out.println(val.lastElement());
 			}
 		}
 

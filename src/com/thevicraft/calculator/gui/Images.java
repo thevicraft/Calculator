@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.JButton;
 
 public class Images {
 
 	public static enum Pictures {
-		ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT,ARROW_UP, AUTHOR, DISCORD_ICON, GITHUB_ICON, GRAPH_ICON,HELP_ICON, DARK_LIGHT_MODE,
-		WARNING_SIGN, ICON_WARNING, ICON, ZOOM_OUT, ZOOM_IN
+		ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, AUTHOR, COPY,DISCORD_ICON, GITHUB_ICON, GRAPH_ICON, HELP_ICON,
+		DARK_LIGHT_MODE, WARNING_SIGN, ICON_WARNING, ICON, ZOOM_OUT, ZOOM_IN
 	}
 
 	private static List<String> listFileImages = null;
@@ -26,15 +27,21 @@ public class Images {
 	@SuppressWarnings("unchecked")
 	public static void initImages() {
 		Log.console("Loading Images ...");
-		fileDir = new File(new Images().getClass().getClassLoader().getResource("").getFile());
-		if (fileDir.isDirectory()) {
-			listFileImages = Arrays.asList(fileDir.list());
+		try {
+			fileDir = new File(new Images().getClass().getClassLoader().getResource("").getFile());
+			if (fileDir.isDirectory()) {
+				listFileImages = Arrays.asList(fileDir.list());
+			}
+			sort(listFileImages, Collections.reverseOrder().reversed());
+			String[] acceptedFormat = { "png", "jpg" };
+			listFileImages = filterFileFormat(listFileImages, acceptedFormat);
+			listFileImages.forEach(images -> System.out.println(images.toString()));
+			// listFileImages.size();
+			Log.console("Successfully loaded all images.");
+		} catch (Exception e) {
+			Log.console("Failed to load images.");
+			Log.console("An error occured whilst trying to load images.");
 		}
-		sort(listFileImages, Collections.reverseOrder().reversed());
-		String[] acceptedFormat = { "png", "jpg" };
-		listFileImages = filterFileFormat(listFileImages, acceptedFormat);
-		listFileImages.forEach(images -> System.out.println(images.toString()));
-		// listFileImages.size();
 	}
 
 	@SuppressWarnings({ "rawtypes" })
@@ -87,12 +94,6 @@ public class Images {
 		return new ImageIcon(newimg);
 	}
 
-	// private String[] pictures = { "window-icon.png", "window-icon-warning.png",
-	// "mode-icon.png", "zoom-plus.png",
-	// "zoom-minus.png", "author.png", "discord-icon.png", "github-icon.png",
-	// "lamp.png" };
-
-	@SuppressWarnings("unchecked")
 	private ImageIcon imageDefaultInResources(int imageId) {
 		// @SuppressWarnings("rawtypes")
 		// List listFile = null;
@@ -108,6 +109,10 @@ public class Images {
 		return new ImageIcon(getClass().getClassLoader().getResource(listFileImages.get(imageId).toString()));
 	}
 
+	public static void setButtonIcon(JButton container, Pictures image) {
+		container.setIcon(Images.scaleImageIconFromDefault(image, (int) container.getPreferredSize().getHeight(),
+				(int) container.getPreferredSize().getHeight()));
+	}
 	/*
 	 * public ImageIcon imageIconFromNameInResources(String imageName) { ImageIcon
 	 * picture = new ImageIcon(getClass().getClassLoader().getResource(imageName));

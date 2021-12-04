@@ -1,9 +1,6 @@
 package com.thevicraft.calculator.gui.coordinatesystem;
 
-import java.awt.*;
 import java.awt.Point;
-import java.util.*;
-import javax.swing.*;
 
 import com.thevicraft.calculator.gui.Graph;
 

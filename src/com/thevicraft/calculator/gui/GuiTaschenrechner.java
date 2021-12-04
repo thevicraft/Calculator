@@ -2,6 +2,7 @@ package com.thevicraft.calculator.gui;
 
 import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.gui.Images.Pictures;
+import com.thevicraft.calculator.integration.NetLink;
 import com.thevicraft.keyboard.activity.KeyEventClass;
 import com.thevicraft.keyboard.activity.WindowCloseEvent;
 
@@ -29,7 +30,7 @@ public class GuiTaschenrechner extends JFrame {
 	protected int calcMode;
 	final String calcLabelEmpty = ""; // " "
 
-	protected JLabel labelErgebnis;
+	public JLabel labelErgebnis;
 	//----------------------------------------------------------------------------------
 	protected JTextField labelCalc;
 	//----------------------------------------------------------------------------------
@@ -44,6 +45,8 @@ public class GuiTaschenrechner extends JFrame {
 	public JButton buttonDivide;
 	public JButton buttonPow;
 	public JButton buttonChangeMode;
+	
+	public JButton buttonCopyResult;
 
 	public JButton buttonSignMinus;
 	public JButton buttonMathPi;
@@ -103,7 +106,7 @@ public class GuiTaschenrechner extends JFrame {
 
 	float sizeFactor = 1.5f;
 
-	private Color appearanceMode;
+	public Color appearanceMode;
 	
 	private int labelCalcLength = 300;
 
@@ -206,7 +209,7 @@ public class GuiTaschenrechner extends JFrame {
 	}
 
 	private void setIconOfComponents(float factor) {
-
+		Images.setButtonIcon(buttonCopyResult, Pictures.COPY);
 		// buttonAppearMode.setIcon(
 		// Images.scaleImageIconFromDefault(Pictures.DARK_LIGHT_MODE, (int) (30 *
 		// factor), ((int) (30 * factor))));
@@ -244,6 +247,8 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPower2.setPreferredSize(buttonStandartSize);
 		buttonXPower3.setPreferredSize(buttonStandartSize);
 		buttonXPowerReverse.setPreferredSize(buttonStandartSize);
+		
+		buttonCopyResult.setPreferredSize(new Dimension((int)(BUTTON_HEIGHT * factor),(int)(BUTTON_HEIGHT * factor)));
 
 		for (JButton c : funcPad) {
 			c.setPreferredSize(buttonStandartSize);
@@ -290,6 +295,8 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPower3.setForeground(bright);
 		buttonXPowerReverse.setForeground(bright);
 		buttonPow.setForeground(bright);
+		
+		buttonCopyResult.setBackground(bright);
 
 		for (JButton x : funcPad) {
 			x.setForeground(bright);
@@ -386,6 +393,7 @@ public class GuiTaschenrechner extends JFrame {
 		buttonLogBase.setVisible(false);
 
 		panels[1].add(labelErgebnis);
+		panels[1].add(buttonCopyResult);
 
 		for (int i = 0; i <= 2; i++) {
 			panels[2].add(getNumPad(i));
@@ -448,6 +456,7 @@ public class GuiTaschenrechner extends JFrame {
 		getNumPad(BUTTON__E).setToolTipText("*10^x");
 		buttonChangeMode.setToolTipText("Change mode to other Calculations (sin, cos, tan)");
 		buttonErgebnis.setToolTipText("Calculate");
+		buttonCopyResult.setToolTipText("Copy to Clipboard");
 	}
 
 	private void initNumPads() {
@@ -536,6 +545,8 @@ public class GuiTaschenrechner extends JFrame {
 		labelFuncCls = new JLabel(")");
 		buttonLogBase = new JButton("");
 		buttonLogExp = new JButton("");
+		
+		buttonCopyResult = new JButton();
 
 // last bracket
 	}
@@ -875,7 +886,38 @@ public class GuiTaschenrechner extends JFrame {
 				credit.addKeyListener(new WindowCloseEvent(credit));
 			}
 		});
-
+		menu.items[2][0].addActionListener(new ActionListener() {
+			// opens github
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mode = 1;
+				changeMode();
+			}
+		});
+		menu.items[2][1].addActionListener(new ActionListener() {
+			// opens github
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mode = 2;
+				changeMode();
+			}
+		});
+		menu.items[2][2].addActionListener(new ActionListener() {
+			// opens github
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mode = 3;
+				changeMode();
+			}
+		});
+		menu.items[2][3].addActionListener(new ActionListener() {
+			// opens github
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mode = 4;
+				changeMode();
+			}
+		});
 	}
 
 }

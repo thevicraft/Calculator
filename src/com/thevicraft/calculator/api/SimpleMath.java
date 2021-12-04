@@ -2,8 +2,6 @@ package com.thevicraft.calculator.api;
 
 import java.lang.Math;
 
-import javax.swing.JTextField;
-
 public class SimpleMath {
 
 	public static double logarithm(double a, double b) {
