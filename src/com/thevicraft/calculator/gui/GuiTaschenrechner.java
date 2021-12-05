@@ -2,6 +2,7 @@ package com.thevicraft.calculator.gui;
 
 import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.gui.Images.Pictures;
+import com.thevicraft.calculator.gui.unitsystem.UnitMenu;
 import com.thevicraft.calculator.integration.NetLink;
 import com.thevicraft.keyboard.activity.KeyEventClass;
 import com.thevicraft.keyboard.activity.WindowCloseEvent;
@@ -175,12 +176,13 @@ public class GuiTaschenrechner extends JFrame {
 
 		setJMenuBar(menu);
 
-		for (JPanel p : panels) {
-			removeFocusFromComponent(p.getComponents());
-			setActionListenerToComponent(p.getComponents());
+		for (int i = 0; i <= PANELS; i++) {
+			removeFocusFromComponent(panels[i].getComponents());
+			setActionListenerToComponent(panels[i].getComponents());
 		}
 		labelCalc.setEditable(false);
 		labelCalc.setFocusable(false);
+		
 
 		setVisible(true);
 	}
@@ -436,7 +438,6 @@ public class GuiTaschenrechner extends JFrame {
 		for (JButton pad : funcPad) {
 			panels[8].add(pad);
 		}
-
 	}
 
 	private void addPanels() {

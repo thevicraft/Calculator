@@ -4,7 +4,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import com.thevicraft.calculator.gui.Images.Pictures;
+import com.thevicraft.calculator.gui.unitsystem.UnitMenu;
+
 import java.awt.Color;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class GuiMenuBar extends JMenuBar {
@@ -12,6 +16,10 @@ public class GuiMenuBar extends JMenuBar {
 	protected JMenu config;
 	protected JMenu window;
 	protected JMenu mode;
+	protected JSeparator sep1,sep2,sep3;
+	
+	public UnitMenu typeSelect;
+	public UnitMenu unit1,unit2;
 
 	static final int MENUS = 3;
 	static final int MAX_MENUITEMS = 6;
@@ -34,18 +42,38 @@ public class GuiMenuBar extends JMenuBar {
 		add(config);
 		add(window);
 		add(mode);
+		
+		
+		add(sep1);
+		add(typeSelect);
+		add(sep2);
+		add(unit1);
+		add(sep3);
+		add(unit2);
+		setUnitVisible(false);
 
 		setIconOfComponents();
 	}
 
-	public GuiMenuBar() {
+	/*public GuiMenuBar() {
 		initMenus();
 		setColorOfComponents(GuiTaschenrechner.dark);
 		initMenuItems();
 		add(config);
 		add(window);
 		add(mode);
+		add(sep1)
+		add(new UnitMenu("area"));
+		add(new UnitMenu("area"));
 		setIconOfComponents();
+	}*/
+	public void setUnitVisible(boolean x) {
+		sep1.setVisible(x);
+		sep2.setVisible(x);
+		sep3.setVisible(x);
+		typeSelect.setVisible(x);
+		unit1.setVisible(x);
+		unit2.setVisible(x);
 	}
 
 	public void setColorOfComponents(Color d) {
@@ -54,6 +82,11 @@ public class GuiMenuBar extends JMenuBar {
 		config.setBackground(d);
 		window.setBackground(d);
 		mode.setBackground(d);
+		sep1.setForeground(d);
+		typeSelect.setBackground(d);
+		unit1.setBackground(d);
+		unit2.setBackground(d);
+		// die anderen dinger
 
 		if (d.equals(GuiTaschenrechner.dark)) {
 			d = GuiTaschenrechner.bright;
@@ -63,6 +96,10 @@ public class GuiMenuBar extends JMenuBar {
 		config.setForeground(d);
 		window.setForeground(d);
 		mode.setForeground(d);
+		
+		typeSelect.setForeground(d);
+		unit1.setForeground(d);
+		unit2.setForeground(d);
 
 		setForeground(d);
 
@@ -88,6 +125,13 @@ public class GuiMenuBar extends JMenuBar {
 		config = new JMenu("Config");
 		window = new JMenu("Window");
 		mode = new JMenu("Mode");
+		
+		typeSelect = new UnitMenu();
+		sep1 = new JSeparator(SwingConstants.VERTICAL);
+		sep2 = new JSeparator(SwingConstants.VERTICAL);
+		sep3 = new JSeparator(SwingConstants.VERTICAL);
+		unit1 = new UnitMenu("area");
+		unit2 = new UnitMenu("area");
 	}
 
 	private void initMenuItems() {
