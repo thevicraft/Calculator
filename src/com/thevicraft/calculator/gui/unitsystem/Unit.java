@@ -10,7 +10,8 @@ public class Unit {
 	private String category;
 	
 	public static double calculate(String type,String unitOne, String unitTwo, double number) {
-		BigDecimal result = BigDecimal.valueOf(number);
+		//BigDecimal result = BigDecimal.valueOf(number);
+		double result = number;
 		Unit unit1;
 		Unit unit2;
 		@SuppressWarnings("rawtypes")
@@ -40,15 +41,14 @@ public class Unit {
 			unit1 = null;
 			unit2 = null;
 		}
-		System.out.println(unit1.toMainUnit+" "+unit2.toMainUnit);
-		//result = result * unit1.toMainUnit;
-		result = result.multiply(BigDecimal.valueOf(unit1.toMainUnit));
-		//result = result / unit2.toMainUnit;
-		result = result.divide(BigDecimal.valueOf(unit2.toMainUnit));
+		result = result * unit1.toMainUnit;
+		//result = result.multiply(BigDecimal.valueOf(unit1.toMainUnit));
+		result = result / unit2.toMainUnit;
+		//result = result.divide(BigDecimal.valueOf(unit2.toMainUnit));
 		
 		
-		return result.doubleValue()
-				;
+		//return result.doubleValue();
+		return result;
 	}
 	public Unit(UnitArea area) {
 		category = "area";
@@ -311,7 +311,6 @@ public class Unit {
 			Log.console("false unit discovered");
 			break;
 		}
-		System.out.println(type+": "+toMainUnit);
 	}
 	
 	

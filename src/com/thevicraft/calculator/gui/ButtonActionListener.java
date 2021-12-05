@@ -49,8 +49,8 @@ public class ButtonActionListener implements ActionListener {
 						window.buttonLogExp.getText(), window));
 				double result = Unit.calculate(window.menu.typeSelect.getText(), window.menu.unit1.getText(),
 						window.menu.unit2.getText(),number);
-				System.out.println(window.menu.typeSelect.getText()+" "+window.menu.unit1.getText()+" "+
-						window.menu.unit2.getText()+" "+number);
+				//System.out.println(window.menu.typeSelect.getText()+" "+window.menu.unit1.getText()+" "+
+				//		window.menu.unit2.getText()+" "+number);
 				window.labelErgebnis.setText(Double.toString(result));
 			}
 		} else if (d.equals(window.buttonDelete)) {

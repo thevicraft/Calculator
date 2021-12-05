@@ -597,8 +597,9 @@ public class GuiTaschenrechner extends JFrame {
 		case 5:
 			numPad[BUTTON__ANS].setText("ANS");
 			buttonErgebnis.setText("");
-			buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.ICON,
-					(int) ((BUTTON_HEIGHT * 1.28) * sizeFactor), (int) (BUTTON_HEIGHT * sizeFactor)));
+			//buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.ICON,
+			//		(int) ((BUTTON_HEIGHT * 1.28) * sizeFactor), (int) (BUTTON_HEIGHT * sizeFactor)));
+			Images.setButtonIcon(buttonErgebnis,Pictures.UNITS);
 			buttonErgebnis.setBackground(Color.white);
 			this.funcPadSetVisible(false);
 			labelCalcLength = normal;
