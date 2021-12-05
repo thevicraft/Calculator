@@ -2,7 +2,6 @@ package com.thevicraft.calculator.gui;
 
 import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.gui.Images.Pictures;
-import com.thevicraft.calculator.gui.unitsystem.UnitMenu;
 import com.thevicraft.calculator.integration.NetLink;
 import com.thevicraft.keyboard.activity.KeyEventClass;
 import com.thevicraft.keyboard.activity.WindowCloseEvent;
@@ -27,7 +26,7 @@ import java.awt.Font;
 public class GuiTaschenrechner extends JFrame {
 	private String platz = "                                                 ";
 	public int mode = 1; // default mode, do not change
-	static final int MODES = 4;
+	static final int MODES = 5;
 	protected int calcMode;
 	final String calcLabelEmpty = ""; // " "
 
@@ -131,8 +130,8 @@ public class GuiTaschenrechner extends JFrame {
 	public static Color dark = Color.DARK_GRAY;
 	public static Color bright = Color.white;
 
-	public static String textButtons[][] = { { " + ", "log", "log", "" }, { " - ", " √ ", "x!", "" },
-			{ " * ", "sin", "asin", "" }, { " / ", "cos", "acos", "" }, { " ^ ", "tan", "atan", "" } };
+	public static String textButtons[][] = { { " + ", "log", "log", "" , "" }, { " - ", " √ ", "x!", "" , "" },
+			{ " * ", "sin", "asin", "", ""  }, { " / ", "cos", "acos", "" , "" }, { " ^ ", "tan", "atan", "", ""  }};
 
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
 		switch (darkLight) {
@@ -595,8 +594,18 @@ public class GuiTaschenrechner extends JFrame {
 			labelCalcLength = depressed - 10;
 			this.setSizeOfComponents(this.sizeFactor, 0, labelCalcLength);
 			break;
+		case 5:
+			numPad[BUTTON__ANS].setText("ANS");
+			buttonErgebnis.setText("");
+			buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.ICON,
+					(int) ((BUTTON_HEIGHT * 1.28) * sizeFactor), (int) (BUTTON_HEIGHT * sizeFactor)));
+			buttonErgebnis.setBackground(Color.white);
+			this.funcPadSetVisible(false);
+			labelCalcLength = normal;
+			this.setSizeOfComponents(this.sizeFactor, 0, labelCalcLength);
+			break;
 		}
-		for (int i = 0; i <= this.MODES; i++) {
+		for (int i = 0; i <= MODES-1; i++) {
 			this.getFuncPad(i).setText(this.textButtons[i][this.mode - 1]);
 		}
 		this.logWithBaseFocus = 0;
@@ -614,8 +623,10 @@ public class GuiTaschenrechner extends JFrame {
 			logWithBaseFocus = 0;
 			buttonLogBase.setVisible(false);
 			buttonLogExp.setVisible(false);
+			menu.setUnitVisible(false);
 			break;
 		case 2:
+			labelFuncOpn.setText("?");
 			labelFuncOpn.setVisible(true);
 			labelFuncMid.setVisible(false);
 			labelFuncCls.setVisible(true);
@@ -623,13 +634,18 @@ public class GuiTaschenrechner extends JFrame {
 			buttonLogBase.setVisible(false);
 			buttonLogExp.setVisible(false);
 			logWithBaseFocus = 0;
+			menu.setUnitVisible(false);
 			break;
 		case 3:
-			labelCalc.setVisible(true);
+			labelFuncOpn.setText("?");
+			labelFuncOpn.setVisible(true);
 			labelFuncMid.setVisible(false);
+			labelFuncCls.setVisible(true);
+			labelCalc.setVisible(true);
 			buttonLogBase.setVisible(false);
 			buttonLogExp.setVisible(false);
 			logWithBaseFocus = 0;
+			menu.setUnitVisible(false);
 			break;
 		case 4:
 			labelFuncOpn.setText("\u2a0d" + "(" + X + ") = ");
@@ -641,6 +657,19 @@ public class GuiTaschenrechner extends JFrame {
 			logWithBaseFocus = 0;
 			buttonLogBase.setVisible(false);
 			buttonLogExp.setVisible(false);
+			menu.setUnitVisible(false);
+			break;
+		case 5:
+			labelFuncOpn.setText("");
+			labelFuncOpn.setVisible(false);
+			labelFuncMid.setVisible(false);
+			labelFuncCls.setVisible(false);
+
+			labelCalc.setVisible(true);
+			logWithBaseFocus = 0;
+			buttonLogBase.setVisible(false);
+			buttonLogExp.setVisible(false);
+			menu.setUnitVisible(true);
 			break;
 		}
 	}
@@ -926,6 +955,14 @@ public class GuiTaschenrechner extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mode = 4;
+				changeMode();
+			}
+		});
+		menu.items[2][4].addActionListener(new ActionListener() {
+			// opens github
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mode = 5;
 				changeMode();
 			}
 		});

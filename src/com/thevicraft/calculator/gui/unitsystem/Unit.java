@@ -1,9 +1,55 @@
 package com.thevicraft.calculator.gui.unitsystem;
 
+import java.math.BigDecimal;
+
+import com.thevicraft.calculator.console.Log;
+
 public class Unit {
 	private String type;
 	private double toMainUnit;
 	private String category;
+	
+	public static double calculate(String type,String unitOne, String unitTwo, double number) {
+		BigDecimal result = BigDecimal.valueOf(number);
+		Unit unit1;
+		Unit unit2;
+		@SuppressWarnings("rawtypes")
+		Enum[] types = new Enum[2];
+		switch(type) {
+		case "area":
+			unit1 = new Unit(UnitArea.valueOf(unitOne));
+			unit2 = new Unit(UnitArea.valueOf(unitTwo));
+			break;
+		case "length":
+			unit1 = new Unit(UnitLength.valueOf(unitOne));
+			unit2 = new Unit(UnitLength.valueOf(unitTwo));
+			break;
+		case "volume":
+			unit1 = new Unit(UnitCubic.valueOf(unitOne));
+			unit2 = new Unit(UnitCubic.valueOf(unitTwo));
+			break;
+		case "mass":
+			unit1 = new Unit(UnitMass.valueOf(unitOne));
+			unit2 = new Unit(UnitMass.valueOf(unitTwo));
+			break;
+		case "time":
+			unit1 = new Unit(UnitTime.valueOf(unitOne));
+			unit2 = new Unit(UnitTime.valueOf(unitTwo));
+			break;
+		default:
+			unit1 = null;
+			unit2 = null;
+		}
+		System.out.println(unit1.toMainUnit+" "+unit2.toMainUnit);
+		//result = result * unit1.toMainUnit;
+		result = result.multiply(BigDecimal.valueOf(unit1.toMainUnit));
+		//result = result / unit2.toMainUnit;
+		result = result.divide(BigDecimal.valueOf(unit2.toMainUnit));
+		
+		
+		return result.doubleValue()
+				;
+	}
 	public Unit(UnitArea area) {
 		category = "area";
 		switch(area) {
@@ -12,11 +58,11 @@ public class Unit {
 			type = area.name();
 			break;
 		case cm2:
-			toMainUnit = 1/10000;
+			toMainUnit = 1e-4;
 			type = area.name();
 			break;
 		case dm2:
-			toMainUnit = 1/100;
+			toMainUnit = 0.01;
 			type = area.name();
 			break;
 		case ha:
@@ -32,7 +78,7 @@ public class Unit {
 			type = area.name();
 			break;
 		case mm2:
-			toMainUnit = 1/1000000;
+			toMainUnit = 1e-6;
 			type = area.name();
 			break;
 		case foot2:
@@ -44,7 +90,7 @@ public class Unit {
 			type = area.name();
 			break;
 		case mile2:
-			toMainUnit = 2.59e+6;
+			toMainUnit = 2.59e6;
 			type = area.name();
 			break;
 		case yard2:
@@ -53,6 +99,7 @@ public class Unit {
 			break;
 		default:
 			toMainUnit = 0;
+			Log.console("false unit discovered");
 			break;
 		
 		}
@@ -61,11 +108,11 @@ public class Unit {
 		category = "length";
 		switch(length) {
 		case cm:
-			toMainUnit = 1/100;
+			toMainUnit = 1e-2;
 			type = length.name();
 			break;
 		case dm:
-			toMainUnit = 1/10;
+			toMainUnit = 0.1;
 			type = length.name();
 			break;
 		case foot:
@@ -85,7 +132,7 @@ public class Unit {
 			type = length.name();
 			break;
 		case mm:
-			toMainUnit = 1/1000;
+			toMainUnit = 1e-3;
 			type = length.name();
 			break;
 		case nm:
@@ -119,6 +166,7 @@ public class Unit {
 		default:
 			toMainUnit = 0;
 			type = length.name();
+			Log.console("false unit discovered");
 			break;
 		
 		}
@@ -128,15 +176,15 @@ public class Unit {
 		category = "volume";
 		switch(volume) {
 		case cm3:
-			toMainUnit = 1/1000000;
+			toMainUnit = 1e-6;
 			type = volume.name();
 			break;
 		case ml:
-			toMainUnit = 1/1000000;
+			toMainUnit = 1e-6;
 			type = volume.name();
 			break;
 		case dm3:
-			toMainUnit = 1/1000;
+			toMainUnit = 1e-3;
 			type = volume.name();
 			break;
 		case inch3:
@@ -156,7 +204,7 @@ public class Unit {
 			type = volume.name();
 			break;
 		case l:
-			toMainUnit = 1000;
+			toMainUnit = 1e-3;
 			type = volume.name();
 			break;
 		case foot3:
@@ -174,6 +222,7 @@ public class Unit {
 		default:
 			toMainUnit = 0;
 			type = volume.name();
+			Log.console("false unit discovered");
 			break;
 		}
 	}
@@ -182,7 +231,7 @@ public class Unit {
 		category = "mass";
 		switch(mass) {
 		case u:
-			toMainUnit = 6.022e23;
+			toMainUnit = 1.6605778811;
 			type = mass.name();
 			break;
 		case g:
@@ -194,7 +243,7 @@ public class Unit {
 			type = mass.name();
 			break;
 		case mg:
-			toMainUnit = 1/1000;
+			toMainUnit = 0.001;
 			type = mass.name();
 			break;
 		case t:
@@ -212,6 +261,7 @@ public class Unit {
 		default:
 			toMainUnit = 0;
 			type = mass.name();
+			Log.console("false unit discovered");
 			break;
 		}
 	}
@@ -220,7 +270,7 @@ public class Unit {
 		category = "time";
 		switch(time) {
 		case min:
-			toMainUnit = 1/60;
+			toMainUnit = 0.0166666666666667;//1/60
 			type = time.name();
 			break;
 		case d:
@@ -228,7 +278,7 @@ public class Unit {
 			type = time.name();
 			break;
 		case sec:
-			toMainUnit = 1/3600;
+			toMainUnit = 2.7777777777778e-4;//1/3600
 			type = time.name();
 			break;
 		case h:
@@ -258,8 +308,10 @@ public class Unit {
 		default:
 			toMainUnit = 0;
 			type = time.name();
+			Log.console("false unit discovered");
 			break;
 		}
+		System.out.println(type+": "+toMainUnit);
 	}
 	
 	

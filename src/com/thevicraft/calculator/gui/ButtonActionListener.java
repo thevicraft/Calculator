@@ -10,6 +10,7 @@ import javax.swing.JButton;
 
 import com.thevicraft.calculator.api.Numbers;
 import com.thevicraft.calculator.api.StringCalcFunctions;
+import com.thevicraft.calculator.gui.unitsystem.Unit;
 import com.thevicraft.calculator.integration.Copy;
 import com.thevicraft.keyboard.activity.GeoDrawKeyEvent;
 
@@ -31,7 +32,7 @@ public class ButtonActionListener implements ActionListener {
 	@SuppressWarnings("static-access")
 	private void executeButtonAction(JButton d) {
 		if (d.equals(window.buttonErgebnis)) {
-			if (window.mode != 4) {
+			if ((window.mode != 4) && (window.mode != 5)) {
 				try {
 					window.labelErgebnis.setText(window.calcString.calcResultFromString(window.labelCalc.getText(),
 							window.mode, window.calcMode, window.buttonLogBase.getText(), window.buttonLogExp.getText(),
@@ -40,7 +41,17 @@ public class ButtonActionListener implements ActionListener {
 
 				}
 			} else if (window.mode == 4) {
-				GeoDrawKeyEvent func = new GeoDrawKeyEvent("Function", 800, 600, 1,window.appearanceMode ,window.labelCalc.getText());
+				GeoDrawKeyEvent func = new GeoDrawKeyEvent("Function", 800, 600, 1, window.appearanceMode,
+						window.labelCalc.getText());
+			} else if (window.mode == 5) {
+				double number = Double.parseDouble(window.calcString.calcResultFromString(window.labelCalc.getText(),
+						1, window.calcMode, window.buttonLogBase.getText(),
+						window.buttonLogExp.getText(), window));
+				double result = Unit.calculate(window.menu.typeSelect.getText(), window.menu.unit1.getText(),
+						window.menu.unit2.getText(),number);
+				System.out.println(window.menu.typeSelect.getText()+" "+window.menu.unit1.getText()+" "+
+						window.menu.unit2.getText()+" "+number);
+				window.labelErgebnis.setText(Double.toString(result));
 			}
 		} else if (d.equals(window.buttonDelete)) {
 			window.insertTextInField(window.calcLabelEmpty, true);
@@ -114,16 +125,10 @@ public class ButtonActionListener implements ActionListener {
 			window.logWithBaseFocus = 2;
 			window.buttonLogBase.setBackground(Color.LIGHT_GRAY);
 			window.buttonLogExp.setBackground(Color.white);
-		} else if(d.equals(window.buttonCopyResult)) {
+		} else if (d.equals(window.buttonCopyResult)) {
 			Copy.toClipboard(Numbers.optimizeNumber(window.labelErgebnis.getText(), true));
-			//Copy.toClipboard(window.labelErgebnis.getText());
+			// Copy.toClipboard(window.labelErgebnis.getText());
 		}
-		
-		
-		
-		
-		
-		
 
 		else {
 			window.insertTextInField(d.getText(), false);

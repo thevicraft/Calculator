@@ -5,6 +5,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import com.thevicraft.calculator.gui.Images.Pictures;
 import com.thevicraft.calculator.gui.unitsystem.UnitMenu;
+import com.thevicraft.calculator.gui.unitsystem.UnitMenuSelect;
 
 import java.awt.Color;
 import javax.swing.JSeparator;
@@ -16,9 +17,9 @@ public class GuiMenuBar extends JMenuBar {
 	protected JMenu config;
 	protected JMenu window;
 	protected JMenu mode;
-	protected JSeparator sep1,sep2,sep3;
+	protected JSeparator sep1,sep2,sep3,sep4;
 	
-	public UnitMenu typeSelect;
+	public UnitMenuSelect typeSelect;
 	public UnitMenu unit1,unit2;
 
 	static final int MENUS = 3;
@@ -30,7 +31,7 @@ public class GuiMenuBar extends JMenuBar {
 			{ "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode" },
 			{ "New Window        [Ctrl+W]", "Help                       [Ctrl+H]", "Shortcuts             [Ctrl+S]",
 					"Report Bug", "Join Discord Server", "About" },
-			{ "Normal", "sin, cos, tan, ...", "asin, acos, atan, ...", "Draw Graph" } };
+			{ "Normal", "sin, cos, tan, ...", "asin, acos, atan, ...", "Draw Graph","Unit Calculator" } };
 
 	// ACTIONLISTENER FOR MENUITEMS IS IN GUITASCHENRECHNER AT THE BOTTON
 	// !!!!!!!!!!!!1
@@ -50,6 +51,7 @@ public class GuiMenuBar extends JMenuBar {
 		add(unit1);
 		add(sep3);
 		add(unit2);
+		add(sep4);
 		setUnitVisible(false);
 
 		setIconOfComponents();
@@ -71,6 +73,7 @@ public class GuiMenuBar extends JMenuBar {
 		sep1.setVisible(x);
 		sep2.setVisible(x);
 		sep3.setVisible(x);
+		sep4.setVisible(x);
 		typeSelect.setVisible(x);
 		unit1.setVisible(x);
 		unit2.setVisible(x);
@@ -117,6 +120,7 @@ public class GuiMenuBar extends JMenuBar {
 		items[1][5].setIcon(Images.scaleImageIconFromDefault(Pictures.AUTHOR, 18, 18));
 
 		items[2][3].setIcon(Images.scaleImageIconFromDefault(Pictures.GRAPH_ICON, 18, 18));
+		items[2][4].setIcon(Images.scaleImageIconFromDefault(Pictures.ICON, 18, 18));
 		// Log.console(Double.toString(items[0][0].getSize(new
 		// Dimension()).getHeight()));
 	}
@@ -126,12 +130,14 @@ public class GuiMenuBar extends JMenuBar {
 		window = new JMenu("Window");
 		mode = new JMenu("Mode");
 		
-		typeSelect = new UnitMenu();
 		sep1 = new JSeparator(SwingConstants.VERTICAL);
 		sep2 = new JSeparator(SwingConstants.VERTICAL);
 		sep3 = new JSeparator(SwingConstants.VERTICAL);
+		sep4 = new JSeparator(SwingConstants.VERTICAL);
 		unit1 = new UnitMenu("area");
 		unit2 = new UnitMenu("area");
+		
+		typeSelect = new UnitMenuSelect(unit1,unit2);
 	}
 
 	private void initMenuItems() {
@@ -144,7 +150,7 @@ public class GuiMenuBar extends JMenuBar {
 			items[1][i] = new JMenuItem(itemsTextConfig[1][i]);
 			window.add(items[1][i]);
 		}
-		for (int i = 0; i <= 3; i++) {
+		for (int i = 0; i <= 4; i++) {
 			items[2][i] = new JMenuItem(itemsTextConfig[2][i]);
 			mode.add(items[2][i]);
 		}
