@@ -10,39 +10,32 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 @SuppressWarnings("serial")
-public class HelpWindow extends JFrame {
+public class ShortcutWindow extends JFrame implements WindowHelper {
 	public Font normal; // = new Font("Tahoma", Font.BOLD, 12);
 
-	private static String label = "<html><body>Help Menu:<br>"
+	static String label = "<html><body>Shortcut Menu:<br>"
 			+ "<br>"
-			+ "DEL - delete last character<br>"
-			+ "AC - delete all<br>"
+			+ "Calculator:<br>"
+			+ "[Ctrl,+] Enlarge window<br>"
+			+ "[Ctrl,-] Ensize window<br>"
 			+ "<br>"
-			+ "+ - addition<br>"
-			+ "- - subtraction<br>"
-			+ "* - multiplication<br>"
-			+ "/ - dividation<br>"
+			+ "[Ctrl] Close Window<br>"
 			+ "<br>"
-			+ "^ - power<br>"
-			+ "E - * 10 ^ (times ten to the power of x; e.g.: 2E3 equals 2*10^3 equals 2*1000 equals 2000)<br>"
+			+ "[Ctrl,w] Open new Calculator Window<br>"
+			+ "[Ctrl,h] Open Help Menu<br>"
+			+ "[Ctrl,s] Open Shortcut Menu<br>"
 			+ "<br>"
-			+ "ANS - uses result of last calculation<br>"
+			+ "[Ctrl,c] Copy result<br>"
 			+ "<br>"
-			+ "= - calculates result<br>"
+			+ "Graph:<br>"
+			+ "[+] Zoom in<br>"
+			+ "[-] Zoom out<br>"
 			+ "<br>"
-			+ "\u03c0 - mathematical constant 3.14...<br>"
-			+ "\u212f - mathematical constant 2.71...<br>"
+			+ "[Ctrl,+] Zoom in (far)<br>"
+			+ "[Ctrl,-] Zoom out (far)<br>"
 			+ "<br>"
-			+ "(-) - mathematical sign (not the same as minus operator)<br>"
-			+ "<br>"
-			+ "( - bracket open<br>"
-			+ ") - bracket close<br>"
-			+ "<br>"
-			+ "M - changes calculation mode to types like sin, cos, tan, asin, acos, atan, log, root, ...<br>"
-			+ "<br>"
-			+ "^2 - to the power of 2<br>"
-			+ "^3 - to the power of 3<br>"
-			+ "^(-1) - to the power of -1<br>"
+			+ "[Key Arrows] Move<br>"
+			+ "[Ctrl, Key Arrows] Move (far)<br>"
 			+ "<br>";
 	// <html><body>Textzeile1<br>Textzeile2</body></html>
 	private int FRAME_WIDTH;
@@ -54,7 +47,7 @@ public class HelpWindow extends JFrame {
 
 	private float sizeFactor;
 
-	public HelpWindow(String titel, int width, int height, float factor, Color mode) {
+	public ShortcutWindow(String titel, int width, int height, float factor, Color mode) {
 		FRAME_HEIGHT = (int) (height * factor);
 		FRAME_WIDTH = (int) (width * factor);
 		sizeFactor = factor;
@@ -72,13 +65,15 @@ public class HelpWindow extends JFrame {
 		setVisible(true);
 	}
 
-	private void initPanel() {
+	@Override
+	public void initPanel() {
 		mainPanel = new JPanel();
 		mainPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 
 	}
 
-	private void initComponents() {
+	@Override
+	public void initComponents() {
 		normal = new Font("Tahoma", Font.BOLD, (int) (12 * sizeFactor));
 		mainLabel = new JLabel();
 		mainLabel.setPreferredSize(new Dimension(FRAME_WIDTH - 10, FRAME_HEIGHT - 10));
@@ -86,17 +81,19 @@ public class HelpWindow extends JFrame {
 		mainLabel.setFont(normal);
 		mainLabel.setText(label);
 	}
-	private void setColorOfComponents(Color d){
+
+	@Override
+	public void setColorOfComponents(Color d) {
 		getContentPane().setBackground(d);
 		mainPanel.setBackground(d);
 		mainLabel.setBackground(d);
-		
-		if(d.equals(GuiTaschenrechner.dark)) {
+
+		if (d.equals(GuiTaschenrechner.dark)) {
 			d = GuiTaschenrechner.bright;
-		}else {
+		} else {
 			d = GuiTaschenrechner.dark;
 		}
 		mainLabel.setForeground(d);
-		
+
 	}
 }

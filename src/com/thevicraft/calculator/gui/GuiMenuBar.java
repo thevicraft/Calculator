@@ -12,19 +12,21 @@ public class GuiMenuBar extends JMenuBar {
 	protected JMenu config;
 	protected JMenu window;
 	protected JMenu mode;
-	
+
 	static final int MENUS = 3;
-	static final int MAX_MENUITEMS = 5;
-	
-	public JMenuItem[][] items = new JMenuItem[MENUS][MAX_MENUITEMS]; // index 1 = menu number, index 2 = menu item number
+	static final int MAX_MENUITEMS = 6;
+
+	public JMenuItem[][] items = new JMenuItem[MENUS][MAX_MENUITEMS]; // index 1 = menu number, index 2 = menu item
+																		// number
 	private String[][] itemsTextConfig = {
 			{ "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode" },
-			{ "New Window        [Ctrl+W]", "Help", "Report Bug", "Join Discord Server", "About" },
-			{"Normal","sin, cos, tan, ...","asin, acos, atan, ...","Draw Graph"}};
+			{ "New Window        [Ctrl+W]", "Help                       [Ctrl+H]", "Shortcuts             [Ctrl+S]",
+					"Report Bug", "Join Discord Server", "About" },
+			{ "Normal", "sin, cos, tan, ...", "asin, acos, atan, ...", "Draw Graph" } };
 
-	
-	//  ACTIONLISTENER FOR MENUITEMS IS IN GUITASCHENRECHNER AT THE BOTTON !!!!!!!!!!!!1
-	
+	// ACTIONLISTENER FOR MENUITEMS IS IN GUITASCHENRECHNER AT THE BOTTON
+	// !!!!!!!!!!!!1
+
 	public GuiMenuBar(Color darkLight) {
 		initMenus();
 		setColorOfComponents(darkLight);
@@ -36,7 +38,7 @@ public class GuiMenuBar extends JMenuBar {
 		setIconOfComponents();
 	}
 
-	public GuiMenuBar(){
+	public GuiMenuBar() {
 		initMenus();
 		setColorOfComponents(GuiTaschenrechner.dark);
 		initMenuItems();
@@ -72,11 +74,11 @@ public class GuiMenuBar extends JMenuBar {
 		items[0][2].setIcon(Images.scaleImageIconFromDefault(Pictures.DARK_LIGHT_MODE, 18, 18));
 
 		items[1][1].setIcon(Images.scaleImageIconFromDefault(Pictures.HELP_ICON, 18, 18));
-		items[1][2].setIcon(Images.scaleImageIconFromDefault(Pictures.GITHUB_ICON, 18, 18));
-		items[1][3].setIcon(Images.scaleImageIconFromDefault(Pictures.DISCORD_ICON, 18, 18));
-		items[1][4].setIcon(Images.scaleImageIconFromDefault(Pictures.AUTHOR, 18, 18));
+		items[1][2].setIcon(Images.scaleImageIconFromDefault(Pictures.ARROW_RIGHT, 18, 18));
+		items[1][3].setIcon(Images.scaleImageIconFromDefault(Pictures.GITHUB_ICON, 18, 18));
+		items[1][4].setIcon(Images.scaleImageIconFromDefault(Pictures.DISCORD_ICON, 18, 18));
+		items[1][5].setIcon(Images.scaleImageIconFromDefault(Pictures.AUTHOR, 18, 18));
 
-		
 		items[2][3].setIcon(Images.scaleImageIconFromDefault(Pictures.GRAPH_ICON, 18, 18));
 		// Log.console(Double.toString(items[0][0].getSize(new
 		// Dimension()).getHeight()));
@@ -94,7 +96,7 @@ public class GuiMenuBar extends JMenuBar {
 			config.add(items[0][i]);
 		}
 
-		for (int i = 0; i <= 4; i++) {
+		for (int i = 0; i <= 5; i++) {
 			items[1][i] = new JMenuItem(itemsTextConfig[1][i]);
 			window.add(items[1][i]);
 		}

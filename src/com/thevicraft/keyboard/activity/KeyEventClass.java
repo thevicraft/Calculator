@@ -69,8 +69,16 @@ public class KeyEventClass implements KeyListener {
 			tr.buttonCopyResult.doClick();
 			ctrlPressed = false;
 		}
+		if ((key == 72) && (ctrlPressed == true)) {
+			tr.menu.items[1][1].doClick();
+			ctrlPressed = false;
+		}
+		if ((key == 83) && (ctrlPressed == true)) {
+			tr.menu.items[1][2].doClick();
+			ctrlPressed = false;
+		}
 
-		// System.out.println("key :"+key);
+		 //System.out.println("key :"+key);
 	}
 
 	@Override
