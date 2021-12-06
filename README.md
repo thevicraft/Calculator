@@ -1,10 +1,14 @@
-# Calculator
+# Project SimpleCalculator
 
 This Calculator has been programmed in java and is a current work in progress!
 
 # Newest Features:
 
-Calculator can be used by pressing the buttons or by using the keyboard, which is supported, due to a newly implemented KeyboardListener!! A detailed describtion will be added in the program itself!
++ Calculator can be used by pressing the buttons or by using the keyboard, which is supported, due to a +newly implemented KeyboardListener!! A detailed describtion will be added in the program itself!
+
++ Calculator is able to draw a graph of any function (choose mode 4 in menu bar "mode" or press M four times).
+
++ Calculator is able to transfer different units in other units; just select mode 5 in menu bar "mode" or press M five times.
 
 # Help with buttons
 
