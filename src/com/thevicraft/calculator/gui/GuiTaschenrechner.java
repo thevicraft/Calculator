@@ -143,7 +143,9 @@ public class GuiTaschenrechner extends JFrame {
 		default:
 			appearanceMode = bright;
 		}
+		if(!Images.isImagesLoaded()) {
 		Images.initImages();
+		}
 		setTitle(titel);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());

@@ -35,6 +35,8 @@ public class Images {
 	private static List<String> picsValues = new ArrayList<String>();
 
 	public static final String imageFileFormat = "png";
+	
+	private static boolean imagesLoaded = false;
 
 	public static void initImages() {
 		Exception error = null;
@@ -71,8 +73,13 @@ public class Images {
 		}
 		if (error == null) {
 			Log.console("Successfully loaded " + imageList.size() + " images.");
+			imagesLoaded = true;
 		}
 
+	}
+	
+	public static boolean isImagesLoaded() {
+		return imagesLoaded;
 	}
 
 	@SuppressWarnings({ "rawtypes" })
