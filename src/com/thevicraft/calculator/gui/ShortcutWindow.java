@@ -19,7 +19,7 @@ public class ShortcutWindow extends JFrame implements WindowHelper {
 			+ "[Ctrl,+] Enlarge window<br>"
 			+ "[Ctrl,-] Ensize window<br>"
 			+ "<br>"
-			+ "[Ctrl] Close Window<br>"
+			+ "[Esc] Close Window<br>"
 			+ "<br>"
 			+ "[Ctrl,w] Open new Calculator Window<br>"
 			+ "[Ctrl,h] Open Help Menu<br>"

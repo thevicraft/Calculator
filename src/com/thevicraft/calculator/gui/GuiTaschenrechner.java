@@ -164,7 +164,7 @@ public class GuiTaschenrechner extends JFrame {
 
 		setLocationRelativeTo(location);
 
-		this.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
+		this.setIconImage(Images.getDefaultImageIcon(Pictures.WINDOW_ICON).getImage());
 
 		changeSizeWindow(sizeFactor);
 
@@ -505,7 +505,7 @@ public class GuiTaschenrechner extends JFrame {
 		labelCalc = new JTextField(/* calcLabelEmpty */);
 		// -------------------------------------------------------------------------------
 
-		labelErgebnis = new JLabel(platz);
+		labelErgebnis = new JLabel(""); //platz anstatt leer
 
 		buttonErgebnis = new JButton("=");
 

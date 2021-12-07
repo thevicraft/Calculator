@@ -3,45 +3,76 @@ package com.thevicraft.calculator.gui;
 import javax.swing.ImageIcon;
 
 import com.thevicraft.calculator.console.Log;
+import com.thevicraft.calculator.integration.FileResourcesUtils;
 
 import static java.util.Collections.sort;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileFilter;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.JButton;
+import java.io.*;
+import java.net.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.*;
 
 public class Images {
-
+	// IMPORTANT FOR ADDING NEW IMAGES: THE ENUM VARIABLE HAS TO BE NAMED THE SAME
+	// WAY THE IMAGE FILE IS NAMED (does not matter if capital letters or not)!!!!!
 	public static enum Pictures {
-		ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, AUTHOR, COPY,DISCORD_ICON, GITHUB_ICON, GRAPH_ICON, HELP_ICON,
-		DARK_LIGHT_MODE,UNITS, WARNING_SIGN, ICON_WARNING, ICON, ZOOM_OUT, ZOOM_IN
+		ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, AUTHOR, COPY, DISCORD_ICON, GITHUB_ICON, GRAPH_ICON, LAMP,
+		MODE_ICON, UNITS, WARNING, WINDOW_ICON, WINDOW_ICON_WARNING, ZOOM_MINUS, ZOOM_PLUS
 	}
 
-	private static List<String> listFileImages = null;
-	private static File fileDir;
+	private static List<ImageIcon> imageList = new ArrayList<ImageIcon>();
 
-	@SuppressWarnings("unchecked")
+	private static List<String> picsValues = new ArrayList<String>();
+
+	public static final String imageFileFormat = "png";
+
 	public static void initImages() {
+		Exception error = null;
 		Log.console("Loading Images ...");
 		try {
-			fileDir = new File(new Images().getClass().getClassLoader().getResource("").getFile());
-			if (fileDir.isDirectory()) {
-				listFileImages = Arrays.asList(fileDir.list());
+			/*
+			 * for (Pictures image : Pictures.values()) {
+			 * listFiles.add(image.toString().toLowerCase());
+			 * //System.out.println(image.toString().toLowerCase()+".png"); } //listFiles =
+			 * Arrays.asList(Pictures.values().toString().toLowerCase()); //String[] format
+			 * = {"png","jpg"}; //filterFileFormat(listFiles, format);
+			 * listFiles.forEach(iterator ->{
+			 * listFileImages.add(Images.class.getClassLoader().getResource(iterator+".png")
+			 * .toString()); //System.out.println(iterator+".png"); });
+			 * listFileImages.forEach(iterator ->{ //System.out.println(iterator); });
+			 */
+
+			for (Pictures d : Pictures.values()) {
+				picsValues.add(d.toString().toLowerCase() + "." + imageFileFormat);
+				System.out.println("-- " + d.toString().toLowerCase() + "." + imageFileFormat);
 			}
-			sort(listFileImages, Collections.reverseOrder().reversed());
-			String[] acceptedFormat = { "png", "jpg" };
-			listFileImages = filterFileFormat(listFileImages, acceptedFormat);
-			listFileImages.forEach(images -> System.out.println(images.toString()));
-			// listFileImages.size();
-			Log.console("Successfully loaded all images.");
-		} catch (Exception e) {
+
+			picsValues.forEach(iterator -> {
+				ImageIcon dummy = new ImageIcon(new Images().getClass().getClassLoader().getResource(iterator));
+				imageList.add(dummy);
+			});
+
+		} catch (
+
+		Exception e) {
+			error = e;
 			Log.console("Failed to load images.");
 			Log.console("An error occured whilst trying to load images.");
 		}
+		if (error == null) {
+			Log.console("Successfully loaded " + imageList.size() + " images.");
+		}
+
 	}
 
 	@SuppressWarnings({ "rawtypes" })
@@ -67,15 +98,20 @@ public class Images {
 	}
 
 	public static ImageIcon getDefaultImageIcon(Pictures d) {
-		int counter = 0;
-		for (Pictures image : Pictures.values()) {
-			if (d.equals(image)) {
-				return new Images().imageDefaultInResources(counter);
-			}
-			counter++;
+		/*
+		 * int counter = 0; for (Pictures image : Pictures.values()) { if
+		 * (d.equals(image)) { return new Images().imageDefaultInResources(counter); }
+		 * counter++;
+		 * 
+		 * }
+		 */
+		String picture = d.toString().toLowerCase();
+		// picsValues.contains(picture.substring(0,
+		// picture.length()-imageFileFormat.length()));
+		int index = picsValues.indexOf(picture + "." + imageFileFormat);
 
-		}
-		return null;
+		return new Images().imageDefaultInResources(index);
+
 	}
 
 	// ---------------------SCALE
@@ -106,7 +142,16 @@ public class Images {
 		// listFile.forEach(file -> System.out.println(file.toString()));
 		// return new
 		// ImageIcon(getClass().getClassLoader().getResource(listFile.get(imageId).toString()));
-		return new ImageIcon(getClass().getClassLoader().getResource(listFileImages.get(imageId).toString()));
+		// System.out.println("used: "+listFileImages.get(imageId).toString());
+		// return new
+		// ImageIcon(getClass().getClassLoader().getResource(listFileImages.get(imageId).toString()));
+		// imageList.get(imageId);
+
+		/*
+		 * imageList.forEach(iterator -> { System.out.println(iterator.toString()); });
+		 * System.out.println(imageList.size());
+		 */
+		return new ImageIcon(imageList.get(imageId).getImage());
 	}
 
 	public static void setButtonIcon(JButton container, Pictures image) {

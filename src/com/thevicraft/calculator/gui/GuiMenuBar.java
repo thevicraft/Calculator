@@ -109,18 +109,18 @@ public class GuiMenuBar extends JMenuBar {
 	}
 
 	private void setIconOfComponents() {
-		items[0][0].setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_IN, 18, 18));
-		items[0][1].setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_OUT, 18, 18));
-		items[0][2].setIcon(Images.scaleImageIconFromDefault(Pictures.DARK_LIGHT_MODE, 18, 18));
+		items[0][0].setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_PLUS, 18, 18));
+		items[0][1].setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_MINUS, 18, 18));
+		items[0][2].setIcon(Images.scaleImageIconFromDefault(Pictures.MODE_ICON, 18, 18));
 
-		items[1][1].setIcon(Images.scaleImageIconFromDefault(Pictures.HELP_ICON, 18, 18));
+		items[1][1].setIcon(Images.scaleImageIconFromDefault(Pictures.LAMP, 18, 18));
 		items[1][2].setIcon(Images.scaleImageIconFromDefault(Pictures.ARROW_RIGHT, 18, 18));
 		items[1][3].setIcon(Images.scaleImageIconFromDefault(Pictures.GITHUB_ICON, 18, 18));
 		items[1][4].setIcon(Images.scaleImageIconFromDefault(Pictures.DISCORD_ICON, 18, 18));
 		items[1][5].setIcon(Images.scaleImageIconFromDefault(Pictures.AUTHOR, 18, 18));
 
 		items[2][3].setIcon(Images.scaleImageIconFromDefault(Pictures.GRAPH_ICON, 18, 18));
-		items[2][4].setIcon(Images.scaleImageIconFromDefault(Pictures.ICON, 18, 18));
+		items[2][4].setIcon(Images.scaleImageIconFromDefault(Pictures.WINDOW_ICON, 18, 18));
 		// Log.console(Double.toString(items[0][0].getSize(new
 		// Dimension()).getHeight()));
 	}

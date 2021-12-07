@@ -231,7 +231,8 @@ public class Unit {
 		category = "mass";
 		switch(mass) {
 		case u:
-			toMainUnit = 1.6605778811;
+			toMainUnit = 1.6605778811e-24;
+			//toMainUnit = 6.022e23;
 			type = mass.name();
 			break;
 		case g:

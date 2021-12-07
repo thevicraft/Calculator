@@ -87,13 +87,13 @@ public class StringCalculation {
 			try {
 				beforeResult = Double.parseDouble(CalcTaskUtil.getResultByStrCal(calcTask));
 				if (window != null) {
-					window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
+					window.setIconImage(Images.getDefaultImageIcon(Pictures.WINDOW_ICON).getImage());
 					window.labelErgebnis.setIcon(null);
 				}
 			} catch (Exception e) {
 				if (window != null) {
-					window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON_WARNING).getImage());
-					window.labelErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.WARNING_SIGN,
+					window.setIconImage(Images.getDefaultImageIcon(Pictures.WINDOW_ICON_WARNING).getImage());
+					window.labelErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.WARNING,
 							(int) window.labelErgebnis.getPreferredSize().getHeight(),
 							(int) window.labelErgebnis.getPreferredSize().getHeight()));
 				}
@@ -103,7 +103,7 @@ public class StringCalculation {
 			}
 		} else {
 			if (window != null) {
-				window.setIconImage(Images.getDefaultImageIcon(Pictures.ICON).getImage());
+				window.setIconImage(Images.getDefaultImageIcon(Pictures.WINDOW_ICON).getImage());
 				window.labelErgebnis.setIcon(null);
 			}
 			return Double.parseDouble(calcTask);
