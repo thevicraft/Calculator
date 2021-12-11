@@ -3,6 +3,8 @@ package com.thevicraft.calculator.gui;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
+
 import com.thevicraft.calculator.integration.Print;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -40,6 +42,7 @@ public class GeoDraw extends JFrame {
 	public JButton right;
 	public JButton down;
 	public JButton left;
+	public JButton color;
 
 	private int scaleFactor;
 	private int originX;
@@ -50,6 +53,8 @@ public class GeoDraw extends JFrame {
 	private String function;
 
 	private Color mode;
+	
+	private Color graphColor = Color.green; // default Color
 
 	public boolean ctrlPressed = false;
 
@@ -72,12 +77,13 @@ public class GeoDraw extends JFrame {
 		setLocationRelativeTo(null);
 		setColorOfComponents(mode);
 
-		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT, 40, originX, originY, this.function, mode);
+		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT, 40, originX, originY, this.function, mode,graphColor);
 		mainPanel.add(graphPanel);
 		graphPanel.add(graph);
 
 		addActionListeners();
-
+		
+		mainPanel.add(color);
 		mainPanel.add(zoomOut);
 		mainPanel.add(zoomIn);
 		mainPanel.add(print);
@@ -112,7 +118,7 @@ public class GeoDraw extends JFrame {
 
 	private void updateGraph() {
 		graphPanel.removeAll();
-		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, function, mode);
+		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, function, mode,graphColor);
 		graphPanel.add(graph);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT - 1);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -136,6 +142,13 @@ public class GeoDraw extends JFrame {
 	}
 
 	private void addActionListeners() {
+		color.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				graphColor = JColorChooser.showDialog(GeoDraw.this,"Select Graph Color",Color.green);
+				updateGraph();
+				
+			}});
 		zoomIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				scaleFactor += jumpTo();
@@ -195,7 +208,9 @@ public class GeoDraw extends JFrame {
 
 	private void initComponents() {
 		normal = new Font("Tahoma", Font.BOLD, (int) (12 * sizeFactor));
-
+		
+		color = new JButton("Color");
+		color.setFont(new Font("Tahoma", Font.BOLD, 9));
 		zoomOut = new JButton("-");
 		zoomIn = new JButton("+");
 		Dimension pad = new Dimension(25, 25);
@@ -203,6 +218,7 @@ public class GeoDraw extends JFrame {
 		right = new JButton();
 		down = new JButton();
 		left = new JButton();
+		color.setPreferredSize(new Dimension(60,25));
 		up.setPreferredSize(pad);
 		right.setPreferredSize(pad);
 		down.setPreferredSize(pad);

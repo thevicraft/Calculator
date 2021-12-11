@@ -25,14 +25,17 @@ public class Graph extends JPanel {
 	private int drawTo;
 
 	private Color mode;
+	
+	private Color graphColor;
 
-	public Graph(int width, int height, int scaleFactor, int originX, int originY, String function, Color mode) {
+	public Graph(int width, int height, int scaleFactor, int originX, int originY, String function, Color mode, Color graphColor) {
 		setPreferredSize(new Dimension(width, height));
 		setSize(width, height);
 		this.scaleFactor = scaleFactor;
 		origin = new Point(originX, originY);
 		this.function = function;
 		this.mode = mode;
+		this.graphColor = graphColor;
 	}
 
 	Graphics2D panel;
@@ -53,7 +56,7 @@ public class Graph extends JPanel {
 		//cords.addPoint(2, 4);
 		//cords.addPoint(2, 2);
 		for (float x = drawFrom; x <= drawTo; x += 0.001) { // 0,001
-			panel.setColor(Color.green);
+			panel.setColor(graphColor);
 			float xcord = x;
 			float ycord; /*
 							 * = (float) new StringCalculation()
