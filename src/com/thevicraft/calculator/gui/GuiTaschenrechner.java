@@ -137,7 +137,7 @@ public class GuiTaschenrechner extends JFrame {
 			{ " * ", "sin", "asin", "", ""  }, { " / ", "cos", "acos", "" , "" }, { " ^ ", "tan", "atan", "", ""  }};
 
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
-		loader = new Loader("Images");
+		loader = new Loader("Calculator");
 		loader.setVisible(true);
 		switch (darkLight) {
 		case "dark":
@@ -149,15 +149,15 @@ public class GuiTaschenrechner extends JFrame {
 			appearanceMode = bright;
 		}
 		if(!Images.isLoaded()) {
-		Images.initImages(GuiTaschenrechner.this,loader.loadImages,10);
+		Images.initImages(GuiTaschenrechner.this,loader);
 		}
-		loader.dispose();
 		
 		setTitle(titel);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setResizable(true);
+		loader.iterate();
 
 		initComponents();
 		initPanels();
@@ -188,10 +188,11 @@ public class GuiTaschenrechner extends JFrame {
 			removeFocusFromComponent(panels[i].getComponents());
 			setActionListenerToComponent(panels[i].getComponents());
 		}
+		loader.iterate();
 		labelCalc.setEditable(false);
 		labelCalc.setFocusable(false);
 		
-
+		loader.dispose();
 		setVisible(true);
 	}
 
@@ -201,6 +202,7 @@ public class GuiTaschenrechner extends JFrame {
 				child.setFocusable(false);
 			}
 		}
+		loader.iterate();
 	}
 
 	private void setActionListenerToComponent(Component[] buttons) {
@@ -209,12 +211,14 @@ public class GuiTaschenrechner extends JFrame {
 				((JButton) child).addActionListener(new ButtonActionListener(this));
 			}
 		}
+		loader.iterate();
 	}
 
 	public void changeSizeWindow(float factor) {
 		setSizeOfComponents(factor, 0, labelCalcLength);
 		setIconOfComponents(factor);
 		setFontOfComponents(factor);
+		loader.iterate();
 
 	}
 
@@ -229,6 +233,7 @@ public class GuiTaschenrechner extends JFrame {
 		// buttonZoomOut.setIcon(
 		// Images.scaleImageIconFromDefault(Pictures.ZOOM_OUT, (int) (25 * factor),
 		// ((int) (25 * factor))));
+		loader.iterate();
 	}
 
 	void setSizeOfComponents(float factor, int winPanel, int labelCalcLength) {
@@ -273,6 +278,8 @@ public class GuiTaschenrechner extends JFrame {
 		setSize((int) (WINDOW_WIDTH * factor), (int) ((WINDOW_HEIGHT + winPanel) * (factor * 0.88)));
 		panelMaster.setPreferredSize(
 				new Dimension((int) (PANEL_WIDTH * factor), (int) ((PANEL_HEIGHT + winPanel) * (factor * 0.88))));
+		
+		loader.iterate();
 	}
 
 	private void setColorOfComponents(Color mode) {
@@ -341,6 +348,7 @@ public class GuiTaschenrechner extends JFrame {
 			labelFuncMid.setForeground(dark);
 			labelFuncCls.setForeground(dark);
 		}
+		loader.iterate();
 
 	}
 
@@ -387,6 +395,8 @@ public class GuiTaschenrechner extends JFrame {
 
 		buttonDelete.setFont(normal);
 		buttonDeleteLast.setFont(normal);
+		
+		loader.iterate();
 	}
 
 	private void addComponentsToPanels(/* JFrame window */) {
@@ -446,18 +456,21 @@ public class GuiTaschenrechner extends JFrame {
 		for (JButton pad : funcPad) {
 			panels[8].add(pad);
 		}
+		loader.iterate();
 	}
 
 	private void addPanels() {
 		for (JPanel pane : panels) {
 			panelMaster.add(pane);
 		}
+		loader.iterate();
 	}
 
 	private void initPanels() {
 		for (int i = 0; i <= PANELS; i++) {
 			panels[i] = new JPanel();
 		}
+		loader.iterate();
 	}
 
 	private void initToolTips() {
@@ -467,6 +480,8 @@ public class GuiTaschenrechner extends JFrame {
 		buttonChangeMode.setToolTipText("Change mode to other Calculations (sin, cos, tan)");
 		buttonErgebnis.setToolTipText("Calculate");
 		buttonCopyResult.setToolTipText("Copy to Clipboard");
+		
+		loader.iterate();
 	}
 
 	private void initNumPads() {
@@ -483,6 +498,7 @@ public class GuiTaschenrechner extends JFrame {
 		numPad[10] = new JButton(".");
 		numPad[11] = new JButton("E");
 		numPad[12] = new JButton("ANS");
+		loader.iterate();
 	}
 
 //-----------------------------------------------------------------------------------------------------------
@@ -490,6 +506,7 @@ public class GuiTaschenrechner extends JFrame {
 		for (int c = 0; c <= 4; c++) {
 			funcPad[c] = new JButton(textButtons[c][1]);
 		}
+		loader.iterate();
 	}
 
 	void funcPadSetVisible(boolean visible) {
@@ -557,6 +574,8 @@ public class GuiTaschenrechner extends JFrame {
 		buttonLogExp = new JButton("");
 
 		buttonCopyResult = new JButton();
+		
+		loader.iterate();
 
 // last bracket
 	}
@@ -853,6 +872,7 @@ public class GuiTaschenrechner extends JFrame {
 				}
 			}
 		});
+		loader.iterate();
 		menu.items[0][1].addActionListener(new ActionListener() {
 
 			@Override
@@ -863,6 +883,7 @@ public class GuiTaschenrechner extends JFrame {
 				}
 			}
 		});
+		loader.iterate();
 
 		menu.items[0][2].addActionListener(new ActionListener() {
 
@@ -877,6 +898,7 @@ public class GuiTaschenrechner extends JFrame {
 				menu.setColorOfComponents(appearanceMode);
 			}
 		});
+		loader.iterate();
 		menu.items[1][0].addActionListener(new ActionListener() {
 
 			@Override
@@ -896,6 +918,7 @@ public class GuiTaschenrechner extends JFrame {
 				extraWin.tr.menu.setColorOfComponents(appearanceMode);
 			}
 		});
+		loader.iterate();
 		menu.items[1][1].addActionListener(new ActionListener() {
 			// opens help
 			@Override
@@ -904,6 +927,7 @@ public class GuiTaschenrechner extends JFrame {
 				help.addKeyListener(new WindowCloseEvent(help));
 			}
 		});
+		loader.iterate();
 		menu.items[1][2].addActionListener(new ActionListener() {
 			// opens help
 			@Override
@@ -914,6 +938,7 @@ public class GuiTaschenrechner extends JFrame {
 				shorts.addKeyListener(new WindowCloseEvent(shorts));
 			}
 		});
+		loader.iterate();
 		menu.items[1][3].addActionListener(new ActionListener() {
 			// opens github
 			@Override
@@ -921,6 +946,7 @@ public class GuiTaschenrechner extends JFrame {
 				NetLink.openUrl("https://github.com/thevicraft/Calculator/issues");
 			}
 		});
+		loader.iterate();
 		menu.items[1][4].addActionListener(new ActionListener() {
 			// join discord server
 			@Override
@@ -928,6 +954,7 @@ public class GuiTaschenrechner extends JFrame {
 				NetLink.openUrl("https://discord.com/invite/fhAdBZEQ2J");
 			}
 		});
+		loader.iterate();
 		menu.items[1][5].addActionListener(new ActionListener() {
 			// opens github
 			@Override
@@ -936,6 +963,7 @@ public class GuiTaschenrechner extends JFrame {
 				credit.addKeyListener(new WindowCloseEvent(credit));
 			}
 		});
+		loader.iterate();
 		menu.items[2][0].addActionListener(new ActionListener() {
 			// opens github
 			@Override
@@ -944,6 +972,7 @@ public class GuiTaschenrechner extends JFrame {
 				changeMode();
 			}
 		});
+		loader.iterate();
 		menu.items[2][1].addActionListener(new ActionListener() {
 			// opens github
 			@Override
@@ -952,6 +981,7 @@ public class GuiTaschenrechner extends JFrame {
 				changeMode();
 			}
 		});
+		loader.iterate();
 		menu.items[2][2].addActionListener(new ActionListener() {
 			// opens github
 			@Override
@@ -960,6 +990,7 @@ public class GuiTaschenrechner extends JFrame {
 				changeMode();
 			}
 		});
+		loader.iterate();
 		menu.items[2][3].addActionListener(new ActionListener() {
 			// opens github
 			@Override
@@ -968,6 +999,7 @@ public class GuiTaschenrechner extends JFrame {
 				changeMode();
 			}
 		});
+		loader.iterate();
 		menu.items[2][4].addActionListener(new ActionListener() {
 			// opens github
 			@Override
@@ -976,6 +1008,7 @@ public class GuiTaschenrechner extends JFrame {
 				changeMode();
 			}
 		});
+		loader.iterate();
 	}
 
 }

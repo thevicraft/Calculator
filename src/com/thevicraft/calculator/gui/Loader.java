@@ -20,10 +20,16 @@ public class Loader extends JFrame{
 		setLayout(new FlowLayout());
 		setResizable(false);
 		setLocationRelativeTo(null);
-		loadImages = new JProgressBar(0,Pictures.values().length*2);
+		loadImages = new JProgressBar(0,Pictures.values().length*2+30);
 		loadImages.setPreferredSize(new Dimension(200,25));
 		loadImages.setStringPainted(true);
 		add(loadImages);
+		loadImages.setValue(0);
 		setVisible(true);
+	}
+	
+	public void iterate() {
+		if(loadImages.getMaximum() >= loadImages.getValue())
+		loadImages.setValue(loadImages.getValue()+1);
 	}
 }

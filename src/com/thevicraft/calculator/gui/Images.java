@@ -28,8 +28,7 @@ public class Images {
 	
 	private static boolean imagesLoaded = false;
 
-	public static void initImages(GuiTaschenrechner window, JProgressBar loading, int timer) {
-		loading.setValue(0);
+	public static void initImages(GuiTaschenrechner window, Loader loading) {
 		Exception error = null;
 		Log.console("Loading Images ...");
 		try {
@@ -48,17 +47,13 @@ public class Images {
 			for (Pictures d : Pictures.values()) {
 				picsValues.add(d.toString().toLowerCase() + "." + imageFileFormat);
 				System.out.println("-- " + d.toString().toLowerCase() + "." + imageFileFormat);
-				loading.setValue(loading.getValue()+1); // add percent to process bar
-				//System.out.println(loading.getValue());
-				 try{Thread.sleep(timer);}catch(Exception e){}  
+				loading.iterate(); // add percent to process bar  
 			}
 
 			picsValues.forEach(iterator -> {
 				ImageIcon dummy = new ImageIcon(new Images().getClass().getClassLoader().getResource(iterator));
 				imageList.add(dummy);
-				loading.setValue(loading.getValue()+1); // add percent to process bar
-				//System.out.println(loading.getValue());
-				 try{Thread.sleep(timer);}catch(Exception e){}  
+				loading.iterate(); // add percent to process bar
 			});
 
 		} catch (
