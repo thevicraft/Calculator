@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JProgressBar;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -66,6 +67,8 @@ public class GuiTaschenrechner extends JFrame {
 	protected JLabel labelFuncCls;
 
 	public GuiMenuBar menu;
+	
+	public Loader loader;
 
 	public static final int BUTTON_0 = 9;
 	public static final int BUTTON_1 = 6;
@@ -134,6 +137,8 @@ public class GuiTaschenrechner extends JFrame {
 			{ " * ", "sin", "asin", "", ""  }, { " / ", "cos", "acos", "" , "" }, { " ^ ", "tan", "atan", "", ""  }};
 
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
+		loader = new Loader("Images");
+		loader.setVisible(true);
 		switch (darkLight) {
 		case "dark":
 			appearanceMode = dark;
@@ -143,9 +148,11 @@ public class GuiTaschenrechner extends JFrame {
 		default:
 			appearanceMode = bright;
 		}
-		if(!Images.isImagesLoaded()) {
-		Images.initImages();
+		if(!Images.isLoaded()) {
+		Images.initImages(GuiTaschenrechner.this,loader.loadImages,10);
 		}
+		loader.dispose();
+		
 		setTitle(titel);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());

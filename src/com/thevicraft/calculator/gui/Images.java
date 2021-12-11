@@ -3,24 +3,14 @@ package com.thevicraft.calculator.gui;
 import javax.swing.ImageIcon;
 
 import com.thevicraft.calculator.console.Log;
-import com.thevicraft.calculator.integration.FileResourcesUtils;
-
-import static java.util.Collections.sort;
 
 import java.awt.Image;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.InputStream;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+
 import java.util.List;
 import javax.swing.JButton;
-import java.io.*;
-import java.net.*;
-import java.nio.file.*;
-import java.util.*;
-import java.util.stream.*;
+import javax.swing.JProgressBar;
 
 public class Images {
 	// IMPORTANT FOR ADDING NEW IMAGES: THE ENUM VARIABLE HAS TO BE NAMED THE SAME
@@ -38,7 +28,8 @@ public class Images {
 	
 	private static boolean imagesLoaded = false;
 
-	public static void initImages() {
+	public static void initImages(GuiTaschenrechner window, JProgressBar loading, int timer) {
+		loading.setValue(0);
 		Exception error = null;
 		Log.console("Loading Images ...");
 		try {
@@ -57,11 +48,17 @@ public class Images {
 			for (Pictures d : Pictures.values()) {
 				picsValues.add(d.toString().toLowerCase() + "." + imageFileFormat);
 				System.out.println("-- " + d.toString().toLowerCase() + "." + imageFileFormat);
+				loading.setValue(loading.getValue()+1); // add percent to process bar
+				//System.out.println(loading.getValue());
+				 try{Thread.sleep(timer);}catch(Exception e){}  
 			}
 
 			picsValues.forEach(iterator -> {
 				ImageIcon dummy = new ImageIcon(new Images().getClass().getClassLoader().getResource(iterator));
 				imageList.add(dummy);
+				loading.setValue(loading.getValue()+1); // add percent to process bar
+				//System.out.println(loading.getValue());
+				 try{Thread.sleep(timer);}catch(Exception e){}  
 			});
 
 		} catch (
@@ -78,7 +75,7 @@ public class Images {
 
 	}
 	
-	public static boolean isImagesLoaded() {
+	public static boolean isLoaded() {
 		return imagesLoaded;
 	}
 
