@@ -8,8 +8,14 @@ import com.thevicraft.calculator.gui.unitsystem.UnitMenu;
 import com.thevicraft.calculator.gui.unitsystem.UnitMenuSelect;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.JCheckBoxMenuItem;
+
+import org.mariuszgromada.math.mxparser.*;
 
 @SuppressWarnings("serial")
 public class GuiMenuBar extends JMenuBar {
@@ -17,7 +23,10 @@ public class GuiMenuBar extends JMenuBar {
 	protected JMenu config;
 	protected JMenu window;
 	protected JMenu mode;
+	protected JMenu setupMenu;
 	protected JSeparator sep1,sep2,sep3,sep4;
+	
+	public JCheckBoxMenuItem rad,deg;
 	
 	public UnitMenuSelect typeSelect;
 	public UnitMenu unit1,unit2;
@@ -28,10 +37,10 @@ public class GuiMenuBar extends JMenuBar {
 	public JMenuItem[][] items = new JMenuItem[MENUS][MAX_MENUITEMS]; // index 1 = menu number, index 2 = menu item
 																		// number
 	private String[][] itemsTextConfig = {
-			{ "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode" },
+			{ "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode","Setup" },
 			{ "New Window        [Ctrl+W]", "Help                       [Ctrl+H]", "Shortcuts             [Ctrl+S]",
 					"Report Bug", "Join Discord Server", "About" },
-			{ "Normal", "sin, cos, tan, ...", "asin, acos, atan, ...", "Draw Graph","Unit Calculator" } };
+			{ "Normal", "Draw Graph","Unit Calculator" } };
 
 	// ACTIONLISTENER FOR MENUITEMS IS IN GUITASCHENRECHNER AT THE BOTTON
 	// !!!!!!!!!!!!1
@@ -119,8 +128,8 @@ public class GuiMenuBar extends JMenuBar {
 		items[1][4].setIcon(Images.scaleImageIconFromDefault(Pictures.DISCORD_ICON, 18, 18));
 		items[1][5].setIcon(Images.scaleImageIconFromDefault(Pictures.AUTHOR, 18, 18));
 
-		items[2][3].setIcon(Images.scaleImageIconFromDefault(Pictures.GRAPH_ICON, 18, 18));
-		items[2][4].setIcon(Images.scaleImageIconFromDefault(Pictures.WINDOW_ICON, 18, 18));
+		items[2][1].setIcon(Images.scaleImageIconFromDefault(Pictures.GRAPH_ICON, 18, 18));
+		items[2][2].setIcon(Images.scaleImageIconFromDefault(Pictures.WINDOW_ICON, 18, 18));
 		// Log.console(Double.toString(items[0][0].getSize(new
 		// Dimension()).getHeight()));
 	}
@@ -138,6 +147,8 @@ public class GuiMenuBar extends JMenuBar {
 		unit2 = new UnitMenu("area");
 		
 		typeSelect = new UnitMenuSelect(unit1,unit2);
+		
+		setupMenu = new JMenu("Setup");
 	}
 
 	private void initMenuItems() {
@@ -145,15 +156,40 @@ public class GuiMenuBar extends JMenuBar {
 			items[0][i] = new JMenuItem(itemsTextConfig[0][i]);
 			config.add(items[0][i]);
 		}
+		config.add(setupMenu);
+		{
+			rad = new JCheckBoxMenuItem("RAD");
+			deg = new JCheckBoxMenuItem("DEG");
+			setupMenu.add(rad);
+			setupMenu.add(deg);
+			rad.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					deg.setState(false);
+					mXparser.setRadiansMode();
+				}});
+			deg.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					rad.setState(false);
+					mXparser.setDegreesMode();
+				}});
+		}
 
 		for (int i = 0; i <= 5; i++) {
 			items[1][i] = new JMenuItem(itemsTextConfig[1][i]);
 			window.add(items[1][i]);
 		}
-		for (int i = 0; i <= 4; i++) {
+		for (int i = 0; i <= 2; i++) {
 			items[2][i] = new JMenuItem(itemsTextConfig[2][i]);
 			mode.add(items[2][i]);
 		}
-
+		
+		// default settings
+		deg.setState(true);
+		mXparser.setDegreesMode();
+		
 	}
 }

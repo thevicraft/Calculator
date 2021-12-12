@@ -38,7 +38,7 @@ public class HelpWindow extends JFrame {
 			+ "( - bracket open<br>"
 			+ ") - bracket close<br>"
 			+ "<br>"
-			+ "M - changes calculation mode to types like sin, cos, tan, asin, acos, atan, log, root, ...<br>"
+			+ "M - cycles page 1 and 2 of sin,cos,tan,asin,acos,atan,log,root...<br>"
 			+ "<br>"
 			+ "^2 - to the power of 2<br>"
 			+ "^3 - to the power of 3<br>"

@@ -1,5 +1,6 @@
 package com.thevicraft.calculator.gui;
 
+import com.thevicraft.calculator.api.EvaluationUtil;
 import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.gui.Images.Pictures;
 import com.thevicraft.calculator.integration.NetLink;
@@ -16,6 +17,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.mariuszgromada.math.mxparser.Argument;
+import org.mariuszgromada.math.mxparser.Expression;
+import org.mariuszgromada.math.mxparser.mXparser;
+
 import javax.swing.JProgressBar;
 
 import java.awt.Color;
@@ -27,7 +33,8 @@ import java.awt.Font;
 public class GuiTaschenrechner extends JFrame {
 	private String platz = "                                                 ";
 	public int mode = 1; // default mode, do not change
-	static final int MODES = 5;
+	public int funcMode = 0;
+	static final int MODES = 3;
 	protected int calcMode;
 	final String calcLabelEmpty = ""; // " "
 
@@ -55,19 +62,19 @@ public class GuiTaschenrechner extends JFrame {
 	public JButton buttonBracketOpn;
 	public JButton buttonBracketCls;
 
-	public JButton buttonLogBase;
-	public JButton buttonLogExp;
+	//public JButton buttonLogBase;
+	//public JButton buttonLogExp;
 
 	public JButton buttonXPower2;
 	public JButton buttonXPower3;
 	public JButton buttonXPowerReverse;
 
 	protected JLabel labelFuncOpn;
-	protected JLabel labelFuncMid;
-	protected JLabel labelFuncCls;
+	//protected JLabel labelFuncMid;
+	//protected JLabel labelFuncCls;
 
 	public GuiMenuBar menu;
-	
+
 	public Loader loader;
 
 	public static final int BUTTON_0 = 9;
@@ -85,9 +92,9 @@ public class GuiTaschenrechner extends JFrame {
 	public static final int BUTTON__E = 11;
 
 	public int WINDOW_WIDTH = 340;
-	public int WINDOW_HEIGHT = 380; // 400
+	public int WINDOW_HEIGHT = 400; // 400
 	public int PANEL_WIDTH = 340;
-	public int PANEL_HEIGHT = 370; // 390
+	public int PANEL_HEIGHT = 390; // 390
 	public int BUTTON_WIDTH = 60;
 	public int BUTTON_HEIGHT = 25;
 	private final int PANELS = 8;
@@ -99,13 +106,12 @@ public class GuiTaschenrechner extends JFrame {
 
 	public static final String constants[] = { "\u213c", "\u212f", "\u03c0", "\u2107" }; // pi, e
 
-	public static final String X = "\uD835\uDC65";
-	// public static final String X = "\uDC65";
+	public static final String X = "x";// = "\uD835\uDC65";
 
 	protected float ergebnis;
 
-	boolean bracket = false;
-	int logWithBaseFocus = 0;
+	//boolean bracket = false;
+	//int logWithBaseFocus = 0;
 
 	float sizeFactor = 1.5f;
 
@@ -123,20 +129,28 @@ public class GuiTaschenrechner extends JFrame {
 	public static Font extremesmall = new Font("Tahoma", Font.PLAIN, 10);
 	// -----------------------------------------------------------------------------------------------------------------
 	// Calculation calc = new Calculation();
-	StringCalculation calcString = new StringCalculation();
+	StringCalculation calcString = new StringCalculation(GuiTaschenrechner.this);
 	// Dimensions
 	// ------------------------------------------------------------------------------------------------------
 	Dimension buttonStandartSize = new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT);
 
 	// Images--------------------------------------------------------------------------------------------------
 	Images icon = new Images();
-	public static Color dark = Color.DARK_GRAY;
-	public static Color bright = Color.white;
+	public static final Color dark = Color.DARK_GRAY;
+	public static final Color bright = Color.white;
 
-	public static String textButtons[][] = { { " + ", "log", "log", "" , "" }, { " - ", " √ ", "x!", "" , "" },
-			{ " * ", "sin", "asin", "", ""  }, { " / ", "cos", "acos", "" , "" }, { " ^ ", "tan", "atan", "", ""  }};
+	public static String operator[] = { "+", "-", "\u00D7", "\u00F7", "^" };
+	public static String textButtons[][] = { { "log10", "log" }, { " √ ", "x!" }, { "sin", "asin" }, { "cos", "acos" },
+			{ "tan", "atan" } };
 
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
+		try {
+			mXparser.setDegreesMode();
+			Argument x = new Argument("x = 10");
+			Expression e = new Expression("cos(x)", x);
+			System.out.println("Ergebnis: " + e.calculate());
+		} catch (Exception e) {
+		}
 		loader = new Loader("Calculator");
 		loader.setVisible(true);
 		switch (darkLight) {
@@ -148,10 +162,10 @@ public class GuiTaschenrechner extends JFrame {
 		default:
 			appearanceMode = bright;
 		}
-		if(!Images.isLoaded()) {
-		Images.initImages(GuiTaschenrechner.this,loader);
+		if (!Images.isLoaded()) {
+			Images.initImages(GuiTaschenrechner.this, loader);
 		}
-		
+
 		setTitle(titel);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
@@ -177,7 +191,7 @@ public class GuiTaschenrechner extends JFrame {
 
 		changeSizeWindow(sizeFactor);
 
-		funcPadSetVisible(false);
+		funcPadSetVisible(true);
 
 		menu = new GuiMenuBar(appearanceMode);
 		initMenuBar(titel);
@@ -191,7 +205,7 @@ public class GuiTaschenrechner extends JFrame {
 		loader.iterate();
 		labelCalc.setEditable(false);
 		labelCalc.setFocusable(false);
-		
+
 		loader.dispose();
 		setVisible(true);
 	}
@@ -215,7 +229,7 @@ public class GuiTaschenrechner extends JFrame {
 	}
 
 	public void changeSizeWindow(float factor) {
-		setSizeOfComponents(factor, 0, labelCalcLength);
+		setSizeOfComponents(factor, labelCalcLength);
 		setIconOfComponents(factor);
 		setFontOfComponents(factor);
 		loader.iterate();
@@ -236,7 +250,7 @@ public class GuiTaschenrechner extends JFrame {
 		loader.iterate();
 	}
 
-	void setSizeOfComponents(float factor, int winPanel, int labelCalcLength) {
+	void setSizeOfComponents(float factor, int labelCalcLength) {
 		buttonStandartSize = new Dimension((int) (factor * BUTTON_WIDTH), (int) (factor * BUTTON_HEIGHT));
 
 		Dimension panelSize = new Dimension((int) (factor * 300), (int) (factor * 30));
@@ -275,10 +289,10 @@ public class GuiTaschenrechner extends JFrame {
 		// panels default size 300, 30
 		panels[0].setPreferredSize(panelSize);
 		panels[1].setPreferredSize(panelSize);
-		setSize((int) (WINDOW_WIDTH * factor), (int) ((WINDOW_HEIGHT + winPanel) * (factor * 0.88)));
+		setSize((int) (WINDOW_WIDTH * factor), (int) ((WINDOW_HEIGHT) * (factor * 0.88)));
 		panelMaster.setPreferredSize(
-				new Dimension((int) (PANEL_WIDTH * factor), (int) ((PANEL_HEIGHT + winPanel) * (factor * 0.88))));
-		
+				new Dimension((int) (PANEL_WIDTH * factor), (int) ((PANEL_HEIGHT) * (factor * 0.88))));
+
 		loader.iterate();
 	}
 
@@ -332,21 +346,18 @@ public class GuiTaschenrechner extends JFrame {
 			labelCalc.setForeground(bright);
 			labelErgebnis.setForeground(bright);
 			labelFuncOpn.setForeground(bright);
-			labelFuncMid.setForeground(bright);
-			labelFuncCls.setForeground(bright);
+			
 		} else if (mode.equals(bright)) {
 			labelCalc.setBackground(bright);
 			labelCalc.setForeground(dark);
 			labelErgebnis.setForeground(dark);
 			labelFuncOpn.setForeground(dark);
-			labelFuncMid.setForeground(dark);
-			labelFuncCls.setForeground(dark);
+			
 		} else {
 			labelCalc.setForeground(dark);
 			labelErgebnis.setForeground(dark);
 			labelFuncOpn.setForeground(dark);
-			labelFuncMid.setForeground(dark);
-			labelFuncCls.setForeground(dark);
+			
 		}
 		loader.iterate();
 
@@ -363,11 +374,9 @@ public class GuiTaschenrechner extends JFrame {
 		labelErgebnis.setFont(resultBold);
 		labelCalc.setFont(calcBold);
 		labelFuncOpn.setFont(calcBold);
-		labelFuncCls.setFont(calcBold);
-		labelFuncMid.setFont(calcBold);
+		
 		buttonXPowerReverse.setFont(extremesmall);
-		buttonLogExp.setFont(extremesmall);
-		buttonLogBase.setFont(calcBold);
+		
 		getNumPad(BUTTON__ANS).setFont(small); // korrektur weil die beschriftung sonst nicht auf dem button angezeigt
 		// wird
 		for (JButton x : funcPad) {
@@ -395,23 +404,18 @@ public class GuiTaschenrechner extends JFrame {
 
 		buttonDelete.setFont(normal);
 		buttonDeleteLast.setFont(normal);
-		
+
 		loader.iterate();
 	}
 
 	private void addComponentsToPanels(/* JFrame window */) {
 
 		panels[0].add(labelFuncOpn);
-		panels[0].add(buttonLogExp);
-		panels[0].add(labelFuncMid);
+		
 		panels[0].add(labelCalc);
-		panels[0].add(buttonLogBase);
-		panels[0].add(labelFuncCls);
+		
 		labelFuncOpn.setVisible(false);
-		labelFuncMid.setVisible(false);
-		labelFuncCls.setVisible(false);
-		buttonLogExp.setVisible(false);
-		buttonLogBase.setVisible(false);
+		
 
 		panels[1].add(labelErgebnis);
 		panels[1].add(buttonCopyResult);
@@ -480,7 +484,7 @@ public class GuiTaschenrechner extends JFrame {
 		buttonChangeMode.setToolTipText("Change mode to other Calculations (sin, cos, tan)");
 		buttonErgebnis.setToolTipText("Calculate");
 		buttonCopyResult.setToolTipText("Copy to Clipboard");
-		
+
 		loader.iterate();
 	}
 
@@ -504,7 +508,7 @@ public class GuiTaschenrechner extends JFrame {
 //-----------------------------------------------------------------------------------------------------------
 	private void initFuncPad() {
 		for (int c = 0; c <= 4; c++) {
-			funcPad[c] = new JButton(textButtons[c][1]);
+			funcPad[c] = new JButton(textButtons[c][0]);
 		}
 		loader.iterate();
 	}
@@ -531,17 +535,17 @@ public class GuiTaschenrechner extends JFrame {
 		labelCalc = new JTextField(/* calcLabelEmpty */);
 		// -------------------------------------------------------------------------------
 
-		labelErgebnis = new JLabel(""); //platz anstatt leer
+		labelErgebnis = new JLabel(""); // platz anstatt leer
 
 		buttonErgebnis = new JButton("=");
 
 		buttonDelete = new JButton("AC");
 
-		buttonPlus = new JButton(textButtons[0][0]);
-		buttonMinus = new JButton(textButtons[1][0]);
-		buttonTimes = new JButton(textButtons[2][0]);
-		buttonDivide = new JButton(textButtons[3][0]);
-		buttonPow = new JButton(textButtons[4][0]);
+		buttonPlus = new JButton(operator[0]);
+		buttonMinus = new JButton(operator[1]);
+		buttonTimes = new JButton(operator[2]);
+		buttonDivide = new JButton(operator[3]);
+		buttonPow = new JButton(operator[4]);
 
 		buttonChangeMode = new JButton("M");
 
@@ -554,7 +558,7 @@ public class GuiTaschenrechner extends JFrame {
 		for (JButton pad : funcPad) {
 
 		}
-		buttonSignMinus = new JButton("(-)");
+		buttonSignMinus = new JButton("\u00B1");
 		buttonMathPi = new JButton(constants[0]);
 		buttonMathE = new JButton(constants[1]);
 
@@ -568,19 +572,14 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPowerReverse = new JButton("^(-1)");
 
 		labelFuncOpn = new JLabel();
-		labelFuncMid = new JLabel("(");
-		labelFuncCls = new JLabel(")");
-		buttonLogBase = new JButton("");
-		buttonLogExp = new JButton("");
 
 		buttonCopyResult = new JButton();
-		
+
 		loader.iterate();
 
 // last bracket
 	}
 
-	@SuppressWarnings("static-access")
 	void changeMode() {
 		this.setPanel0ToMode(this.mode);
 		final int normal = 300;
@@ -592,27 +591,11 @@ public class GuiTaschenrechner extends JFrame {
 			buttonErgebnis.setText("=");
 			buttonErgebnis.setIcon(null);
 			buttonErgebnis.setBackground(Color.green);
-			this.funcPadSetVisible(false);
+			this.funcPadSetVisible(true);
 			labelCalcLength = normal;
-			this.setSizeOfComponents(this.sizeFactor, 0, labelCalcLength);
+			this.setSizeOfComponents(this.sizeFactor, labelCalcLength);
 			break;
 		case 2:
-			numPad[BUTTON__ANS].setText("ANS");
-			buttonErgebnis.setText("=");
-			buttonErgebnis.setIcon(null);
-			this.funcPadSetVisible(true);
-			labelCalcLength = depressed;
-			this.setSizeOfComponents(this.sizeFactor, 40, labelCalcLength);
-			break;
-		case 3:
-			numPad[BUTTON__ANS].setText("ANS");
-			buttonErgebnis.setText("=");
-			buttonErgebnis.setIcon(null);
-			this.funcPadSetVisible(true);
-			labelCalcLength = depressed - 10;
-			this.setSizeOfComponents(this.sizeFactor, 40, labelCalcLength);
-			break;
-		case 4:
 			numPad[BUTTON__ANS].setText(X);
 			buttonErgebnis.setText("");
 			buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.GRAPH_ICON,
@@ -620,24 +603,21 @@ public class GuiTaschenrechner extends JFrame {
 			buttonErgebnis.setBackground(Color.white);
 			this.funcPadSetVisible(false);
 			labelCalcLength = depressed - 10;
-			this.setSizeOfComponents(this.sizeFactor, 0, labelCalcLength);
+			this.setSizeOfComponents(this.sizeFactor, labelCalcLength);
 			break;
-		case 5:
+		case 3:
 			numPad[BUTTON__ANS].setText("ANS");
 			buttonErgebnis.setText("");
-			//buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.ICON,
-			//		(int) ((BUTTON_HEIGHT * 1.28) * sizeFactor), (int) (BUTTON_HEIGHT * sizeFactor)));
-			Images.setButtonIcon(buttonErgebnis,Pictures.UNITS);
+			// buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.ICON,
+			// (int) ((BUTTON_HEIGHT * 1.28) * sizeFactor), (int) (BUTTON_HEIGHT *
+			// sizeFactor)));
+			Images.setButtonIcon(buttonErgebnis, Pictures.UNITS);
 			buttonErgebnis.setBackground(Color.white);
 			this.funcPadSetVisible(false);
 			labelCalcLength = normal;
-			this.setSizeOfComponents(this.sizeFactor, 0, labelCalcLength);
+			this.setSizeOfComponents(this.sizeFactor, labelCalcLength);
 			break;
 		}
-		for (int i = 0; i <= MODES-1; i++) {
-			this.getFuncPad(i).setText(this.textButtons[i][this.mode - 1]);
-		}
-		this.logWithBaseFocus = 0;
 	}
 
 	void setPanel0ToMode(int modi) {
@@ -645,220 +625,46 @@ public class GuiTaschenrechner extends JFrame {
 		case 1:
 			labelFuncOpn.setText("");
 			labelFuncOpn.setVisible(false);
-			labelFuncMid.setVisible(false);
-			labelFuncCls.setVisible(false);
 
-			labelCalc.setVisible(true);
-			logWithBaseFocus = 0;
-			buttonLogBase.setVisible(false);
-			buttonLogExp.setVisible(false);
 			menu.setUnitVisible(false);
 			break;
 		case 2:
-			labelFuncOpn.setText("?");
+			labelFuncOpn.setText("\u2a0d" + "(" + X + ") = ");
 			labelFuncOpn.setVisible(true);
-			labelFuncMid.setVisible(false);
-			labelFuncCls.setVisible(true);
-			labelCalc.setVisible(true);
-			buttonLogBase.setVisible(false);
-			buttonLogExp.setVisible(false);
-			logWithBaseFocus = 0;
+
 			menu.setUnitVisible(false);
 			break;
 		case 3:
-			labelFuncOpn.setText("?");
-			labelFuncOpn.setVisible(true);
-			labelFuncMid.setVisible(false);
-			labelFuncCls.setVisible(true);
-			labelCalc.setVisible(true);
-			buttonLogBase.setVisible(false);
-			buttonLogExp.setVisible(false);
-			logWithBaseFocus = 0;
-			menu.setUnitVisible(false);
-			break;
-		case 4:
-			labelFuncOpn.setText("\u2a0d" + "(" + X + ") = ");
-			labelFuncOpn.setVisible(true);
-			labelFuncMid.setVisible(false);
-			labelFuncCls.setVisible(false);
-
-			labelCalc.setVisible(true);
-			logWithBaseFocus = 0;
-			buttonLogBase.setVisible(false);
-			buttonLogExp.setVisible(false);
-			menu.setUnitVisible(false);
-			break;
-		case 5:
 			labelFuncOpn.setText("");
 			labelFuncOpn.setVisible(false);
-			labelFuncMid.setVisible(false);
-			labelFuncCls.setVisible(false);
 
-			labelCalc.setVisible(true);
-			logWithBaseFocus = 0;
-			buttonLogBase.setVisible(false);
-			buttonLogExp.setVisible(false);
 			menu.setUnitVisible(true);
 			break;
 		}
 	}
 
-	void buttonActionOnPressed(JButton button) {
-		boolean log = false;
-		switch (mode) {
-		case 1:
-			labelCalc.setText(labelCalc.getText() + button.getText());
-			if (button.equals(buttonPlus)) {
-				calcMode = 1;
-			} else if (button.equals(buttonMinus)) {
-				calcMode = 2;
-			} else if (button.equals(buttonTimes)) {
-				calcMode = 3;
-			} else if (button.equals(buttonDivide)) {
-				calcMode = 4;
-			} else if (button.equals(buttonPow)) {
-				calcMode = 5;
-			}
-			break;
-		case 2:
-			labelFuncOpn.setText(button.getText() + "(");
-			if (button.equals(getFuncPad(0))) {
-				calcMode = 6;
-			} else if (button.equals(getFuncPad(1))) {
-				calcMode = 7;
-			} else if (button.equals(getFuncPad(2))) {
-				calcMode = 8;
-			} else if (button.equals(getFuncPad(3))) {
-				calcMode = 9;
-			} else if (button.equals(getFuncPad(4))) {
-				calcMode = 10;
-			}
-			break;
-		case 3:
-			labelFuncOpn.setText(button.getText() + "(");
-			if (button.equals(getFuncPad(0))) {
-				calcMode = 11;
-				labelFuncOpn.setText("log");
-				log = true;
-
-			} else if (button.equals(getFuncPad(1))) {
-				calcMode = 12;
-			} else if (button.equals(getFuncPad(2))) {
-				calcMode = 13;
-			} else if (button.equals(getFuncPad(3))) {
-				calcMode = 14;
-			} else if (button.equals(getFuncPad(4))) {
-				calcMode = 15;
-			}
-
-			break;
-		case 4:
-			labelCalc.setText(labelCalc.getText() + button.getText());
-			if (button.equals(buttonPlus)) {
-				calcMode = 1;
-			} else if (button.equals(buttonMinus)) {
-				calcMode = 2;
-			} else if (button.equals(buttonTimes)) {
-				calcMode = 3;
-			} else if (button.equals(buttonDivide)) {
-				calcMode = 4;
-			} else if (button.equals(buttonPow)) {
-				calcMode = 5;
-			}
-			break;
-		}
-		if (log == true) {
-			labelFuncMid.setVisible(true);
-			buttonLogBase.setVisible(true);
-			buttonLogExp.setVisible(true);
-			labelCalc.setVisible(false);
-
-			buttonLogBase.setVisible(true);
-			buttonLogExp.setVisible(true);
-
-		} else {
-			labelCalc.setVisible(true);
-			buttonLogBase.setVisible(false);
-			buttonLogExp.setVisible(false);
-			labelFuncMid.setVisible(false);
-			logWithBaseFocus = 0;
-		}
-		testForTextOverflow(labelCalc, this, 20);
-	}
-
 	void insertTextInField(String text, boolean deleteall) {
 		if (deleteall == false) {
-			switch (logWithBaseFocus) {
-			case 0:
-				labelCalc.setText(labelCalc.getText() + text);
-				testForTextOverflow(labelCalc, this, 20);
-				break;
-			case 1:
-				buttonLogExp.setText(buttonLogExp.getText() + text);
-				break;
-			case 2:
-				buttonLogBase.setText(buttonLogBase.getText() + text);
-				break;
-			}
+
+			labelCalc.setText(labelCalc.getText() + text);
 
 		} else {
-			switch (logWithBaseFocus) {
-			case 0:
-				labelCalc.setText(calcLabelEmpty);
-				break;
-			case 1:
-				buttonLogExp.setText(calcLabelEmpty);
-				break;
-			case 2:
-				buttonLogBase.setText(calcLabelEmpty);
-				break;
-			}
-		}
-	}
 
-	public void testForTextOverflow(JTextField calcLabel, JFrame container, int maxLength) {
-		/*
-		 * String text = calcLabel.getText(); float proportionals = text.length() /
-		 * maxLength; if (text.length() / 20.0 > 1) { System.out.println(calcPanel + " "
-		 * + windowSize + " " + mainPanel); calcPanel = new Dimension((int)
-		 * (calcPanel.getWidth() / sizeFactor), (int) (calcPanel.getHeight() *
-		 * proportionals / sizeFactor)); windowSize = new Dimension((int)
-		 * (windowSize.getWidth() / sizeFactor), (int) (windowSize.getHeight() +
-		 * (calcPanel.getHeight() * proportionals/sizeFactor))); mainPanel = new
-		 * Dimension((int) (mainPanel.getWidth()/sizeFactor), (int)
-		 * ((mainPanel.getHeight() + (calcPanel.getHeight() *
-		 * proportionals)/sizeFactor))); changeSizeWindow(sizeFactor); }
-		 */
+			labelCalc.setText(calcLabelEmpty);
+
+		}
 	}
 
 	String getTextInField() {
-		switch (logWithBaseFocus) {
-		case 0:
-			return labelCalc.getText();
-		case 1:
-			return buttonLogExp.getText();
-		case 2:
-			return buttonLogBase.getText();
-		default:
-			return null;
-		}
+
+		return labelCalc.getText();
 
 	}
 
 	void setTextInField(String text) {
 
-		switch (logWithBaseFocus) {
-		case 0:
-			labelCalc.setText(text);
-			testForTextOverflow(labelCalc, this, 20);
-			break;
-		case 1:
-			buttonLogExp.setText(text);
-			break;
-		case 2:
-			buttonLogBase.setText(text);
-			break;
-		}
+		labelCalc.setText(text);
+
 	}
 
 	private void initMenuBar(String titel) {
@@ -932,8 +738,8 @@ public class GuiTaschenrechner extends JFrame {
 			// opens help
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//HelpWindow help = new HelpWindow("Help", 400, 520, 1.5f, appearanceMode);
-				//help.addKeyListener(new WindowCloseEvent(help));
+				// HelpWindow help = new HelpWindow("Help", 400, 520, 1.5f, appearanceMode);
+				// help.addKeyListener(new WindowCloseEvent(help));
 				ShortcutWindow shorts = new ShortcutWindow("Shortcuts", 400, 380, 1.5f, appearanceMode);
 				shorts.addKeyListener(new WindowCloseEvent(shorts));
 			}
@@ -987,24 +793,6 @@ public class GuiTaschenrechner extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mode = 3;
-				changeMode();
-			}
-		});
-		loader.iterate();
-		menu.items[2][3].addActionListener(new ActionListener() {
-			// opens github
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mode = 4;
-				changeMode();
-			}
-		});
-		loader.iterate();
-		menu.items[2][4].addActionListener(new ActionListener() {
-			// opens github
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mode = 5;
 				changeMode();
 			}
 		});

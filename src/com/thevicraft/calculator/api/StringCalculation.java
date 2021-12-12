@@ -14,6 +14,13 @@ public class StringCalculation {
 	private double storeResult = 0;
 	private GuiTaschenrechner window;
 
+	public StringCalculation(GuiTaschenrechner frame) {
+		this.window = frame;
+	}
+
+	public StringCalculation() {
+	}
+
 	public String calcResultFromString(String calcTask, int mode, int calcMode, String logBase, String logExponent,
 			GuiTaschenrechner window) {
 		double ergebnis = 0;
@@ -97,9 +104,9 @@ public class StringCalculation {
 							(int) window.labelErgebnis.getPreferredSize().getHeight(),
 							(int) window.labelErgebnis.getPreferredSize().getHeight()));
 				}
-				/*if (giveError) {
-					Log.errorSyntax();
-				}*/
+				/*
+				 * if (giveError) { Log.errorSyntax(); }
+				 */
 			}
 		} else {
 			if (window != null) {
@@ -112,6 +119,27 @@ public class StringCalculation {
 
 		// storeResult = beforeResult;
 		return beforeResult;
+	}
+
+	// NEW ALGORITHM CONNECTION
+	public double calculate(String task) {
+		double result = 0;
+
+		String calculation = new StringCalcFunctions().insertConstants(task, storeResult);
+		try {
+			result = EvaluationUtil.calculate(calculation);
+			window.setIconImage(Images.getDefaultImageIcon(Pictures.WINDOW_ICON).getImage());
+			window.labelErgebnis.setIcon(null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			window.setIconImage(Images.getDefaultImageIcon(Pictures.WINDOW_ICON_WARNING).getImage());
+			window.labelErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.WARNING,
+					(int) window.labelErgebnis.getPreferredSize().getHeight(),
+					(int) window.labelErgebnis.getPreferredSize().getHeight()));
+		}
+		storeResult = result;
+		return result;
+
 	}
 
 }

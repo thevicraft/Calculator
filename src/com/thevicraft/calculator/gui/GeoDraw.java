@@ -119,6 +119,7 @@ public class GeoDraw extends JFrame {
 	private void updateGraph() {
 		graphPanel.removeAll();
 		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, function, mode,graphColor);
+		//graph.update(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, function, mode,graphColor);
 		graphPanel.add(graph);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT - 1);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);

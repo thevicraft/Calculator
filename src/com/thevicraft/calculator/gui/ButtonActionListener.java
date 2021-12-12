@@ -1,6 +1,5 @@
 package com.thevicraft.calculator.gui;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -32,46 +31,61 @@ public class ButtonActionListener implements ActionListener {
 	@SuppressWarnings("static-access")
 	private void executeButtonAction(JButton d) {
 		if (d.equals(window.buttonErgebnis)) {
-			if ((window.mode != 4) && (window.mode != 5)) {
+			switch (window.mode) {
+			case 1:
 				try {
-					window.labelErgebnis.setText(window.calcString.calcResultFromString(window.labelCalc.getText(),
-							window.mode, window.calcMode, window.buttonLogBase.getText(), window.buttonLogExp.getText(),
-							window));
-				} catch (Exception er) {
-
-				}
-			} else if (window.mode == 4) {
+					// window.labelErgebnis.setText(window.calcString.calcResultFromString(window.labelCalc.getText(),
+					// window.mode, window.calcMode, window.buttonLogBase.getText(),
+					// window.buttonLogExp.getText(),
+					// window));
+					String task = window.labelCalc.getText();
+					window.labelErgebnis.setText(Double.toString(window.calcString.calculate(task)));
+				} catch (Exception er) {}
+				break;
+			case 2:
 				GeoDrawKeyEvent func = new GeoDrawKeyEvent("Function", 800, 600, 1, window.appearanceMode,
 						window.labelCalc.getText());
-			} else if (window.mode == 5) {
-				double number = Double.parseDouble(window.calcString.calcResultFromString(window.labelCalc.getText(),
-						1, window.calcMode, window.buttonLogBase.getText(),
-						window.buttonLogExp.getText(), window));
+				break;
+			case 3:
+				/*
+				 * double number =
+				 * Double.parseDouble(window.calcString.calcResultFromString(window.labelCalc.
+				 * getText(), 1, window.calcMode, window.buttonLogBase.getText(),
+				 * window.buttonLogExp.getText(), window));
+				 */
+				double number = window.calcString.calculate(window.labelCalc.getText());
+
 				double result = Unit.calculate(window.menu.typeSelect.getText(), window.menu.unit1.getText(),
-						window.menu.unit2.getText(),number);
-				//System.out.println(window.menu.typeSelect.getText()+" "+window.menu.unit1.getText()+" "+
-				//		window.menu.unit2.getText()+" "+number);
+						window.menu.unit2.getText(), number);
+				// System.out.println(window.menu.typeSelect.getText()+"
+				// "+window.menu.unit1.getText()+" "+
+				// window.menu.unit2.getText()+" "+number);
 				window.labelErgebnis.setText(Double.toString(result));
+				break;
 			}
 		} else if (d.equals(window.buttonDelete)) {
 			window.insertTextInField(window.calcLabelEmpty, true);
 			// -----------------------------------------------------------------------------------------------------------------
 		} else if (d.equals(window.buttonChangeMode)) {
-			window.mode++;
-			if (window.mode > window.MODES) {
-				window.mode = 1;
+			window.funcMode++;
+			if (window.funcMode > 1) {
+				window.funcMode = 0;
 			}
-			window.changeMode();
-			// window.insertTextInField(window.calcLabelEmpty, true);
+			for(int i = 0; i <=4; i++) {
+				window.funcPad[i].setText(window.textButtons[i][window.funcMode]);
+			}
 			// ----------------------------------------------------------------------------------------------------------------
 		} else if (arrayToList(window.funcPad).contains(d)) {
-			window.buttonActionOnPressed(d);
+
+			window.insertTextInField(d.getText() + "(", false);
+
 		} else if (d.equals(window.buttonSignMinus)) {
 			window.insertTextInField(" -", false);
 		} else if (d.equals(window.buttonMathPi)) {
 			window.insertTextInField(window.constants[0], false);
 		} else if (d.equals(window.buttonMathE)) {
 			window.insertTextInField(window.constants[1], false);
+			// -------------------------------------------------------------------------------------------------------------
 		} else if (d.equals(window.buttonDeleteLast)) {
 			// delete all if there is only one character
 			if (window.getTextInField().length() == 1) {
@@ -115,19 +129,22 @@ public class ButtonActionListener implements ActionListener {
 				}
 			} catch (Exception a) {
 			}
+			// ------------------------------------------------------------------------------------------------------
 		} else if (d.equals(window.buttonXPowerReverse)) {
 			window.insertTextInField("^( -1)", false);
-		} else if (d.equals(window.buttonLogExp)) {
-			window.logWithBaseFocus = 1;
-			window.buttonLogBase.setBackground(Color.white);
-			window.buttonLogExp.setBackground(Color.LIGHT_GRAY);
-		} else if (d.equals(window.buttonLogBase)) {
-			window.logWithBaseFocus = 2;
-			window.buttonLogBase.setBackground(Color.LIGHT_GRAY);
-			window.buttonLogExp.setBackground(Color.white);
 		} else if (d.equals(window.buttonCopyResult)) {
 			Copy.toClipboard(Numbers.optimizeNumber(window.labelErgebnis.getText(), true));
 			// Copy.toClipboard(window.labelErgebnis.getText());
+		} else if (d.equals(window.buttonPlus)) {
+			window.insertTextInField(" " + d.getText() + " ", false);
+		} else if (d.equals(window.buttonMinus)) {
+			window.insertTextInField(" " + d.getText() + " ", false);
+		} else if (d.equals(window.buttonTimes)) {
+			window.insertTextInField(" " + "*" + " ", false);
+		} else if (d.equals(window.buttonDivide)) {
+			window.insertTextInField(" / ", false);
+		} else if (d.equals(window.buttonPow)) {
+			window.insertTextInField(" " + d.getText() + " ", false);
 		}
 
 		else {

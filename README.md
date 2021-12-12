@@ -12,42 +12,25 @@ This Calculator has been programmed in java and is a current work in progress!
 
 # Help with buttons
 
-DEL - delete last character
-AC - delete all
-
-"+" - addition
-
-"-" - subtraction
-
-"*" - multiplication
-
-"/" - dividation
-
-"^" - power
-
-E - * 10 ^ (times ten to the power of x; e.g.: 2E3 equals 2*10^3 equals 2*1000 equals 2000)
-
-ANS - uses result of last calculation
-
-= - calculates result
-
-π - mathematical constant 3.14...
-
-e - mathematical constant 2.71...
-
-(-) - mathematical sign (not the same as minus operator)
-
-( - bracket open
-
-) - bracket close
-
-M - changes calculation mode to types like sin, cos, tan, asin, acos, atan, log, root, ...
-
-^2 - to the power of 2
-
-^3 - to the power of 3
-
-^(-1) - to the power of -1
++ DEL - delete last character
++ AC - delete all
++ "+" - addition
++ "-" - subtraction
++ "*" - multiplication
++ "/" - dividation
++ "^" - power
++ E - * 10 ^ (times ten to the power of x; e.g.: 2E3 equals 2 * 10^3 equals 2*1000 equals 2000)
++ ANS - uses result of last calculation
++ = - calculates result
++ π - mathematical constant 3.14...
++ e - mathematical constant 2.71...
++ (-) - mathematical sign (not the same as minus operator)
++ ( - bracket open
++ ) - bracket close
++ M - cycles page 1 and 2 of sin,cos,tan,asin,acos,atan,log,root... functions
++ ^2 - to the power of 2
++ ^3 - to the power of 3
++ ^(-1) - to the power of -1
 
 
 # Credits

@@ -141,7 +141,7 @@ public class KeyEventClass implements KeyListener {
 			tr.buttonChangeMode.doClick();
 			break;
 		case 'x':
-			if (tr.mode == 4) {
+			if (tr.mode == 2) {
 				tr.numPad[12].doClick();
 			}
 		}
