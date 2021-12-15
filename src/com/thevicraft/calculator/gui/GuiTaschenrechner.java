@@ -1,6 +1,5 @@
 package com.thevicraft.calculator.gui;
 
-import com.thevicraft.calculator.api.EvaluationUtil;
 import com.thevicraft.calculator.api.StringCalculation;
 import com.thevicraft.calculator.gui.Images.Pictures;
 import com.thevicraft.calculator.integration.NetLink;
@@ -21,8 +20,6 @@ import javax.swing.JTextField;
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.mXparser;
-
-import javax.swing.JProgressBar;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -140,18 +137,18 @@ public class GuiTaschenrechner extends JFrame {
 	public static final Color bright = Color.white;
 
 	public static String operator[] = { "+", "-", "\u00D7", "\u00F7", "^" };
-	public static String textButtons[][] = { { "log10", "log" }, { " √ ", "x!" }, { "sin", "asin" }, { "cos", "acos" },
+	public static String textButtons[][] = { { "log10", "log" }, { " √ ", "!" }, { "sin", "asin" }, { "cos", "acos" },
 			{ "tan", "atan" } };
 
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
 		try {
 			mXparser.setDegreesMode();
-			Argument x = new Argument("x = 10");
-			Expression e = new Expression("cos(x)", x);
+			Argument x = new Argument("x = 8");
+			Expression e = new Expression("log(2,x)", x);
 			System.out.println("Ergebnis: " + e.calculate());
 		} catch (Exception e) {
 		}
-		loader = new Loader("Calculator");
+		loader = new Loader("Calculator",Pictures.values().length * 2 + 30);
 		loader.setVisible(true);
 		switch (darkLight) {
 		case "dark":

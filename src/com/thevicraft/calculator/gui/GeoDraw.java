@@ -1,7 +1,5 @@
 package com.thevicraft.calculator.gui;
 
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
@@ -53,12 +51,13 @@ public class GeoDraw extends JFrame {
 	private String function;
 
 	private Color mode;
-	
+
 	private Color graphColor = Color.green; // default Color
 
 	public boolean ctrlPressed = false;
 
 	public GeoDraw(String titel, int width, int height, float factor, Color mode, String function) {
+
 		FRAME_HEIGHT = (int) (height * factor);
 		FRAME_WIDTH = (int) (width * factor);
 		this.function = function;
@@ -76,13 +75,14 @@ public class GeoDraw extends JFrame {
 		initComponents();
 		setLocationRelativeTo(null);
 		setColorOfComponents(mode);
-
-		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT, 40, originX, originY, this.function, mode,graphColor);
+		setVisible(false);
+		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT, 40, originX, originY, this.function, mode, graphColor,true);
+		setVisible(false);
 		mainPanel.add(graphPanel);
 		graphPanel.add(graph);
 
 		addActionListeners();
-		
+
 		mainPanel.add(color);
 		mainPanel.add(zoomOut);
 		mainPanel.add(zoomIn);
@@ -106,7 +106,7 @@ public class GeoDraw extends JFrame {
 		add(mainPanel);
 		setIconOfComponents();
 		setVisible(true);
-		//graph.print(graph.getGraphics());
+		// graph.print(graph.getGraphics());
 	}
 
 	private void setIconOfComponents() {
@@ -118,8 +118,9 @@ public class GeoDraw extends JFrame {
 
 	private void updateGraph() {
 		graphPanel.removeAll();
-		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, function, mode,graphColor);
-		//graph.update(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, function, mode,graphColor);
+		graph = new Graph(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY, function, mode, graphColor);
+		// graph.update(FRAME_WIDTH, FRAME_HEIGHT - 100, scaleFactor, originX, originY,
+		// function, mode,graphColor);
 		graphPanel.add(graph);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT - 1);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -146,17 +147,17 @@ public class GeoDraw extends JFrame {
 		color.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				graphColor = JColorChooser.showDialog(GeoDraw.this,"Select Graph Color",Color.green);
+				graphColor = JColorChooser.showDialog(GeoDraw.this, "Select Graph Color", Color.green);
 				updateGraph();
-				
-			}});
+
+			}
+		});
 		zoomIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				scaleFactor += jumpTo();
 				updateGraph();
 			}
 		});
-
 		zoomOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				scaleFactor -= jumpTo();
@@ -198,7 +199,7 @@ public class GeoDraw extends JFrame {
 				// graph.setBackground(GuiTaschenrechner.dark);
 				try {
 					Print.printComponent(graphPanel);
-					//new Print(graphPanel).print(graphPanel.getGraphics(), null, 1);
+					// new Print(graphPanel).print(graphPanel.getGraphics(), null, 1);
 				} catch (Exception e2) {
 					// TODO: handle exception
 					Log.console(e2.toString());
@@ -209,7 +210,7 @@ public class GeoDraw extends JFrame {
 
 	private void initComponents() {
 		normal = new Font("Tahoma", Font.BOLD, (int) (12 * sizeFactor));
-		
+
 		color = new JButton("Color");
 		color.setFont(new Font("Tahoma", Font.BOLD, 9));
 		zoomOut = new JButton("-");
@@ -219,7 +220,7 @@ public class GeoDraw extends JFrame {
 		right = new JButton();
 		down = new JButton();
 		left = new JButton();
-		color.setPreferredSize(new Dimension(60,25));
+		color.setPreferredSize(new Dimension(60, 25));
 		up.setPreferredSize(pad);
 		right.setPreferredSize(pad);
 		down.setPreferredSize(pad);
@@ -243,5 +244,6 @@ public class GeoDraw extends JFrame {
 			d = GuiTaschenrechner.dark;
 		}
 		// foregrounds that are reversed due to mode
+
 	}
 }

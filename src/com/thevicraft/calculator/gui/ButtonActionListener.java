@@ -40,7 +40,8 @@ public class ButtonActionListener implements ActionListener {
 					// window));
 					String task = window.labelCalc.getText();
 					window.labelErgebnis.setText(Double.toString(window.calcString.calculate(task)));
-				} catch (Exception er) {}
+				} catch (Exception er) {
+				}
 				break;
 			case 2:
 				GeoDrawKeyEvent func = new GeoDrawKeyEvent("Function", 800, 600, 1, window.appearanceMode,
@@ -71,13 +72,17 @@ public class ButtonActionListener implements ActionListener {
 			if (window.funcMode > 1) {
 				window.funcMode = 0;
 			}
-			for(int i = 0; i <=4; i++) {
+			for (int i = 0; i <= 4; i++) {
 				window.funcPad[i].setText(window.textButtons[i][window.funcMode]);
 			}
 			// ----------------------------------------------------------------------------------------------------------------
 		} else if (arrayToList(window.funcPad).contains(d)) {
-
-			window.insertTextInField(d.getText() + "(", false);
+			if ((d.equals(window.getFuncPad(1))) && (window.funcMode == 0))
+				window.insertTextInField("sqrt(", false);
+			else if((d.equals(window.getFuncPad(1)))&&(window.funcMode == 1))
+				window.insertTextInField("!", false);
+			else
+				window.insertTextInField(d.getText() + "(", false);
 
 		} else if (d.equals(window.buttonSignMinus)) {
 			window.insertTextInField(" -", false);
