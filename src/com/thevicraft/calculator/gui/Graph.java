@@ -39,7 +39,6 @@ public class Graph extends JPanel {
 	private List<Float> listx = new ArrayList<Float>();
 	private List<Float> listy = new ArrayList<Float>();
 
-	@SuppressWarnings("unused")
 	private boolean pointsCalculated = false;
 
 	public Graph(int width, int height, int scaleFactor, int originX, int originY, String function, Color mode,
@@ -127,10 +126,10 @@ public class Graph extends JPanel {
 //			cords.addPoint(xcord, ycord);
 //		}
 		panel.setColor(graphColor);
-		if(!pointsCalculated) {
+		if(pointsCalculated == false) {
 			calculatePoints();
 		}
-		for(int counter = 0; counter < ((Math.abs(drawFrom)+Math.abs(drawTo))*1000); counter ++) {
+		for(int counter = 0; counter < ((Math.abs(drawFrom)+Math.abs(drawTo))*1000)-1; counter ++) {
 			cords.addPoint(listx.get(counter), listy.get(counter));
 		}
 		
