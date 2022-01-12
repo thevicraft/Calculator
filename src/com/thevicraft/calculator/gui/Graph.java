@@ -21,7 +21,10 @@ import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
+/**
+ * Graph that is drawn , extends JPanel
+ * @see GeoDraw
+ * */
 @SuppressWarnings("serial")
 public class Graph extends JPanel {
 
@@ -129,7 +132,7 @@ public class Graph extends JPanel {
 		if(pointsCalculated == false) {
 			calculatePoints();
 		}
-		for(int counter = 0; counter < ((Math.abs(drawFrom)+Math.abs(drawTo))*1000)-1; counter ++) {
+		for(int counter = 0; counter < listx.size(); counter ++) {
 			cords.addPoint(listx.get(counter), listy.get(counter));
 		}
 		
@@ -165,9 +168,10 @@ public class Graph extends JPanel {
 			listx.add(xcord);
 			listy.add(ycord);
 		}
-		System.out.println("calculated points");
+		//System.out.println("calculated points");
 		pointsCalculated = true;
 	}
+	//------------------------------------------------------------------------
 
 	private void calculatePoints() {
 		for (float x = drawFrom; x <= drawTo; x += 0.001) { // 0,001
@@ -189,7 +193,7 @@ public class Graph extends JPanel {
 			listy.add(ycord);
 		}
 		pointsCalculated = true;
-		System.out.println("calculated Points");
+		//System.out.println("calculated Points");
 	}
 
 	public void makeAxes(Point o) {
@@ -253,11 +257,23 @@ public class Graph extends JPanel {
 		// System.out.println("y positiv bis "+counter);
 		counter = 0;
 	}
-
+	/**
+	 * Draw a Point with a certain size in certain coordinates
+	 * 
+	 * @param d - Point where it is drawn
+	 * @param size - size
+	 * @author thevicraft
+	 * */
 	public void drawPoint(Point d, int size) {
 		panel.fillOval((int) d.getX(), (int) d.getY(), size, size);
 	}
-
+	/**
+	 * Draw a Line form two points
+	 * 
+	 * @param p1 - Point 1
+	 * @param p2 - Point 2
+	 * @author thevicraft
+	 * */
 	public void drawLine(Point p1, Point p2) {
 		panel.drawLine((int) p1.getX(), (int) p1.getY(), (int) p2.getX(), (int) p2.getY());
 	}

@@ -12,7 +12,12 @@ import com.thevicraft.calculator.api.StringCalcFunctions;
 import com.thevicraft.calculator.gui.unitsystem.Unit;
 import com.thevicraft.calculator.integration.Copy;
 import com.thevicraft.keyboard.activity.GeoDrawKeyEvent;
-
+/**
+ * Implementation of Button Action Listener for the buttons of Simple Calculator
+ * @see GuiTaschenrechner
+ * @author thevicraft
+ * @category Implementation
+ * */
 public class ButtonActionListener implements ActionListener {
 	private GuiTaschenrechner window;
 	private JButton buttonPressed;
@@ -44,7 +49,7 @@ public class ButtonActionListener implements ActionListener {
 				}
 				break;
 			case 2:
-				GeoDrawKeyEvent func = new GeoDrawKeyEvent("Function", 800, 600, 1, window.appearanceMode,
+				GeoDrawKeyEvent func = new GeoDrawKeyEvent("Function", /*800*/1200, /*600*/800, /*sizeFactor:*/1, window.appearanceMode,
 						window.labelCalc.getText());
 				break;
 			case 3:

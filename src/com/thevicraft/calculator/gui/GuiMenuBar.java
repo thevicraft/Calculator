@@ -17,6 +17,11 @@ import javax.swing.JCheckBoxMenuItem;
 
 import org.mariuszgromada.math.mxparser.*;
 
+/**
+ * GUI Menu Bar of Simple Calculator
+ * 
+ * @author thevicraft
+ */
 @SuppressWarnings("serial")
 public class GuiMenuBar extends JMenuBar {
 
@@ -24,12 +29,12 @@ public class GuiMenuBar extends JMenuBar {
 	protected JMenu window;
 	protected JMenu mode;
 	protected JMenu setupMenu;
-	protected JSeparator sep1,sep2,sep3,sep4;
-	
-	public JCheckBoxMenuItem rad,deg;
-	
+	protected JSeparator sep1, sep2, sep3, sep4;
+
+	public JCheckBoxMenuItem rad, deg;
+
 	public UnitMenuSelect typeSelect;
-	public UnitMenu unit1,unit2;
+	public UnitMenu unit1, unit2;
 
 	static final int MENUS = 3;
 	static final int MAX_MENUITEMS = 6;
@@ -37,10 +42,10 @@ public class GuiMenuBar extends JMenuBar {
 	public JMenuItem[][] items = new JMenuItem[MENUS][MAX_MENUITEMS]; // index 1 = menu number, index 2 = menu item
 																		// number
 	private String[][] itemsTextConfig = {
-			{ "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode","Setup" },
+			{ "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode", "Setup" },
 			{ "New Window        [Ctrl+W]", "Help                       [Ctrl+H]", "Shortcuts             [Ctrl+S]",
 					"Report Bug", "Join Discord Server", "About" },
-			{ "Normal", "Draw Graph","Unit Calculator" } };
+			{ "Normal", "Draw Graph", "Unit Calculator" } };
 
 	// ACTIONLISTENER FOR MENUITEMS IS IN GUITASCHENRECHNER AT THE BOTTON
 	// !!!!!!!!!!!!1
@@ -52,8 +57,7 @@ public class GuiMenuBar extends JMenuBar {
 		add(config);
 		add(window);
 		add(mode);
-		
-		
+
 		add(sep1);
 		add(typeSelect);
 		add(sep2);
@@ -66,18 +70,17 @@ public class GuiMenuBar extends JMenuBar {
 		setIconOfComponents();
 	}
 
-	/*public GuiMenuBar() {
-		initMenus();
-		setColorOfComponents(GuiTaschenrechner.dark);
-		initMenuItems();
-		add(config);
-		add(window);
-		add(mode);
-		add(sep1)
-		add(new UnitMenu("area"));
-		add(new UnitMenu("area"));
-		setIconOfComponents();
-	}*/
+	/*
+	 * public GuiMenuBar() { initMenus();
+	 * setColorOfComponents(GuiTaschenrechner.dark); initMenuItems(); add(config);
+	 * add(window); add(mode); add(sep1) add(new UnitMenu("area")); add(new
+	 * UnitMenu("area")); setIconOfComponents(); }
+	 */
+	
+	/**
+	 * Sets if true, Unit section to visible
+	 * @author thevicraft
+	 */
 	public void setUnitVisible(boolean x) {
 		sep1.setVisible(x);
 		sep2.setVisible(x);
@@ -87,7 +90,13 @@ public class GuiMenuBar extends JMenuBar {
 		unit1.setVisible(x);
 		unit2.setVisible(x);
 	}
-
+	/**
+	 * Sets color of the components according to parameter, valid parameters: 
+	 * {@link GuiTaschenrechner.dark} and {@link GuiTaschenrechner.bright}
+	 * @see {@link GuiTaschenrechner}
+	 * 
+	 * @author thevicraft
+	 */
 	public void setColorOfComponents(Color d) {
 		setBackground(d);
 
@@ -108,7 +117,7 @@ public class GuiMenuBar extends JMenuBar {
 		config.setForeground(d);
 		window.setForeground(d);
 		mode.setForeground(d);
-		
+
 		typeSelect.setForeground(d);
 		unit1.setForeground(d);
 		unit2.setForeground(d);
@@ -138,16 +147,16 @@ public class GuiMenuBar extends JMenuBar {
 		config = new JMenu("Config");
 		window = new JMenu("Window");
 		mode = new JMenu("Mode");
-		
+
 		sep1 = new JSeparator(SwingConstants.VERTICAL);
 		sep2 = new JSeparator(SwingConstants.VERTICAL);
 		sep3 = new JSeparator(SwingConstants.VERTICAL);
 		sep4 = new JSeparator(SwingConstants.VERTICAL);
 		unit1 = new UnitMenu("area");
 		unit2 = new UnitMenu("area");
-		
-		typeSelect = new UnitMenuSelect(unit1,unit2);
-		
+
+		typeSelect = new UnitMenuSelect(unit1, unit2);
+
 		setupMenu = new JMenu("Setup");
 	}
 
@@ -168,14 +177,16 @@ public class GuiMenuBar extends JMenuBar {
 				public void actionPerformed(ActionEvent arg0) {
 					deg.setState(false);
 					mXparser.setRadiansMode();
-				}});
+				}
+			});
 			deg.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					rad.setState(false);
 					mXparser.setDegreesMode();
-				}});
+				}
+			});
 		}
 
 		for (int i = 0; i <= 5; i++) {
@@ -186,10 +197,10 @@ public class GuiMenuBar extends JMenuBar {
 			items[2][i] = new JMenuItem(itemsTextConfig[2][i]);
 			mode.add(items[2][i]);
 		}
-		
+
 		// default settings
 		deg.setState(true);
 		mXparser.setDegreesMode();
-		
+
 	}
 }

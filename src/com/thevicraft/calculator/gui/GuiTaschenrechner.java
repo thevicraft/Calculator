@@ -26,11 +26,32 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 
+/**
+ * Constructs the default Simple Calculator GUI
+ * 
+ * @author thevicraft
+ * @version 5.0.pre1
+ * @category JFrame
+ * 
+ * */
+
+
 @SuppressWarnings("serial")
 public class GuiTaschenrechner extends JFrame {
 	private String platz = "                                                 ";
+	/**
+	 * Current mode of calculator
+	 * @see GuiTaschenrechner
+	 * @author thevicraft
+	 * */
 	public int mode = 1; // default mode, do not change
 	public int funcMode = 0;
+	/**
+	 * Number of modes that are implemented in Simple Calculator
+	 * @category constant values
+	 * @see GuiTaschenrechner
+	 * @author thevicraft
+	 * */
 	static final int MODES = 3;
 	protected int calcMode;
 	final String calcLabelEmpty = ""; // " "
@@ -100,9 +121,19 @@ public class GuiTaschenrechner extends JFrame {
 	public JButton[] funcPad = new JButton[5];
 	JPanel[] panels = new JPanel[PANELS + 1];
 	protected JPanel panelMaster;
-
+	
+	/**
+	 * Unicode constants
+	 * @category constant values
+	 * @author thevicraft
+	 * */
 	public static final String constants[] = { "\u213c", "\u212f", "\u03c0", "\u2107" }; // pi, e
-
+	
+	/**
+	 * X string constant for function declaration
+	 * @category constant values
+	 * @author thevicraft
+	 * */
 	public static final String X = "x";// = "\uD835\uDC65";
 
 	protected float ergebnis;
@@ -133,7 +164,18 @@ public class GuiTaschenrechner extends JFrame {
 
 	// Images--------------------------------------------------------------------------------------------------
 	Images icon = new Images();
+	
+	/**
+	 * Color constant for dark mode
+	 * @category constant values
+	 * @author thevicraft
+	 * */
 	public static final Color dark = Color.DARK_GRAY;
+	/**
+	 * Color constant for white mode
+	 * @category constant values
+	 * @author thevicraft
+	 * */
 	public static final Color bright = Color.white;
 
 	public static String operator[] = { "+", "-", "\u00D7", "\u00F7", "^" };

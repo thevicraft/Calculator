@@ -11,10 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
-
+/**
+ * Class for Image Handling / image loading
+ * @author thevicraft
+ * @category Handling
+ * */
 public class Images {
-	// IMPORTANT FOR ADDING NEW IMAGES: THE ENUM VARIABLE HAS TO BE NAMED THE SAME
-	// WAY THE IMAGE FILE IS NAMED (does not matter if capital letters or not)!!!!!
+	/**
+	 * @apiNote IMPORTANT FOR ADDING NEW IMAGES: THE ENUM VARIABLE HAS TO BE NAMED
+	 *          THE SAME WAY THE IMAGE FILE IS NAMED (does not matter if capital
+	 *          letters or not)!!!!!
+	 */
 	public static enum Pictures {
 		ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, AUTHOR, COPY, DISCORD_ICON, GITHUB_ICON, GRAPH_ICON, LAMP,
 		MODE_ICON, UNITS, WARNING, WINDOW_ICON, WINDOW_ICON_WARNING, ZOOM_MINUS, ZOOM_PLUS
@@ -25,9 +32,16 @@ public class Images {
 	private static List<String> picsValues = new ArrayList<String>();
 
 	public static final String imageFileFormat = "png";
-	
+
 	private static boolean imagesLoaded = false;
 
+	/**
+	 * loads the resource images from Pictures enum
+	 * 
+	 * @param window  - corresponding window
+	 * @param loading - corresponding JProcessBar that is filled up while loading
+	 * @author thevicraft
+	 */
 	public static void initImages(GuiTaschenrechner window, Loader loading) {
 		Exception error = null;
 		Log.console("Loading Images ...");
@@ -47,7 +61,7 @@ public class Images {
 			for (Pictures d : Pictures.values()) {
 				picsValues.add(d.toString().toLowerCase() + "." + imageFileFormat);
 				System.out.println("-- " + d.toString().toLowerCase() + "." + imageFileFormat);
-				loading.iterate(); // add percent to process bar  
+				loading.iterate(); // add percent to process bar
 			}
 
 			picsValues.forEach(iterator -> {
@@ -69,7 +83,7 @@ public class Images {
 		}
 
 	}
-	
+
 	public static boolean isLoaded() {
 		return imagesLoaded;
 	}
@@ -96,7 +110,14 @@ public class Images {
 		return dummy;
 	}
 
-	public static ImageIcon getDefaultImageIcon(Pictures d) {
+	/**
+	 * returns a loaded ImageIcon from enum value
+	 * 
+	 * @param icon - enum value of pictures
+	 * @return ImageIcon
+	 * @author thevicraft
+	 */
+	public static ImageIcon getDefaultImageIcon(Pictures icon) {
 		/*
 		 * int counter = 0; for (Pictures image : Pictures.values()) { if
 		 * (d.equals(image)) { return new Images().imageDefaultInResources(counter); }
@@ -104,7 +125,7 @@ public class Images {
 		 * 
 		 * }
 		 */
-		String picture = d.toString().toLowerCase();
+		String picture = icon.toString().toLowerCase();
 		// picsValues.contains(picture.substring(0,
 		// picture.length()-imageFileFormat.length()));
 		int index = picsValues.indexOf(picture + "." + imageFileFormat);
@@ -115,6 +136,15 @@ public class Images {
 
 	// ---------------------SCALE
 	// PICTURES--------------------------------------------------
+	/**
+	 * scales a selected ImageIcon
+	 * 
+	 * @param icon   - selected Image that will be scaled
+	 * @param width  - width of the scaled image
+	 * @param height - height of the scaled image
+	 * @return ImageIcon - new scaled image
+	 * @author thevicraft
+	 */
 	public static ImageIcon scaleImageIcon(ImageIcon icon, int width, int height) {
 		Image img = icon.getImage();
 		Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
@@ -123,6 +153,15 @@ public class Images {
 
 	// ---------------------------SCALE DEFAULT
 	// PICTURES-------------------------------------
+	/**
+	 * scales an ImageIcon from default loaded images
+	 * 
+	 * @param icon   - enum value of default loaded images
+	 * @param width  - width of the scaled image
+	 * @param height - height of the scaled image
+	 * @return ImageIcon
+	 * @author thevicraft
+	 */
 	public static ImageIcon scaleImageIconFromDefault(Pictures icon, int width, int height) {
 		Image img = getDefaultImageIcon(icon).getImage();
 		Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
@@ -153,6 +192,14 @@ public class Images {
 		return new ImageIcon(imageList.get(imageId).getImage());
 	}
 
+	/**
+	 * sets icon on button from loaded images
+	 * 
+	 * @param container - button that gets the icon
+	 * @param image     - enum image value that will be transformed into ImageIcon
+	 *                  and put on the button
+	 * @author thevicraft
+	 */
 	public static void setButtonIcon(JButton container, Pictures image) {
 		container.setIcon(Images.scaleImageIconFromDefault(image, (int) container.getPreferredSize().getHeight(),
 				(int) container.getPreferredSize().getHeight()));

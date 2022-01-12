@@ -19,7 +19,11 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
-
+/**
+ * Handler of GeoDraw Frame
+ * @author thevicraft
+ * @category JFrame
+ * */
 @SuppressWarnings("serial")
 public class GeoDraw extends JFrame {
 	public Font normal; // = new Font("Tahoma", Font.BOLD, 12);
@@ -64,8 +68,10 @@ public class GeoDraw extends JFrame {
 		this.mode = mode;
 		sizeFactor = factor;
 		scaleFactor = 40;
-		originX = 400;
-		originY = 300;
+		//originX = 400;
+		//originY = 300;
+		originX = FRAME_WIDTH/2;
+		originY = FRAME_HEIGHT/2;
 		setTitle(titel);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new FlowLayout());
