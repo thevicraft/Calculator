@@ -9,7 +9,7 @@ import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.GuiTaschenrechner;
 
 public class KeyEventClass implements KeyListener {
-	private boolean ctrlPressed = false;
+	//private boolean ctrlPressed = false;
 	public GuiTaschenrechner tr;
 	String[] numPadLabel = new String[13];
 
@@ -25,9 +25,9 @@ public class KeyEventClass implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
-		if (key == 17) {
-			ctrlPressed = true;
-		}
+//		if (key == 17) {
+//			ctrlPressed = true;
+//		}
 	}
 
 	@Override
@@ -52,33 +52,55 @@ public class KeyEventClass implements KeyListener {
 
 		}
 
-		if (key == 17) {
-			ctrlPressed = false;
-		}
-		if ((key == 87) && (ctrlPressed == true)) {
+//		if (key == 17) {
+//			ctrlPressed = false;
+//		}
+		if ((key == KeyEvent.VK_W) && (e.isControlDown())) {
 			tr.menu.items[1][0].doClick();
-			ctrlPressed = false;
 		}
-		if ((key == 70) && (ctrlPressed == true)) {
+		if ((key == KeyEvent.VK_F) && (e.isControlDown())) {
 			// GeoDraw func =new GeoDraw("Function", 800, 600, 1, GuiTaschenrechner.dark);
 			// func.addKeyListener(new WindowCloseEvent(func));
 			GeoDrawKeyEvent func = new GeoDrawKeyEvent("Test Window", 800, 600, 1, GuiTaschenrechner.dark,
 					GuiTaschenrechner.X + "^2");
 		}
-		if ((key == 67) && (ctrlPressed == true)) {
+//		if ((key == 67) && (ctrlPressed == true)) {
+//			tr.buttonCopyResult.doClick();
+//			ctrlPressed = false;
+//		}
+		if ((KeyEvent.VK_C == key) && (e.isControlDown())) {
 			tr.buttonCopyResult.doClick();
-			ctrlPressed = false;
 		}
-		if ((key == 72) && (ctrlPressed == true)) {
+		if ((key == KeyEvent.VK_H) && (e.isControlDown())) {
 			tr.menu.items[1][1].doClick();
-			ctrlPressed = false;
 		}
-		if ((key == 83) && (ctrlPressed == true)) {
+		if ((key == KeyEvent.VK_S) && (e.isControlDown())) {
 			tr.menu.items[1][2].doClick();
-			ctrlPressed = false;
+			//ctrlPressed = false;
 		}
-
-		 //System.out.println("key :"+key);
+//		if (((key == 107) || (key == 521)) && (e.isControlDown())) {
+//			tr.menu.items[0][0].doClick();
+//			ctrlPressed = false;
+//		}
+//		if (((key == 109) || (key == 45)) && (e.isControlDown())) {
+//			tr.menu.items[0][1].doClick();
+//			//ctrlPressed = false;
+//		}
+		if ((KeyEvent.VK_PLUS == key) && (e.isControlDown())) {
+			tr.menu.items[0][0].doClick();
+		}
+		if ((KeyEvent.VK_MINUS == key) && (e.isControlDown())) {
+			tr.menu.items[0][1].doClick();
+			//ctrlPressed = false;
+		}
+		if ((KeyEvent.VK_ADD == key) && (e.isControlDown())) {
+			tr.menu.items[0][0].doClick();
+		}
+		if ((KeyEvent.VK_SUBTRACT == key) && (e.isControlDown())) {
+			tr.menu.items[0][1].doClick();
+			//ctrlPressed = false;
+		}
+//		 System.out.println("key :"+key);
 	}
 
 	@Override
@@ -97,18 +119,16 @@ public class KeyEventClass implements KeyListener {
 		}
 		switch (key) {
 		case '+':
-			if (ctrlPressed == false) {
+			if (!e.isControlDown()) {
 				tr.buttonPlus.doClick();
 				break;
 			}
-			tr.menu.items[0][0].doClick();
 			break;
 		case '-':
-			if (ctrlPressed == false) {
+			if (!e.isControlDown()) {
 				tr.buttonMinus.doClick();
 				break;
 			}
-			tr.menu.items[0][1].doClick();
 			break;
 		case '*':
 			tr.buttonTimes.doClick();

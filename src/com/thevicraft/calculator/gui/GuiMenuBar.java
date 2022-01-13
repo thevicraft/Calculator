@@ -42,7 +42,7 @@ public class GuiMenuBar extends JMenuBar {
 	public JMenuItem[][] items = new JMenuItem[MENUS][MAX_MENUITEMS]; // index 1 = menu number, index 2 = menu item
 																		// number
 	private String[][] itemsTextConfig = {
-			{ "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode", "Setup" },
+			{ "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode","Toggle Unicode Chars", "Setup"},
 			{ "New Window        [Ctrl+W]", "Help                       [Ctrl+H]", "Shortcuts             [Ctrl+S]",
 					"Report Bug", "Join Discord Server", "About" },
 			{ "Normal", "Draw Graph", "Unit Calculator" } };
@@ -130,6 +130,7 @@ public class GuiMenuBar extends JMenuBar {
 		items[0][0].setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_PLUS, 18, 18));
 		items[0][1].setIcon(Images.scaleImageIconFromDefault(Pictures.ZOOM_MINUS, 18, 18));
 		items[0][2].setIcon(Images.scaleImageIconFromDefault(Pictures.MODE_ICON, 18, 18));
+		items[0][3].setIcon(null);
 
 		items[1][1].setIcon(Images.scaleImageIconFromDefault(Pictures.LAMP, 18, 18));
 		items[1][2].setIcon(Images.scaleImageIconFromDefault(Pictures.ARROW_RIGHT, 18, 18));
@@ -161,7 +162,7 @@ public class GuiMenuBar extends JMenuBar {
 	}
 
 	private void initMenuItems() {
-		for (int i = 0; i <= 2; i++) {
+		for (int i = 0; i <= 3; i++) {
 			items[0][i] = new JMenuItem(itemsTextConfig[0][i]);
 			config.add(items[0][i]);
 		}

@@ -23,7 +23,7 @@ public class WindowCloseEvent implements KeyListener {
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
 
-		if (key == 27) {
+		if (key == KeyEvent.VK_ESCAPE) {
 			window.dispose();
 		}
 	}

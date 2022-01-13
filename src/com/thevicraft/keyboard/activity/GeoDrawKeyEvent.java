@@ -27,17 +27,32 @@ public class GeoDrawKeyEvent implements KeyListener{
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
 		switch(key) {
-		case 37:
+		case KeyEvent.VK_LEFT:
 			geo.left.doClick();
 			break;
-		case 38:
+		case KeyEvent.VK_UP:
 			geo.up.doClick();
 			break;
-		case 39:
+		case KeyEvent.VK_RIGHT:
 			geo.right.doClick();
 			break;
-		case 40:
+		case KeyEvent.VK_DOWN:
 			geo.down.doClick();
+			break;
+		}
+		
+		switch(key) {
+		case KeyEvent.VK_PLUS:
+			geo.zoomIn.doClick();
+			break;
+		case KeyEvent.VK_ADD:
+			geo.zoomIn.doClick();
+			break;
+		case KeyEvent.VK_SUBTRACT:
+			geo.zoomOut.doClick();
+			break;
+		case KeyEvent.VK_MINUS:
+			geo.zoomOut.doClick();
 			break;
 		}
 		if (key == 17) {
@@ -48,15 +63,7 @@ public class GeoDrawKeyEvent implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		char key = e.getKeyChar();
-		switch(key) {
-		case '+':
-			geo.zoomIn.doClick();
-			break;
-		case '-':
-			geo.zoomOut.doClick();
-			break;
-		}
+
 	}
 
 }

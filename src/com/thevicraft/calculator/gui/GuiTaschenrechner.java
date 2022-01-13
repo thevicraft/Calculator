@@ -46,6 +46,13 @@ public class GuiTaschenrechner extends JFrame {
 	 * */
 	public int mode = 1; // default mode, do not change
 	public int funcMode = 0;
+	
+	/**
+	 * If set to 0 all available unicode characters will be used as button text, else if set to 1, unicode characters will not be used
+	 * @author thevicraft
+	 * @see GuiTaschenrechner
+	 * */
+	public int unicode = 0;
 	/**
 	 * Number of modes that are implemented in Simple Calculator
 	 * @category constant values
@@ -128,14 +135,19 @@ public class GuiTaschenrechner extends JFrame {
 	 * @author thevicraft
 	 * */
 	public static final String constants[] = { "\u213c", "\u212f", "\u03c0", "\u2107" }; // pi, e
-	
+	String[] minusSign = {"\u00B1","(-)"};
 	/**
 	 * X string constant for function declaration
 	 * @category constant values
 	 * @author thevicraft
 	 * */
 	public static final String X = "x";// = "\uD835\uDC65";
-
+	/**
+	 * unicode constant for f of f(x)
+	 * @category constant values
+	 * @author thevicraft
+	 * */
+	public static final String f[] = {"\u2a0d","f"}; //"\u2a0d";
 	protected float ergebnis;
 
 	//boolean bracket = false;
@@ -178,7 +190,8 @@ public class GuiTaschenrechner extends JFrame {
 	 * */
 	public static final Color bright = Color.white;
 
-	public static String operator[] = { "+", "-", "\u00D7", "\u00F7", "^" };
+	public static String operator[][] = {{ "+", "-", "\u00D7", "\u00F7", "^" },{ "+", "-", "*", "/", "^" }};
+	
 	public static String textButtons[][] = { { "log10", "log" }, { " √ ", "!" }, { "sin", "asin" }, { "cos", "acos" },
 			{ "tan", "atan" } };
 
@@ -246,6 +259,9 @@ public class GuiTaschenrechner extends JFrame {
 		labelCalc.setFocusable(false);
 
 		loader.dispose();
+		
+		setUnicode(true);
+		
 		setVisible(true);
 	}
 
@@ -287,6 +303,26 @@ public class GuiTaschenrechner extends JFrame {
 		// Images.scaleImageIconFromDefault(Pictures.ZOOM_OUT, (int) (25 * factor),
 		// ((int) (25 * factor))));
 		loader.iterate();
+	}
+	/**
+	 * Used to set unicode characters or use normal ascii letters
+	 * @param yes - If set to true unicode characters will be used, if set to false ascii letters will be used
+	 * @author thevicraft
+	 * @see GuiTaschenrechner
+	 * */
+	public void setUnicode(boolean yes) {
+		if(yes)
+			unicode = 0;
+		else
+			unicode = 1;
+		
+		buttonPlus.setText(operator[unicode][0]);
+		buttonMinus.setText(operator[unicode][1]);
+		buttonTimes.setText(operator[unicode][2]);
+		buttonDivide.setText(operator[unicode][3]);
+		buttonPow.setText(operator[unicode][4]);
+		
+		buttonSignMinus.setText(minusSign[unicode]);
 	}
 
 	void setSizeOfComponents(float factor, int labelCalcLength) {
@@ -580,11 +616,11 @@ public class GuiTaschenrechner extends JFrame {
 
 		buttonDelete = new JButton("AC");
 
-		buttonPlus = new JButton(operator[0]);
-		buttonMinus = new JButton(operator[1]);
-		buttonTimes = new JButton(operator[2]);
-		buttonDivide = new JButton(operator[3]);
-		buttonPow = new JButton(operator[4]);
+		buttonPlus = new JButton(operator[unicode][0]);
+		buttonMinus = new JButton(operator[unicode][1]);
+		buttonTimes = new JButton(operator[unicode][2]);
+		buttonDivide = new JButton(operator[unicode][3]);
+		buttonPow = new JButton(operator[unicode][4]);
 
 		buttonChangeMode = new JButton("M");
 
@@ -597,7 +633,7 @@ public class GuiTaschenrechner extends JFrame {
 		for (JButton pad : funcPad) {
 
 		}
-		buttonSignMinus = new JButton("\u00B1");
+		buttonSignMinus = new JButton(minusSign[unicode]);
 		buttonMathPi = new JButton(constants[0]);
 		buttonMathE = new JButton(constants[1]);
 
@@ -668,7 +704,7 @@ public class GuiTaschenrechner extends JFrame {
 			menu.setUnitVisible(false);
 			break;
 		case 2:
-			labelFuncOpn.setText("\u2a0d" + "(" + X + ") = ");
+			labelFuncOpn.setText(f[unicode] + "(" + X + ") = ");
 			labelFuncOpn.setVisible(true);
 
 			menu.setUnitVisible(false);
@@ -741,6 +777,20 @@ public class GuiTaschenrechner extends JFrame {
 				}
 				setColorOfComponents(appearanceMode);
 				menu.setColorOfComponents(appearanceMode);
+			}
+		});
+		menu.items[0][3].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(unicode == 0) {
+					unicode = 1;
+					setUnicode(false);
+				}
+				else if(unicode ==1) {
+					unicode = 0;
+					setUnicode(true);
+					}
 			}
 		});
 		loader.iterate();
