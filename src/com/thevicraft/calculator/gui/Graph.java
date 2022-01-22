@@ -5,6 +5,7 @@ import javax.swing.SwingUtilities;
 
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
+import org.mariuszgromada.math.mxparser.mXparser;
 
 import com.thevicraft.calculator.api.StringCalcFunctions;
 import com.thevicraft.calculator.api.StringCalculation;
@@ -12,6 +13,7 @@ import com.thevicraft.calculator.gui.coordinatesystem.BetterPoint;
 import com.thevicraft.calculator.gui.coordinatesystem.Coordinates;
 import com.thevicraft.keyboard.activity.KeyEventClass;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -21,10 +23,12 @@ import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
 /**
  * Graph that is drawn , extends JPanel
+ * 
  * @see GeoDraw
- * */
+ */
 @SuppressWarnings("serial")
 public class Graph extends JPanel {
 
@@ -129,52 +133,38 @@ public class Graph extends JPanel {
 //			cords.addPoint(xcord, ycord);
 //		}
 		panel.setColor(graphColor);
-		if(pointsCalculated == false) {
-			calculatePoints();
+		if (pointsCalculated == false) {
+			calculatePointsLib(); // --------------------------------HERE
 		}
-		for(int counter = 0; counter < listx.size(); counter ++) {
-			cords.addPoint(listx.get(counter), listy.get(counter));
+		panel.setStroke(new BasicStroke(2));
+		for (int counter = 0; counter < listx.size(); counter++) {
+			if (!Float.isNaN(listy.get(counter)) /*&& (!Float.isInfinite(listy.get(counter)))*/) {
+				cords.addPoint(listx.get(counter), listy.get(counter));
+
+				float x1 = listx.get(counter);
+				float y1 = listy.get(counter);
+				float x2;
+				float y2;
+				if ((counter > 0) && (!Float.isNaN(listy.get(counter-1)))
+						/*&& (!Float.isInfinite(listy.get(counter - 1)))*/
+						/*&&(listy.get(counter-1)-listy.get(counter) <= 0.1)*/) {
+					x2 = listx.get(counter - 1);
+					y2 = listy.get(counter - 1);
+					drawLine(new BetterPoint((int) (x1 * scaleFactor), (int) (y1 * scaleFactor)).relativeTo(origin),
+							new BetterPoint((int) (x2 * scaleFactor), (int) (y2 * scaleFactor)).relativeTo(origin));
+					if(Float.isInfinite(listy.get(counter)))
+						System.out.println(listx.get(counter)+" "+listy.get(counter));
+					if(Float.isInfinite(listy.get(counter-1)))
+						System.out.println(listx.get(counter-1)+" "+listy.get(counter-1));
+				}
+			}
+
 		}
-		
-		
+
 	}
-	
 	@SuppressWarnings("unused")
-	// too slow to use because of new algorithm
-	private void makePoints() {
-		// listx = new ArrayList<Float>();
-		// listy = new ArrayList<Float>();
-
-		for (float x = drawFrom; x <= drawTo; x += 0.01) { // 0,001
-			// panel.setColor(graphColor);
-			float xcord = x;
-			float ycord; /*
-							 * = (float) new StringCalculation()
-							 * .calcTask(StringCalcFunctions.insertNumberInFunction(function, "X",
-							 * Float.toString(x)));
-							 */
-			/*
-			 * String xToInsert; if (x < 0) { xToInsert = "( " + xcord + ")"; } else {
-			 * xToInsert = Float.toString(xcord); } String calcTaskY =
-			 * StringCalcFunctions.insertNumberInFunction(function, GuiTaschenrechner.X,
-			 * xToInsert); calcTaskY = new StringCalcFunctions().insertConstants(calcTaskY,
-			 * 0); ycord = (float) (new StringCalculation().calcTask(calcTaskY, false));
-			 */
-			// thread starten mit drehendem zeiger oder so bis es fertig ist, dann thread
-			// beenden
-			Argument insert = new Argument("x = " + xcord);
-			Expression e = new Expression(function, insert);
-			ycord = (float) e.calculate();
-			listx.add(xcord);
-			listy.add(ycord);
-		}
-		//System.out.println("calculated points");
-		pointsCalculated = true;
-	}
-	//------------------------------------------------------------------------
-
 	private void calculatePoints() {
-		for (float x = drawFrom; x <= drawTo; x += 0.001) { // 0,001
+		for (float x = drawFrom; x <= drawTo; x += 0.05) { // 0,001
 			panel.setColor(graphColor);
 			float xcord = x;
 			float ycord;
@@ -193,7 +183,27 @@ public class Graph extends JPanel {
 			listy.add(ycord);
 		}
 		pointsCalculated = true;
-		//System.out.println("calculated Points");
+		// System.out.println("calculated Points");
+	}
+
+	private void calculatePointsLib() {
+		function = new StringCalcFunctions().insertConstants(function, 0);
+		// must be set to radians mode in order for the sin,cos,tan functions to work correctly
+		for (float x = drawFrom; x <= drawTo; x += 0.05) { // 0,001
+			panel.setColor(graphColor);
+			float xcord = x;
+			float ycord;
+
+			Argument insert = new Argument("x = " + xcord);
+			Expression e = new Expression(function, insert);
+			ycord = (float) e.calculate();
+
+			listx.add(xcord);
+			listy.add(ycord);
+
+		}
+		pointsCalculated = true;
+		// System.out.println("calculated Points");
 	}
 
 	public void makeAxes(Point o) {
@@ -257,23 +267,25 @@ public class Graph extends JPanel {
 		// System.out.println("y positiv bis "+counter);
 		counter = 0;
 	}
+
 	/**
 	 * Draw a Point with a certain size in certain coordinates
 	 * 
-	 * @param d - Point where it is drawn
+	 * @param d    - Point where it is drawn
 	 * @param size - size
 	 * @author thevicraft
-	 * */
+	 */
 	public void drawPoint(Point d, int size) {
 		panel.fillOval((int) d.getX(), (int) d.getY(), size, size);
 	}
+
 	/**
 	 * Draw a Line form two points
 	 * 
 	 * @param p1 - Point 1
 	 * @param p2 - Point 2
 	 * @author thevicraft
-	 * */
+	 */
 	public void drawLine(Point p1, Point p2) {
 		panel.drawLine((int) p1.getX(), (int) p1.getY(), (int) p2.getX(), (int) p2.getY());
 	}

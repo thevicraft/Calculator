@@ -662,6 +662,11 @@ public class GuiTaschenrechner extends JFrame {
 
 		switch (this.mode) {
 		case 1:
+			if(menu.deg.getState() == true) {
+				mXparser.setDegreesMode();
+			} else if(menu.rad.getState() == true) {
+				mXparser.setRadiansMode();
+			}
 			numPad[BUTTON__ANS].setText("ANS");
 			buttonErgebnis.setText("=");
 			buttonErgebnis.setIcon(null);
@@ -671,16 +676,22 @@ public class GuiTaschenrechner extends JFrame {
 			this.setSizeOfComponents(this.sizeFactor, labelCalcLength);
 			break;
 		case 2:
+			mXparser.setRadiansMode();
 			numPad[BUTTON__ANS].setText(X);
 			buttonErgebnis.setText("");
 			buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.GRAPH_ICON,
 					(int) ((BUTTON_HEIGHT * 1.28) * sizeFactor), (int) (BUTTON_HEIGHT * sizeFactor)));
 			buttonErgebnis.setBackground(Color.white);
-			this.funcPadSetVisible(false);
+			this.funcPadSetVisible(true);
 			labelCalcLength = depressed - 10;
 			this.setSizeOfComponents(this.sizeFactor, labelCalcLength);
 			break;
 		case 3:
+			if(menu.deg.getState() == true) {
+				mXparser.setDegreesMode();
+			} else if(menu.rad.getState() == true) {
+				mXparser.setRadiansMode();
+			}
 			numPad[BUTTON__ANS].setText("ANS");
 			buttonErgebnis.setText("");
 			// buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.ICON,

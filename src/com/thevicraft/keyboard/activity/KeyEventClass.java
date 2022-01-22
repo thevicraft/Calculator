@@ -62,7 +62,7 @@ public class KeyEventClass implements KeyListener {
 			// GeoDraw func =new GeoDraw("Function", 800, 600, 1, GuiTaschenrechner.dark);
 			// func.addKeyListener(new WindowCloseEvent(func));
 			GeoDrawKeyEvent func = new GeoDrawKeyEvent("Test Window", 800, 600, 1, GuiTaschenrechner.dark,
-					GuiTaschenrechner.X + "^2");
+					"1/x");
 		}
 //		if ((key == 67) && (ctrlPressed == true)) {
 //			tr.buttonCopyResult.doClick();
@@ -71,7 +71,7 @@ public class KeyEventClass implements KeyListener {
 		if ((KeyEvent.VK_C == key) && (e.isControlDown())) {
 			tr.buttonCopyResult.doClick();
 		}
-		if ((key == KeyEvent.VK_H) && (e.isControlDown())) {
+		if (key == KeyEvent.VK_F1) {
 			tr.menu.items[1][1].doClick();
 		}
 		if ((key == KeyEvent.VK_S) && (e.isControlDown())) {

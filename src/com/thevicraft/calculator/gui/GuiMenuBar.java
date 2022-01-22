@@ -43,7 +43,7 @@ public class GuiMenuBar extends JMenuBar {
 																		// number
 	private String[][] itemsTextConfig = {
 			{ "Zoom In             [Ctrl+]", "Zoom Out          [Ctrl-]", "Toggle dark/light mode","Toggle Unicode Chars", "Setup"},
-			{ "New Window        [Ctrl+W]", "Help                       [Ctrl+H]", "Shortcuts             [Ctrl+S]",
+			{ "New Window        [Ctrl+W]", "Help                       [F1]", "Shortcuts             [Ctrl+S]",
 					"Report Bug", "Join Discord Server", "About" },
 			{ "Normal", "Draw Graph", "Unit Calculator" } };
 
