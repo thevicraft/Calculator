@@ -24,6 +24,7 @@ public class KeyEventClass implements KeyListener {
 		for (int i = 0; i <= 12; i++) {
 			numPadLabel[i] = tr.numPad[i].getText();
 		}
+		tr.labelCalc.addKeyListener(this);
 	}
 
 	@Override
@@ -40,12 +41,12 @@ public class KeyEventClass implements KeyListener {
 		case 10:
 			tr.buttonErgebnis.doClick();
 			break;
-		case 8:
-			tr.buttonDeleteLast.doClick();
-			break;
-		case 127:
-			tr.buttonDelete.doClick();
-			break;
+//		case 8:
+//			tr.buttonDeleteLast.doClick();
+//			break;
+//		case 127:
+//			tr.buttonDelete.doClick();
+//			break;
 		case 27:
 			// programm beenden
 			tr.dispose();
@@ -62,9 +63,9 @@ public class KeyEventClass implements KeyListener {
 					"1/x");
 		}
 
-		if ((KeyEvent.VK_C == key) && (e.isControlDown())) {
-			tr.buttonCopyResult.doClick();
-		}
+//		if ((KeyEvent.VK_C == key) && (e.isControlDown())) {
+//			tr.buttonCopyResult.doClick();
+//		}
 		if (key == KeyEvent.VK_F1) {
 			tr.menu.items[1][1].doClick();
 		}
@@ -90,65 +91,65 @@ public class KeyEventClass implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		Character key = e.getKeyChar();
-		for (int i = 0; i <= 12; i++) {
-			if (Character.toString(key).equals(numPadLabel[i])) {
-				tr.numPad[i].doClick();
-				break;
-			} else if (Character.toString(key).equals(",")) {
-				tr.numPad[10].doClick();
-				break;
-			}
-		}
-		switch (key) {
-		case '+':
-			if (!e.isControlDown()) {
-				tr.buttonPlus.doClick();
-				break;
-			}
-			break;
-		case '-':
-			if (!e.isControlDown()) {
-				tr.buttonMinus.doClick();
-				break;
-			}
-			break;
-		case '*':
-			tr.buttonTimes.doClick();
-			break;
-		case '/':
-			tr.buttonDivide.doClick();
-			break;
-		case '^':
-			tr.buttonPow.doClick();
-			break;
-		case 'n':
-			tr.buttonMathPi.doClick();
-			break;
-		case 'p':
-			tr.buttonMathPi.doClick();
-			break;
-		case 'e':
-			tr.buttonMathE.doClick();
-			break;
-		case '(':
-			tr.buttonBracketOpn.doClick();
-			break;
-		case ')':
-			tr.buttonBracketCls.doClick();
-			break;
-		case 'm':
-			tr.buttonChangeMode.doClick();
-			break;
-		case 'M':
-			tr.buttonChangeMode.doClick();
-			break;
-		case 'x':
-			if (tr.mode == 2) {
-				tr.numPad[12].doClick();
-			}
-		}
-
+//		Character key = e.getKeyChar();
+//		for (int i = 0; i <= 12; i++) {
+//			if (Character.toString(key).equals(numPadLabel[i])) {
+//				tr.numPad[i].doClick();
+//				break;
+//			} else if (Character.toString(key).equals(",")) {
+//				tr.numPad[10].doClick();
+//				break;
+//			}
+//		}
+//		switch (key) {
+//		case '+':
+//			if (!e.isControlDown()) {
+//				tr.buttonPlus.doClick();
+//				break;
+//			}
+//			break;
+//		case '-':
+//			if (!e.isControlDown()) {
+//				tr.buttonMinus.doClick();
+//				break;
+//			}
+//			break;
+//		case '*':
+//			tr.buttonTimes.doClick();
+//			break;
+//		case '/':
+//			tr.buttonDivide.doClick();
+//			break;
+//		case '^':
+//			tr.buttonPow.doClick();
+//			break;
+//		case 'n':
+//			tr.buttonMathPi.doClick();
+//			break;
+//		case 'p':
+//			tr.buttonMathPi.doClick();
+//			break;
+//		case 'e':
+//			tr.buttonMathE.doClick();
+//			break;
+//		case '(':
+//			tr.buttonBracketOpn.doClick();
+//			break;
+//		case ')':
+//			tr.buttonBracketCls.doClick();
+//			break;
+//		case 'm':
+//			tr.buttonChangeMode.doClick();
+//			break;
+//		case 'M':
+//			tr.buttonChangeMode.doClick();
+//			break;
+//		case 'x':
+//			if (tr.mode == 2) {
+//				tr.numPad[12].doClick();
+//			}
+//		}
+//
 	}
 
 }

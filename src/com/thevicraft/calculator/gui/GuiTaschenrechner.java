@@ -63,7 +63,7 @@ public class GuiTaschenrechner extends JFrame {
 
 	public JLabel labelErgebnis;
 	// ----------------------------------------------------------------------------------
-	protected JTextField labelCalc;
+	public JTextField labelCalc;
 	// ----------------------------------------------------------------------------------
 
 	public JButton buttonErgebnis;
@@ -189,7 +189,6 @@ public class GuiTaschenrechner extends JFrame {
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
 
 		mXparser.setDegreesMode();
-		
 		loader = new Loader("Calculator",Pictures.values().length * 2 + 30);
 		loader.setVisible(true);
 		switch (darkLight) {
@@ -242,8 +241,8 @@ public class GuiTaschenrechner extends JFrame {
 			setActionListenerToComponent(panels[i].getComponents());
 		}
 		loader.iterate();
-		labelCalc.setEditable(false);
-		labelCalc.setFocusable(false);
+		labelCalc.setEditable(true);
+		labelCalc.setFocusable(true);
 
 		loader.dispose();
 		
@@ -340,7 +339,7 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPowerReverse.setPreferredSize(buttonStandartSize);
 
 		buttonCopyResult
-				.setPreferredSize(new Dimension((int) (BUTTON_HEIGHT * factor), (int) (BUTTON_HEIGHT * factor)));
+				.setPreferredSize(new Dimension((int) ((BUTTON_HEIGHT-5) * factor), (int) ((BUTTON_HEIGHT-5) * factor)));
 
 		for (JButton c : funcPad) {
 			c.setPreferredSize(buttonStandartSize);
@@ -408,17 +407,20 @@ public class GuiTaschenrechner extends JFrame {
 			labelCalc.setForeground(bright);
 			labelErgebnis.setForeground(bright);
 			labelFuncOpn.setForeground(bright);
+			labelCalc.setCaretColor(Color.white);
 			
 		} else if (mode.equals(bright)) {
 			labelCalc.setBackground(bright);
 			labelCalc.setForeground(dark);
 			labelErgebnis.setForeground(dark);
 			labelFuncOpn.setForeground(dark);
+			labelCalc.setCaretColor(Color.black);
 			
 		} else {
 			labelCalc.setForeground(dark);
 			labelErgebnis.setForeground(dark);
 			labelFuncOpn.setForeground(dark);
+			labelCalc.setCaretColor(Color.white);
 			
 		}
 		loader.iterate();

@@ -38,12 +38,12 @@ public class ButtonActionListener implements ActionListener {
 		if (d.equals(window.buttonErgebnis)) {
 			switch (window.mode) {
 			case 1:
-				try {
+				//try {
 
 					String task = window.labelCalc.getText();
 					window.labelErgebnis.setText(Double.toString(window.calcString.calculate(task)));
-				} catch (Exception er) {
-				}
+				//} catch (Exception er) {
+				//}
 				break;
 			case 2:
 				GeoDrawKeyEvent func = new GeoDrawKeyEvent("Function", /*800*/1200, /*600*/800, /*sizeFactor:*/1, window.appearanceMode,

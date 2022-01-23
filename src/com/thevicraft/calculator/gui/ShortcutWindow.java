@@ -25,7 +25,7 @@ public class ShortcutWindow extends JFrame implements WindowHelper {
 			+ "[F1] Open Help Menu<br>"
 			+ "[F3] Open Shortcut Menu<br>"
 			+ "<br>"
-			+ "[Ctrl,c] Copy result<br>"
+			+ "<br>"
 			+ "<br>"
 			+ "Graph:<br>"
 			+ "[+] Zoom in<br>"
