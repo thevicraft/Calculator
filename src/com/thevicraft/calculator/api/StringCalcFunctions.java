@@ -4,12 +4,59 @@ import java.lang.Math;
 import com.thevicraft.calculator.api.*;
 import com.thevicraft.calculator.console.Log;
 import com.thevicraft.calculator.gui.GuiTaschenrechner;
-
+import com.thevicraft.calculator.gui.Images;
+import com.thevicraft.calculator.gui.Images.Pictures;
+/**
+ * Class with specific String Calculation functions
+ * @author thevicraft
+ * @category Util
+ */
 public class StringCalcFunctions {
 	public static String calcOperator[] = { " ^ ", " / ", " * ", " + ", " - " };
 	private static final String constants[] = { GuiTaschenrechner.constants[0], "ANS", GuiTaschenrechner.constants[1], "E", " -" };
-	private static String checkAbleForCalc[] = { "^", "/", "*", "+", "-", "n", " -", "(", ")" };
 
+	
+	private double storeResult = 0;
+	private GuiTaschenrechner window;
+
+	public StringCalcFunctions(GuiTaschenrechner frame) {
+		this.window = frame;
+	}
+
+	/**
+	 * Manages Calculation and return of result
+	 * 
+	 * @param task - Calculation task in String form
+	 * @return result - Calculated value from String task
+	 * @author thevicraft
+	 */
+	public double calculate(String task) {
+		double result = 0;
+
+		String calculation = insertConstants(task, storeResult);
+		try {
+			result = EvaluationUtil.calculate(calculation);
+			window.setIconImage(Images.getDefaultImageIcon(Pictures.WINDOW_ICON).getImage());
+			window.labelErgebnis.setIcon(null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			window.setIconImage(Images.getDefaultImageIcon(Pictures.WINDOW_ICON_WARNING).getImage());
+			window.labelErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.WARNING,
+					(int) window.labelErgebnis.getPreferredSize().getHeight(),
+					(int) window.labelErgebnis.getPreferredSize().getHeight()));
+		}
+		storeResult = result;
+		return result;
+
+	}
+	
+	/**
+	 * Insert constant numbers such as pi, e, ANS into a calculation, as preparation before calculation
+	 * 
+	 * @param task - Calculation task in String form
+	 * @param oldResult - result of the former calculation in case of "ANS" in task
+	 * @author thevicraft
+	 */
 	public String insertConstants(String task, double oldResult) {
 		for (int i = 0; i <= task.length(); i++) {
 			for (String constant : constants) {
@@ -50,32 +97,6 @@ public class StringCalcFunctions {
 		}
 
 		return task;
-	}
-	public static String insertNumberInFunction(String function, String x,String number) {
-		String calcFunc = function;
-		for(int i = 0; i<=calcFunc.length(); i++) {
-			if(i+x.length()<=calcFunc.length()) {
-				if(calcFunc.substring(i, i+x.length()).equals(x)) {
-					calcFunc = calcFunc.substring(0,i)+number+calcFunc.substring(i+x.length(),calcFunc.length());
-				}
-			}
-		}
-		//System.out.println(calcFunc);
-		return calcFunc;
-	}
-
-	public boolean detectOperators(String calcTask) {
-		int countops = 0;
-		for (String op : checkAbleForCalc) {
-			if (calcTask.indexOf(op) != -1) {
-				countops++;
-			}
-		}
-		if (countops == 0) {
-			return false;
-		} else {
-			return true;
-		}
 	}
 
 }

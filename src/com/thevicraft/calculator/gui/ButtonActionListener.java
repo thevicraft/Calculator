@@ -39,10 +39,7 @@ public class ButtonActionListener implements ActionListener {
 			switch (window.mode) {
 			case 1:
 				try {
-					// window.labelErgebnis.setText(window.calcString.calcResultFromString(window.labelCalc.getText(),
-					// window.mode, window.calcMode, window.buttonLogBase.getText(),
-					// window.buttonLogExp.getText(),
-					// window));
+
 					String task = window.labelCalc.getText();
 					window.labelErgebnis.setText(Double.toString(window.calcString.calculate(task)));
 				} catch (Exception er) {
@@ -53,19 +50,12 @@ public class ButtonActionListener implements ActionListener {
 						window.labelCalc.getText());
 				break;
 			case 3:
-				/*
-				 * double number =
-				 * Double.parseDouble(window.calcString.calcResultFromString(window.labelCalc.
-				 * getText(), 1, window.calcMode, window.buttonLogBase.getText(),
-				 * window.buttonLogExp.getText(), window));
-				 */
+
 				double number = window.calcString.calculate(window.labelCalc.getText());
 
 				double result = Unit.calculate(window.menu.typeSelect.getText(), window.menu.unit1.getText(),
 						window.menu.unit2.getText(), number);
-				// System.out.println(window.menu.typeSelect.getText()+"
-				// "+window.menu.unit1.getText()+" "+
-				// window.menu.unit2.getText()+" "+number);
+
 				window.labelErgebnis.setText(Double.toString(result));
 				break;
 			}
@@ -103,7 +93,7 @@ public class ButtonActionListener implements ActionListener {
 			}
 
 			boolean foundOperator = false;
-			String ops[] = new StringCalcFunctions().calcOperator;
+			String ops[] = new StringCalcFunctions(window).calcOperator;
 			// test for an operator to delete the empty spaces with it
 			try {
 				for (String o : ops) {

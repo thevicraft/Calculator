@@ -83,7 +83,11 @@ public class Images {
 		}
 
 	}
-
+	/**
+	 * returns True if {@link Images.initImages()} has been executed
+	 * @return imagesLoaded - True/False Boolean
+	 * @author thevicraft
+	 */
 	public static boolean isLoaded() {
 		return imagesLoaded;
 	}

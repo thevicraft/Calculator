@@ -1,6 +1,6 @@
 package com.thevicraft.calculator.gui;
 
-import com.thevicraft.calculator.api.StringCalculation;
+import com.thevicraft.calculator.api.StringCalcFunctions;
 import com.thevicraft.calculator.gui.Images.Pictures;
 import com.thevicraft.calculator.integration.NetLink;
 import com.thevicraft.keyboard.activity.KeyEventClass;
@@ -17,8 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.mariuszgromada.math.mxparser.Argument;
-import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.mXparser;
 
 import java.awt.Color;
@@ -87,16 +85,12 @@ public class GuiTaschenrechner extends JFrame {
 	public JButton buttonBracketOpn;
 	public JButton buttonBracketCls;
 
-	//public JButton buttonLogBase;
-	//public JButton buttonLogExp;
 
 	public JButton buttonXPower2;
 	public JButton buttonXPower3;
 	public JButton buttonXPowerReverse;
 
 	protected JLabel labelFuncOpn;
-	//protected JLabel labelFuncMid;
-	//protected JLabel labelFuncCls;
 
 	public GuiMenuBar menu;
 
@@ -150,9 +144,6 @@ public class GuiTaschenrechner extends JFrame {
 	public static final String f[] = {"\u2a0d","f"}; //"\u2a0d";
 	protected float ergebnis;
 
-	//boolean bracket = false;
-	//int logWithBaseFocus = 0;
-
 	float sizeFactor = 1.5f;
 
 	public Color appearanceMode;
@@ -169,7 +160,7 @@ public class GuiTaschenrechner extends JFrame {
 	public static Font extremesmall = new Font("Tahoma", Font.PLAIN, 10);
 	// -----------------------------------------------------------------------------------------------------------------
 	// Calculation calc = new Calculation();
-	StringCalculation calcString = new StringCalculation(GuiTaschenrechner.this);
+	StringCalcFunctions calcString = new StringCalcFunctions(GuiTaschenrechner.this);
 	// Dimensions
 	// ------------------------------------------------------------------------------------------------------
 	Dimension buttonStandartSize = new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -196,13 +187,9 @@ public class GuiTaschenrechner extends JFrame {
 			{ "tan", "atan" } };
 
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
-		try {
-			mXparser.setDegreesMode();
-			Argument x = new Argument("x = 8");
-			Expression e = new Expression("log(2,x)", x);
-			System.out.println("Ergebnis: " + e.calculate());
-		} catch (Exception e) {
-		}
+
+		mXparser.setDegreesMode();
+		
 		loader = new Loader("Calculator",Pictures.values().length * 2 + 30);
 		loader.setVisible(true);
 		switch (darkLight) {
@@ -607,10 +594,10 @@ public class GuiTaschenrechner extends JFrame {
 
 		panelMaster = new JPanel();
 		// --------------------------------------------------------------------------------
-		labelCalc = new JTextField(/* calcLabelEmpty */);
+		labelCalc = new JTextField();
 		// -------------------------------------------------------------------------------
 
-		labelErgebnis = new JLabel(""); // platz anstatt leer
+		labelErgebnis = new JLabel("");
 
 		buttonErgebnis = new JButton("=");
 
@@ -694,9 +681,7 @@ public class GuiTaschenrechner extends JFrame {
 			}
 			numPad[BUTTON__ANS].setText("ANS");
 			buttonErgebnis.setText("");
-			// buttonErgebnis.setIcon(Images.scaleImageIconFromDefault(Pictures.ICON,
-			// (int) ((BUTTON_HEIGHT * 1.28) * sizeFactor), (int) (BUTTON_HEIGHT *
-			// sizeFactor)));
+
 			Images.setButtonIcon(buttonErgebnis, Pictures.UNITS);
 			buttonErgebnis.setBackground(Color.white);
 			this.funcPadSetVisible(false);
@@ -838,8 +823,6 @@ public class GuiTaschenrechner extends JFrame {
 			// opens help
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// HelpWindow help = new HelpWindow("Help", 400, 520, 1.5f, appearanceMode);
-				// help.addKeyListener(new WindowCloseEvent(help));
 				ShortcutWindow shorts = new ShortcutWindow("Shortcuts", 400, 380, 1.5f, appearanceMode);
 				shorts.addKeyListener(new WindowCloseEvent(shorts));
 			}
@@ -862,7 +845,6 @@ public class GuiTaschenrechner extends JFrame {
 		});
 		loader.iterate();
 		menu.items[1][5].addActionListener(new ActionListener() {
-			// opens github
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CreditsWindow credit = new CreditsWindow("About", 340, 200, 1.5f, appearanceMode);
@@ -871,7 +853,6 @@ public class GuiTaschenrechner extends JFrame {
 		});
 		loader.iterate();
 		menu.items[2][0].addActionListener(new ActionListener() {
-			// opens github
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mode = 1;
@@ -880,7 +861,6 @@ public class GuiTaschenrechner extends JFrame {
 		});
 		loader.iterate();
 		menu.items[2][1].addActionListener(new ActionListener() {
-			// opens github
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mode = 2;
@@ -889,7 +869,6 @@ public class GuiTaschenrechner extends JFrame {
 		});
 		loader.iterate();
 		menu.items[2][2].addActionListener(new ActionListener() {
-			// opens github
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mode = 3;
