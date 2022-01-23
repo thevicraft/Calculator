@@ -10,6 +10,8 @@ import java.awt.FlowLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,32 +33,35 @@ import java.awt.Font;
  * @version 5.0.pre1
  * @category JFrame
  * 
- * */
-
+ */
 
 @SuppressWarnings("serial")
 public class GuiTaschenrechner extends JFrame {
 	private String platz = "                                                 ";
 	/**
 	 * Current mode of calculator
+	 * 
 	 * @see GuiTaschenrechner
 	 * @author thevicraft
-	 * */
+	 */
 	public int mode = 1; // default mode, do not change
 	public int funcMode = 0;
-	
+
 	/**
-	 * If set to 0 all available unicode characters will be used as button text, else if set to 1, unicode characters will not be used
+	 * If set to 0 all available unicode characters will be used as button text,
+	 * else if set to 1, unicode characters will not be used
+	 * 
 	 * @author thevicraft
 	 * @see GuiTaschenrechner
-	 * */
+	 */
 	public int unicode = 0;
 	/**
 	 * Number of modes that are implemented in Simple Calculator
+	 * 
 	 * @category constant values
 	 * @see GuiTaschenrechner
 	 * @author thevicraft
-	 * */
+	 */
 	static final int MODES = 3;
 	protected int calcMode;
 	final String calcLabelEmpty = ""; // " "
@@ -84,7 +89,6 @@ public class GuiTaschenrechner extends JFrame {
 	public JButton buttonMathE;
 	public JButton buttonBracketOpn;
 	public JButton buttonBracketCls;
-
 
 	public JButton buttonXPower2;
 	public JButton buttonXPower3;
@@ -122,26 +126,29 @@ public class GuiTaschenrechner extends JFrame {
 	public JButton[] funcPad = new JButton[5];
 	JPanel[] panels = new JPanel[PANELS + 1];
 	protected JPanel panelMaster;
-	
+
 	/**
 	 * Unicode constants
+	 * 
 	 * @category constant values
 	 * @author thevicraft
-	 * */
+	 */
 	public static final String constants[] = { "\u213c", "\u212f", "\u03c0", "\u2107" }; // pi, e
-	String[] minusSign = {"\u00B1","(-)"};
+	String[] minusSign = { "\u00B1", "(-)" };
 	/**
 	 * X string constant for function declaration
+	 * 
 	 * @category constant values
 	 * @author thevicraft
-	 * */
+	 */
 	public static final String X = "x";// = "\uD835\uDC65";
 	/**
 	 * unicode constant for f of f(x)
+	 * 
 	 * @category constant values
 	 * @author thevicraft
-	 * */
-	public static final String f[] = {"\u2a0d","f"}; //"\u2a0d";
+	 */
+	public static final String f[] = { "\u2a0d", "f" }; // "\u2a0d";
 	protected float ergebnis;
 
 	float sizeFactor = 1.5f;
@@ -167,29 +174,31 @@ public class GuiTaschenrechner extends JFrame {
 
 	// Images--------------------------------------------------------------------------------------------------
 	Images icon = new Images();
-	
+
 	/**
 	 * Color constant for dark mode
+	 * 
 	 * @category constant values
 	 * @author thevicraft
-	 * */
+	 */
 	public static final Color dark = Color.DARK_GRAY;
 	/**
 	 * Color constant for white mode
+	 * 
 	 * @category constant values
 	 * @author thevicraft
-	 * */
+	 */
 	public static final Color bright = Color.white;
 
-	public static String operator[][] = {{ "+", "-", "\u00D7", "\u00F7", "^" },{ "+", "-", "*", "/", "^" }};
-	
+	public static String operator[][] = { { "+", "-", "\u00D7", "\u00F7", "^" }, { "+", "-", "*", "/", "^" } };
+
 	public static String textButtons[][] = { { "log10", "log" }, { " √ ", "!" }, { "sin", "asin" }, { "cos", "acos" },
 			{ "tan", "atan" } };
 
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
 
 		mXparser.setDegreesMode();
-		loader = new Loader("Calculator",Pictures.values().length * 2 + 30);
+		loader = new Loader("Calculator", Pictures.values().length * 2 + 30);
 		loader.setVisible(true);
 		switch (darkLight) {
 		case "dark":
@@ -245,10 +254,49 @@ public class GuiTaschenrechner extends JFrame {
 		labelCalc.setFocusable(true);
 
 		loader.dispose();
-		
+
 		setUnicode(true);
-		
+
 		setVisible(true);
+
+		Thread rgb = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Color[] rgb = { Color.red, Color.orange, Color.yellow, Color.green, Color.cyan, Color.blue, Color.pink,
+						Color.magenta };
+				List<Color> colors = new ArrayList<Color>();
+				for (int r = 0; r < 100; r++)
+					colors.add(new Color(r * 255 / 100, 255, 0));
+				for (int g = 100; g > 0; g--)
+					colors.add(new Color(255, g * 255 / 100, 0));
+				for (int b = 0; b < 100; b++)
+					colors.add(new Color(255, 0, b * 255 / 100));
+				for (int r = 100; r > 0; r--)
+					colors.add(new Color(r * 255 / 100, 0, 255));
+				for (int g = 0; g < 100; g++)
+					colors.add(new Color(0, g * 255 / 100, 255));
+				for (int b = 100; b > 0; b--)
+					colors.add(new Color(0, 255, b * 255 / 100));
+				colors.add(new Color(0, 255, 0));
+				
+				Color[] c = colors.toArray(new Color[colors.size()]);
+				
+				while (isDisplayable()) {
+					for (Color d : c) {
+						buttonChangeMode.setForeground(d);
+						try {
+							Thread.sleep(3);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+		rgb.start();
 	}
 
 	private void removeFocusFromComponent(Component[] container) {
@@ -290,24 +338,27 @@ public class GuiTaschenrechner extends JFrame {
 		// ((int) (25 * factor))));
 		loader.iterate();
 	}
+
 	/**
 	 * Used to set unicode characters or use normal ascii letters
-	 * @param yes - If set to true unicode characters will be used, if set to false ascii letters will be used
+	 * 
+	 * @param yes - If set to true unicode characters will be used, if set to false
+	 *            ascii letters will be used
 	 * @author thevicraft
 	 * @see GuiTaschenrechner
-	 * */
+	 */
 	public void setUnicode(boolean yes) {
-		if(yes)
+		if (yes)
 			unicode = 0;
 		else
 			unicode = 1;
-		
+
 		buttonPlus.setText(operator[unicode][0]);
 		buttonMinus.setText(operator[unicode][1]);
 		buttonTimes.setText(operator[unicode][2]);
 		buttonDivide.setText(operator[unicode][3]);
 		buttonPow.setText(operator[unicode][4]);
-		
+
 		buttonSignMinus.setText(minusSign[unicode]);
 	}
 
@@ -338,8 +389,8 @@ public class GuiTaschenrechner extends JFrame {
 		buttonXPower3.setPreferredSize(buttonStandartSize);
 		buttonXPowerReverse.setPreferredSize(buttonStandartSize);
 
-		buttonCopyResult
-				.setPreferredSize(new Dimension((int) ((BUTTON_HEIGHT-5) * factor), (int) ((BUTTON_HEIGHT-5) * factor)));
+		buttonCopyResult.setPreferredSize(
+				new Dimension((int) ((BUTTON_HEIGHT - 5) * factor), (int) ((BUTTON_HEIGHT - 5) * factor)));
 
 		for (JButton c : funcPad) {
 			c.setPreferredSize(buttonStandartSize);
@@ -408,20 +459,23 @@ public class GuiTaschenrechner extends JFrame {
 			labelErgebnis.setForeground(bright);
 			labelFuncOpn.setForeground(bright);
 			labelCalc.setCaretColor(Color.white);
-			
+			buttonChangeMode.setForeground(Color.magenta);
+
 		} else if (mode.equals(bright)) {
 			labelCalc.setBackground(bright);
 			labelCalc.setForeground(dark);
 			labelErgebnis.setForeground(dark);
 			labelFuncOpn.setForeground(dark);
 			labelCalc.setCaretColor(Color.black);
-			
+			buttonChangeMode.setForeground(Color.blue);
+
 		} else {
 			labelCalc.setForeground(dark);
 			labelErgebnis.setForeground(dark);
 			labelFuncOpn.setForeground(dark);
 			labelCalc.setCaretColor(Color.white);
-			
+			buttonChangeMode.setForeground(Color.magenta);
+
 		}
 		loader.iterate();
 
@@ -438,9 +492,9 @@ public class GuiTaschenrechner extends JFrame {
 		labelErgebnis.setFont(resultBold);
 		labelCalc.setFont(calcBold);
 		labelFuncOpn.setFont(calcBold);
-		
+
 		buttonXPowerReverse.setFont(extremesmall);
-		
+
 		getNumPad(BUTTON__ANS).setFont(small); // korrektur weil die beschriftung sonst nicht auf dem button angezeigt
 		// wird
 		for (JButton x : funcPad) {
@@ -475,11 +529,10 @@ public class GuiTaschenrechner extends JFrame {
 	private void addComponentsToPanels(/* JFrame window */) {
 
 		panels[0].add(labelFuncOpn);
-		
+
 		panels[0].add(labelCalc);
-		
+
 		labelFuncOpn.setVisible(false);
-		
 
 		panels[1].add(labelErgebnis);
 		panels[1].add(buttonCopyResult);
@@ -612,6 +665,8 @@ public class GuiTaschenrechner extends JFrame {
 		buttonPow = new JButton(operator[unicode][4]);
 
 		buttonChangeMode = new JButton("M");
+		buttonChangeMode.setBorder(new RoundedBorder(30));
+		buttonChangeMode.setOpaque(false);
 
 		initNumPads();
 		for (JButton button : numPad) {
@@ -638,6 +693,8 @@ public class GuiTaschenrechner extends JFrame {
 		labelFuncOpn = new JLabel();
 
 		buttonCopyResult = new JButton();
+		buttonCopyResult.setBorder(new RoundedBorder(10));
+		buttonCopyResult.setOpaque(false);
 
 		loader.iterate();
 
@@ -651,9 +708,9 @@ public class GuiTaschenrechner extends JFrame {
 
 		switch (this.mode) {
 		case 1:
-			if(menu.deg.getState() == true) {
+			if (menu.deg.getState() == true) {
 				mXparser.setDegreesMode();
-			} else if(menu.rad.getState() == true) {
+			} else if (menu.rad.getState() == true) {
 				mXparser.setRadiansMode();
 			}
 			numPad[BUTTON__ANS].setText("ANS");
@@ -676,9 +733,9 @@ public class GuiTaschenrechner extends JFrame {
 			this.setSizeOfComponents(this.sizeFactor, labelCalcLength);
 			break;
 		case 3:
-			if(menu.deg.getState() == true) {
+			if (menu.deg.getState() == true) {
 				mXparser.setDegreesMode();
-			} else if(menu.rad.getState() == true) {
+			} else if (menu.rad.getState() == true) {
 				mXparser.setRadiansMode();
 			}
 			numPad[BUTTON__ANS].setText("ANS");
@@ -781,14 +838,13 @@ public class GuiTaschenrechner extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(unicode == 0) {
+				if (unicode == 0) {
 					unicode = 1;
 					setUnicode(false);
-				}
-				else if(unicode ==1) {
+				} else if (unicode == 1) {
 					unicode = 0;
 					setUnicode(true);
-					}
+				}
 			}
 		});
 		loader.iterate();
