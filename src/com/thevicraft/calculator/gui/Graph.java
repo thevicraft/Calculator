@@ -91,7 +91,7 @@ public class Graph extends JPanel {
 		} else {
 			panel.setColor(Color.black);
 		}
-		panel.drawImage(Images.getDefaultImageIcon(Pictures.AUTHOR).getImage(),0, 0, 50, 50, null);
+		panel.drawImage(Images.getDefaultImageIcon(Pictures.AUTHOR).getImage(), 0, 0, 50, 50, null);
 
 		Coordinates cords = new Coordinates(origin, scaleFactor, this, 2, true);
 
@@ -108,9 +108,9 @@ public class Graph extends JPanel {
 				float y1 = listy.get(counter);
 				float x2;
 				float y2;
-				if ((counter > 0) && (!Float.isNaN(listy.get(counter-1)))
+				if ((counter > 0) && (!Float.isNaN(listy.get(counter - 1)))
 						&& (!Float.isInfinite(listy.get(counter - 1)))
-						/*&&(listy.get(counter-1)-listy.get(counter) <= 0.1)*/) {
+				/* &&(listy.get(counter-1)-listy.get(counter) <= 0.1) */) {
 					x2 = listx.get(counter - 1);
 					y2 = listy.get(counter - 1);
 					drawLine(new BetterPoint((int) (x1 * scaleFactor), (int) (y1 * scaleFactor)).relativeTo(origin),
@@ -124,7 +124,8 @@ public class Graph extends JPanel {
 
 	private void calculatePointsLib() {
 		function = new StringCalcFunctions(null).insertConstants(function, 0);
-		// must be set to radians mode in order for the sin,cos,tan functions to work correctly
+		// must be set to radians mode in order for the sin,cos,tan functions to work
+		// correctly
 		for (float x = drawFrom; x <= drawTo; x += 0.05) { // 0,001
 			panel.setColor(graphColor);
 			float xcord = x;
@@ -132,8 +133,11 @@ public class Graph extends JPanel {
 
 			Argument insert = new Argument("x = " + xcord);
 			Expression e = new Expression(function, insert);
-			ycord = (float) e.calculate();
-
+			try {
+				ycord = (float) e.calculate();
+			} catch (Exception exp) {
+				ycord = Float.NaN;
+			}
 			listx.add(xcord);
 			listy.add(ycord);
 

@@ -11,6 +11,12 @@ import java.awt.Font;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 @SuppressWarnings("serial")
 public class HelpWindow extends JFrame {
@@ -34,8 +40,21 @@ public class HelpWindow extends JFrame {
 
 	private JTable table;
 	
-	String data[][] = { { "+", "Operator", "Addition" }, { "-", "Operator", "Subtraction" }, { "*", "Operator", "Multiplication" },
-						{ "/", "Operator", "Division" }, { "^", "Operator", "Exponentiation" }, { "!", "Operator", "Factorial" },
+	private Color colorMode;
+	
+	private Color textColor;
+	
+	String data[][] = { { ",", "Syntax", "Decimal Dot" }, 
+						{ ".", "Syntax", "Decimal Dot" }, 
+						//{ ",", "Syntax", "Decimal Dot" }, 
+						{ ";", "Syntax", "Argument Separator" }, 
+						
+						{ "+", "Operator", "Addition" }, 
+						{ "-", "Operator", "Subtraction" }, 
+						{ "*", "Operator", "Multiplication" },
+						{ "/", "Operator", "Division" }, 
+						{ "^", "Operator", "Exponentiation" }, 
+						{ "!", "Operator", "Factorial" },
 						{ "#", "Operator", "Modulo Function" },
 						{ "sqrt()", "Function", "Square Root" },
 						{ "sin()", "Function", "Sinus Function" },
@@ -44,10 +63,12 @@ public class HelpWindow extends JFrame {
 						{ "asin()", "Function", "sis⁻¹" },
 						{ "acos()", "Function", "cos⁻¹" },
 						{ "atan()", "Function", "tan⁻¹" },
-						{ "min(a,b)", "Function", "Returns lower Number" },
-						{ "max(a,b)", "Function", "Returns higher Number" },
-						{ "gcd(...)", "Function", "Greatest common divisor" },
-						{ "int(a,x,b,c)", "Function", "Integral" }};
+						{ "log(b; x)", "Function", "Logarithm to base b" },
+						{ "ln(x)", "Function", "Logarithm to base ℯ" },
+						{ "min(a; b)", "Function", "Returns lower Number" },
+						{ "max(a; b)", "Function", "Returns higher Number" },
+						{ "gcd(a; b; c)", "Function", "Greatest common divisor" },
+						{ "int(a; x; b; c)", "Function", "Integral" }};
 	
 	
 	String column[] = { "Key Word", "Category", "Describtion"};
@@ -55,6 +76,8 @@ public class HelpWindow extends JFrame {
 	public HelpWindow(String titel, int width, int height, float factor, Color mode) {
 		FRAME_HEIGHT = (int) (height * factor);
 		FRAME_WIDTH = (int) (width * factor);
+		colorMode = mode;
+		textColor = mode == GuiTaschenrechner.dark ? GuiTaschenrechner.bright : GuiTaschenrechner.dark;
 		sizeFactor = factor;
 		setTitle(titel);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -90,7 +113,7 @@ public class HelpWindow extends JFrame {
 	}
 
 	private void initComponents() {
-		normal = new Font("Tahoma", Font.BOLD, (int) (8 * sizeFactor));
+		normal = new Font("System", Font.BOLD, (int) (9 * sizeFactor));
 		mainLabel = new JLabel(label);
 		mainLabel.setPreferredSize(new Dimension(FRAME_WIDTH - 20, 1500));
 		mainLabel.setBackground(Color.black);
@@ -107,6 +130,33 @@ public class HelpWindow extends JFrame {
 		//table.setPreferredSize(new Dimension(FRAME_WIDTH-150, 400));
 		
 		table.setDragEnabled(false);
+		
+		DefaultTableModel model = new DefaultTableModel(data, column);
+        
+		table.setModel(model);
+		
+//        for (int i = 0; i < 3; i++) {
+//        	TableColumn column = null;
+//            column = table.getTableHeader().getColumnModel().getColumn(i);//tcm.getColumn(i);
+//            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+//            tcr.setHorizontalAlignment(SwingConstants.LEADING);
+//            tcr.setForeground(Color.yellow);
+//            column.setCellRenderer(tcr);
+//        }
+		
+        Color[] colors = {Color.red, textColor,textColor};
+        int[] layout = {SwingConstants.CENTER,SwingConstants.CENTER, SwingConstants.LEADING};
+        Font[] fonts = {normal,normal,normal};
+        
+        for (int i = 0; i < 3; i++) {
+        	TableColumn column = null;
+            column = table.getColumnModel().getColumn(i);
+            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+            tcr.setHorizontalAlignment(layout[i]);
+            tcr.setForeground(colors[i]);
+            tcr.setFont(fonts[i]); // does not work
+            column.setCellRenderer(tcr);
+        }
 	}
 
 	private void setColorOfComponents(Color d) {
@@ -121,6 +171,5 @@ public class HelpWindow extends JFrame {
 			d = GuiTaschenrechner.dark;
 		}
 		mainLabel.setForeground(d);
-		table.setForeground(d);
 	}
 }

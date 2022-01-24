@@ -2,6 +2,7 @@ package com.thevicraft.calculator.gui;
 
 import com.thevicraft.calculator.api.StringCalcFunctions;
 import com.thevicraft.calculator.gui.Images.Pictures;
+import com.thevicraft.calculator.gui.component.RoundedBorder;
 import com.thevicraft.calculator.integration.NetLink;
 import com.thevicraft.keyboard.activity.KeyEventClass;
 import com.thevicraft.keyboard.activity.WindowCloseEvent;
@@ -159,12 +160,12 @@ public class GuiTaschenrechner extends JFrame {
 
 	// Fonts
 	// -----------------------------------------------------------------------------------------------------------
-	public static Font resultBold = new Font("Tahoma", Font.BOLD, 17); // davor war es groesse 12
-	public static Font calcBold = new Font("Tahoma", Font.BOLD, 17);
-	public static Font small = new Font("Tahoma", Font.BOLD, 11);
-	public static Font normal = new Font("Tahoma", Font.BOLD, 12);
-	public static Font xsmall = new Font("Tahoma", Font.BOLD, 10);
-	public static Font extremesmall = new Font("Tahoma", Font.PLAIN, 10);
+	public static Font resultBold = new Font("System", Font.BOLD, 17); // davor war es groesse 12
+	public static Font calcBold = new Font("System", Font.BOLD, 17);
+	public static Font small = new Font("System", Font.BOLD, 11);
+	public static Font normal = new Font("System", Font.BOLD, 12);
+	public static Font xsmall = new Font("System", Font.BOLD, 10);
+	public static Font extremesmall = new Font("System", Font.PLAIN, 10);
 	// -----------------------------------------------------------------------------------------------------------------
 	// Calculation calc = new Calculation();
 	StringCalcFunctions calcString = new StringCalcFunctions(GuiTaschenrechner.this);
@@ -442,10 +443,7 @@ public class GuiTaschenrechner extends JFrame {
 
 		buttonCopyResult.setBackground(bright);
 
-		for (JButton x : funcPad) {
-			x.setForeground(bright);
-			x.setBackground(dark);
-		}
+
 
 		for (JPanel p : panels) {
 			p.setBackground(mode);
@@ -460,6 +458,10 @@ public class GuiTaschenrechner extends JFrame {
 			labelFuncOpn.setForeground(bright);
 			labelCalc.setCaretColor(Color.white);
 			buttonChangeMode.setForeground(Color.magenta);
+			for (JButton x : funcPad) {
+				x.setForeground(bright);
+				x.setBackground(dark);
+			}
 
 		} else if (mode.equals(bright)) {
 			labelCalc.setBackground(bright);
@@ -468,6 +470,10 @@ public class GuiTaschenrechner extends JFrame {
 			labelFuncOpn.setForeground(dark);
 			labelCalc.setCaretColor(Color.black);
 			buttonChangeMode.setForeground(Color.blue);
+			for (JButton x : funcPad) {
+				x.setForeground(dark);
+				x.setBackground(bright);
+			}
 
 		} else {
 			labelCalc.setForeground(dark);
@@ -475,6 +481,10 @@ public class GuiTaschenrechner extends JFrame {
 			labelFuncOpn.setForeground(dark);
 			labelCalc.setCaretColor(Color.white);
 			buttonChangeMode.setForeground(Color.magenta);
+			for (JButton x : funcPad) {
+				x.setForeground(bright);
+				x.setBackground(dark);
+			}
 
 		}
 		loader.iterate();
@@ -482,12 +492,12 @@ public class GuiTaschenrechner extends JFrame {
 	}
 
 	private void setFontOfComponents(float factor) {
-		resultBold = new Font("Tahoma", Font.BOLD, (int) (17 * factor)); // davor war es groesse 12
-		calcBold = new Font("Tahoma", Font.BOLD, (int) (17 * factor));
-		small = new Font("Tahoma", Font.BOLD, (int) (11 * factor));
-		normal = new Font("Tahoma", Font.BOLD, (int) (12 * factor));
-		xsmall = new Font("Tahoma", Font.BOLD, (int) (10 * factor));
-		extremesmall = new Font("Tahoma", Font.PLAIN, (int) (10 * factor));
+		resultBold = new Font("System", Font.BOLD, (int) (17 * factor)); // davor war es groesse 12
+		calcBold = new Font("System", Font.BOLD, (int) (17 * factor));
+		small = new Font("System", Font.BOLD, (int) (11 * factor));
+		normal = new Font("System", Font.BOLD, (int) (12 * factor));
+		xsmall = new Font("System", Font.BOLD, (int) (10 * factor));
+		extremesmall = new Font("System", Font.PLAIN, (int) (10 * factor));
 
 		labelErgebnis.setFont(resultBold);
 		labelCalc.setFont(calcBold);
@@ -675,7 +685,8 @@ public class GuiTaschenrechner extends JFrame {
 
 		initFuncPad();
 		for (JButton pad : funcPad) {
-
+			pad.setBorder(new RoundedBorder(10));
+			pad.setOpaque(false);
 		}
 		buttonSignMinus = new JButton(minusSign[unicode]);
 		buttonMathPi = new JButton(constants[0]);

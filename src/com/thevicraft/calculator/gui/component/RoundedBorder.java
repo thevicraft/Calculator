@@ -1,4 +1,4 @@
-package com.thevicraft.calculator.gui;
+package com.thevicraft.calculator.gui.component;
 
 import java.awt.Component;
 import java.awt.Graphics;
@@ -11,7 +11,7 @@ public class RoundedBorder implements Border {
     private int radius;
 
 
-    RoundedBorder(int radius) {
+    public RoundedBorder(int radius) {
         this.radius = radius;
     }
 
