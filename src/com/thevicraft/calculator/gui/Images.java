@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
+
 /**
  * Class for Image Handling / image loading
+ * 
  * @author thevicraft
  * @category Handling
- * */
+ */
 public class Images {
 	/**
 	 * @apiNote IMPORTANT FOR ADDING NEW IMAGES: THE ENUM VARIABLE HAS TO BE NAMED
@@ -83,8 +85,10 @@ public class Images {
 		}
 
 	}
+
 	/**
 	 * returns True if {@link Images.initImages()} has been executed
+	 * 
 	 * @return imagesLoaded - True/False Boolean
 	 * @author thevicraft
 	 */

@@ -31,7 +31,7 @@ import java.awt.Font;
  * Constructs the default Simple Calculator GUI
  * 
  * @author thevicraft
- * @version 5.0.pre1
+ * @version 5.0.pre2
  * @category JFrame
  * 
  */
@@ -151,7 +151,13 @@ public class GuiTaschenrechner extends JFrame {
 	 */
 	public static final String f[] = { "\u2a0d", "f" }; // "\u2a0d";
 	protected float ergebnis;
-
+	/**
+	 * Default scale factor of Calculator on startup
+	 * 
+	 * @category constant values
+	 * @see GuiTaschenrechner
+	 * @author thevicraft
+	 */
 	float sizeFactor = 1.5f;
 
 	public Color appearanceMode;
@@ -218,6 +224,7 @@ public class GuiTaschenrechner extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new FlowLayout());
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		setMinimumSize(new Dimension(250, 250));
 		setResizable(true);
 		loader.iterate();
 
@@ -281,12 +288,13 @@ public class GuiTaschenrechner extends JFrame {
 				for (int b = 100; b > 0; b--)
 					colors.add(new Color(0, 255, b * 255 / 100));
 				colors.add(new Color(0, 255, 0));
-				
+
 				Color[] c = colors.toArray(new Color[colors.size()]);
-				
+
 				while (isDisplayable()) {
 					for (Color d : c) {
 						buttonChangeMode.setForeground(d);
+						// labelCalc.setCaretColor(d);
 						try {
 							Thread.sleep(3);
 						} catch (InterruptedException e) {
@@ -442,8 +450,6 @@ public class GuiTaschenrechner extends JFrame {
 		buttonPow.setForeground(bright);
 
 		buttonCopyResult.setBackground(bright);
-
-
 
 		for (JPanel p : panels) {
 			p.setBackground(mode);

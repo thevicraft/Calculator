@@ -69,7 +69,8 @@ public class StringCalcFunctions {
 		task = task.replaceAll(GuiTaschenrechner.constants[0], "pi");
 		task = task.replaceAll(GuiTaschenrechner.constants[1], "e");
 		task = task.replaceAll("ANS", Double.toString(oldResult));
-
+		task = task.replaceAll("(?<=\\w)\\^2(?![0-9.])", "^2");
+		
 		return task;
 	}
 

@@ -91,7 +91,9 @@ public class Graph extends JPanel {
 		} else {
 			panel.setColor(Color.black);
 		}
-		panel.drawImage(Images.getDefaultImageIcon(Pictures.AUTHOR).getImage(), 0, 0, 50, 50, null);
+		panel.drawImage(Images.getDefaultImageIcon(Pictures.AUTHOR).getImage(), getWidth() - 50, getHeight() - 50, 50,
+				50, null);
+		// Image icon = Images.getDefaultImageIcon(Pictures.AUTHOR).getImage();
 
 		Coordinates cords = new Coordinates(origin, scaleFactor, this, 2, true);
 

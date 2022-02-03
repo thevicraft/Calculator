@@ -10,10 +10,11 @@ import com.thevicraft.calculator.gui.GuiTaschenrechner;
 
 /**
  * Implementation of Key Events that trigger the buttons of Simple Calculator
+ * 
  * @see GuiTaschenrechner
  * @author thevicraft
  * @category Implementation
- * */
+ */
 public class KeyEventClass implements KeyListener {
 	public GuiTaschenrechner tr;
 	String[] numPadLabel = new String[13];
@@ -31,6 +32,16 @@ public class KeyEventClass implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
+		if(key == KeyEvent.VK_BACK_SPACE) {
+			int caretPos = tr.labelCalc.getCaretPosition();
+			String text = tr.labelCalc.getText();
+			try {
+				if(text.substring(caretPos, caretPos+1).equals(")")) {
+					tr.labelCalc.setText(text.substring(0,caretPos)+text.substring(caretPos+1, text.length()));
+					tr.labelCalc.setCaretPosition(caretPos);
+				}
+			} catch (Exception e2) {}
+		}
 	}
 
 	@Override
@@ -54,13 +65,11 @@ public class KeyEventClass implements KeyListener {
 
 		}
 
-
 		if ((key == KeyEvent.VK_O) && (e.isControlDown())) {
 			tr.menu.items[1][0].doClick();
 		}
 		if ((key == KeyEvent.VK_F) && (e.isControlDown())) {
-			GeoDrawKeyEvent func = new GeoDrawKeyEvent("Test Window", 1600, 900, 0.8f, GuiTaschenrechner.dark,
-					"1/x");
+			GeoDrawKeyEvent func = new GeoDrawKeyEvent("Test Window", 1600, 900, 0.8f, GuiTaschenrechner.dark, "1/x");
 		}
 
 //		if ((KeyEvent.VK_C == key) && (e.isControlDown())) {
@@ -91,7 +100,18 @@ public class KeyEventClass implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-//		Character key = e.getKeyChar();
+		Character key = e.getKeyChar();
+		switch(key) {
+		
+		// sets the second bracket for easier use, like in many Code IDEs or Text Editors
+		case '(':
+			int caretPos = tr.labelCalc.getCaretPosition();
+			String text = tr.labelCalc.getText();
+			tr.labelCalc.setText(text.substring(0,caretPos)+")"+text.substring(caretPos,text.length()));
+			tr.labelCalc.setCaretPosition(caretPos);
+			break;
+		}
+		
 //		for (int i = 0; i <= 12; i++) {
 //			if (Character.toString(key).equals(numPadLabel[i])) {
 //				tr.numPad[i].doClick();
@@ -101,6 +121,7 @@ public class KeyEventClass implements KeyListener {
 //				break;
 //			}
 //		}
+//		
 //		switch (key) {
 //		case '+':
 //			if (!e.isControlDown()) {
