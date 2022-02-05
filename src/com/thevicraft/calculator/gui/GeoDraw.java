@@ -5,6 +5,7 @@ import javax.swing.JColorChooser;
 
 import com.thevicraft.calculator.integration.Print;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.thevicraft.calculator.console.Log;
@@ -47,6 +48,7 @@ public class GeoDraw extends JFrame {
 	public JButton down;
 	public JButton left;
 	public JButton color;
+	public JLabel functionLabel;
 
 	private int scaleFactor;
 	private int originX;
@@ -91,7 +93,8 @@ public class GeoDraw extends JFrame {
 		graphPanel.add(graph);
 
 		addActionListeners();
-
+		
+		mainPanel.add(functionLabel);
 		mainPanel.add(color);
 		mainPanel.add(zoomOut);
 		mainPanel.add(zoomIn);
@@ -133,6 +136,7 @@ public class GeoDraw extends JFrame {
 		graphPanel.add(graph);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT - 1);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
+		functionLabel.setForeground(graphColor);
 	}
 
 	private void initPanel() {
@@ -218,10 +222,10 @@ public class GeoDraw extends JFrame {
 	}
 
 	private void initComponents() {
-		normal = new Font("Tahoma", Font.BOLD, (int) (12 * sizeFactor));
+		normal = new Font("System", Font.BOLD, (int) (12 * sizeFactor));
 
 		color = new JButton("Color");
-		color.setFont(new Font("Tahoma", Font.BOLD, 9));
+		color.setFont(new Font("System", Font.BOLD, 9));
 		zoomOut = new JButton("-");
 		zoomIn = new JButton("+");
 		Dimension pad = new Dimension(25, 25);
@@ -235,6 +239,9 @@ public class GeoDraw extends JFrame {
 		down.setPreferredSize(pad);
 		left.setPreferredSize(pad);
 		print = new JButton("PRINT");
+		
+		functionLabel = new JLabel("f(x) = "+function);
+		functionLabel.setFont(new Font("System", Font.BOLD, (int) (20 * sizeFactor)));
 	}
 
 	private void setColorOfComponents(Color d) {
@@ -246,7 +253,8 @@ public class GeoDraw extends JFrame {
 		down.setBackground(d);
 		left.setBackground(d);
 		right.setBackground(d);
-
+		
+		functionLabel.setForeground(graphColor);
 		if (d.equals(GuiTaschenrechner.dark)) {
 			d = GuiTaschenrechner.bright;
 		} else {

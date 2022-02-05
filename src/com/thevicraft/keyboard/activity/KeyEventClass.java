@@ -32,11 +32,14 @@ public class KeyEventClass implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
+		
+		// automated removal of bracket pair, if it is empty
 		if(key == KeyEvent.VK_BACK_SPACE) {
+					
 			int caretPos = tr.labelCalc.getCaretPosition();
 			String text = tr.labelCalc.getText();
 			try {
-				if(text.substring(caretPos, caretPos+1).equals(")")) {
+				if((text.substring(caretPos, caretPos+1).equals(")")) && (text.substring(caretPos-1,caretPos).equals("("))){
 					tr.labelCalc.setText(text.substring(0,caretPos)+text.substring(caretPos+1, text.length()));
 					tr.labelCalc.setCaretPosition(caretPos);
 				}
