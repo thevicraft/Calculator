@@ -76,6 +76,10 @@ public class ButtonActionListener implements ActionListener {
 				window.insertTextInField("sqrt(", false);
 			else if((d.equals(window.getFuncPad(1)))&&(window.funcMode == 1))
 				window.insertTextInField("!", false);
+			else if((d.equals(window.getFuncPad(0)))&&(window.funcMode == 0))
+				window.insertTextInField("log10(", false);
+			else if((d.equals(window.getFuncPad(0)))&&(window.funcMode == 1))
+				window.insertTextInField("log(", false);
 			else
 				window.insertTextInField(d.getText() + "(", false);
 
@@ -132,7 +136,15 @@ public class ButtonActionListener implements ActionListener {
 			// ------------------------------------------------------------------------------------------------------
 		} else if (d.equals(window.buttonXPowerReverse)) {
 			window.insertTextInField("^( -1)", false);
-		} else if (d.equals(window.buttonCopyResult)) {
+		} else if (d.equals(window.buttonPow)) {
+			window.insertTextInField(" ^ ", false);
+		} else if (d.equals(window.buttonXPower2)) {
+			window.insertTextInField("^2", false);
+		} else if (d.equals(window.buttonXPower3)) {
+			window.insertTextInField("^3", false);
+		}
+		
+		else if (d.equals(window.buttonCopyResult)) {
 			Copy.toClipboard(Numbers.optimizeNumber(window.labelErgebnis.getText(), true));
 			// Copy.toClipboard(window.labelErgebnis.getText());
 		} else if (d.equals(window.buttonPlus)) {

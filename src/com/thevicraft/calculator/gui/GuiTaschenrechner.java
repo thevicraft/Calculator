@@ -197,9 +197,9 @@ public class GuiTaschenrechner extends JFrame {
 	 */
 	public static final Color bright = Color.white;
 
-	public static String operator[][] = { { "+", "-", "\u00D7", "\u00F7", "^" }, { "+", "-", "*", "/", "^" } };
+	public static String operator[][] = { { "+", "-", "\u00D7", "\u00F7", "xʸ" }, { "+", "-", "*", "/", "^" } };
 
-	public static String textButtons[][] = { { "log10", "log" }, { " √ ", "!" }, { "sin", "asin" }, { "cos", "acos" },
+	public static String textButtons[][] = { { "log\u2081\u2080", "log\u2090(x)" }, { "\u221A", "!" }, { "sin", "asin" }, { "cos", "acos" },
 			{ "tan", "atan" } };
 
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
@@ -261,8 +261,8 @@ public class GuiTaschenrechner extends JFrame {
 		labelCalc.setEditable(true);
 		labelCalc.setFocusable(true);
 
-		loader.dispose();
-
+		loader.disposeIt();
+		
 		setUnicode(true);
 
 		setVisible(true);
@@ -509,7 +509,7 @@ public class GuiTaschenrechner extends JFrame {
 		labelCalc.setFont(calcBold);
 		labelFuncOpn.setFont(calcBold);
 
-		buttonXPowerReverse.setFont(extremesmall);
+		buttonXPowerReverse.setFont(normal);
 
 		getNumPad(BUTTON__ANS).setFont(small); // korrektur weil die beschriftung sonst nicht auf dem button angezeigt
 		// wird
@@ -703,9 +703,9 @@ public class GuiTaschenrechner extends JFrame {
 
 		buttonDeleteLast = new JButton("DEL");
 
-		buttonXPower2 = new JButton("^2");
-		buttonXPower3 = new JButton("^3");
-		buttonXPowerReverse = new JButton("^(-1)");
+		buttonXPower2 = new JButton("x²");
+		buttonXPower3 = new JButton("x³");
+		buttonXPowerReverse = new JButton("x⁻¹");
 
 		labelFuncOpn = new JLabel();
 

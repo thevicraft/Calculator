@@ -36,6 +36,8 @@ public class Images {
 	public static final String imageFileFormat = "png";
 
 	private static boolean imagesLoaded = false;
+	
+	public static ImageIcon unknown = new ImageIcon(new Images().getClass().getClassLoader().getResource("unknown.png"));
 
 	/**
 	 * loads the resource images from Pictures enum
@@ -198,6 +200,25 @@ public class Images {
 		 * System.out.println(imageList.size());
 		 */
 		return new ImageIcon(imageList.get(imageId).getImage());
+	}
+	
+	/**
+	 * Returns ImageIcon from file name, in case it is not loaded or not accessable at the moment
+	 * Returns a default image Icon if file name is null
+	 * 
+	 * @param fileName - file name of the image that will be loaded
+	 * @return dummy - Image that is loaded from file Name
+	 * @author thevicraft
+	 */
+	public static ImageIcon fromFileName(String fileName) {
+		try {
+		ImageIcon dummy = new ImageIcon(new Images().getClass().getClassLoader().getResource(fileName));
+		if(dummy != null)
+			return dummy;
+		else 
+			return unknown;
+		}catch(Exception e) {}
+		return unknown; 
 	}
 
 	/**

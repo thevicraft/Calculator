@@ -69,8 +69,21 @@ public class StringCalcFunctions {
 		task = task.replaceAll(GuiTaschenrechner.constants[0], "pi");
 		task = task.replaceAll(GuiTaschenrechner.constants[1], "e");
 		task = task.replaceAll("ANS", Double.toString(oldResult));
-		task = task.replaceAll("(?<=\\w)\\^2(?![0-9.])", "^2");
 		
+//		char[] power = {'¹','⁻','²','³','⁴','⁵','⁶','⁷','⁸','⁹','⁰','⁺'};
+//		char[] normal = {'1','-','2','3','4','5','6','7','8','9','0','+'};
+//		for(int c = 0; c < power.length; c++) {
+//			for(int cursor = 0; cursor < task.length(); cursor++) {
+//				if(task.substring(cursor, cursor+1).equals(Character.toString(power[c]))) {
+//					task.replaceFirst(Character.toString(power[c]), Character.toString(normal[c]));
+//					for(char p: power) {
+//						if(!task.substring(cursor-1,cursor).equals(Character.toString(p))) {
+//							task = task.substring(0, cursor-1)+"^"+task.substring(cursor-1,task.length());
+//						}
+//					}
+//				}
+//			}
+//		}
 		return task;
 	}
 
