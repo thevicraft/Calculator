@@ -43,6 +43,8 @@ public class Graph extends JPanel {
 	private List<Float> listy = new ArrayList<Float>();
 
 	private boolean pointsCalculated = false;
+	
+	public static final int MAX_DOT_DISTANCE = 80;
 
 	public Graph(int width, int height, int scaleFactor, int originX, int originY, String function, Color mode,
 			Color graphColor) {
@@ -112,7 +114,8 @@ public class Graph extends JPanel {
 				float y2;
 				if ((counter > 0) && (!Float.isNaN(listy.get(counter - 1)))
 						&& (!Float.isInfinite(listy.get(counter - 1)))
-				/* &&(listy.get(counter-1)-listy.get(counter) <= 0.1) */) {
+								&& (Math.abs(listy.get(counter - 1)) + Math.abs(listy.get(counter)) <= MAX_DOT_DISTANCE))
+				/* &&(listy.get(counter-1)-listy.get(counter) <= 0.1)) */ {
 					x2 = listx.get(counter - 1);
 					y2 = listy.get(counter - 1);
 					drawLine(new BetterPoint((int) (x1 * scaleFactor), (int) (y1 * scaleFactor)).relativeTo(origin),
