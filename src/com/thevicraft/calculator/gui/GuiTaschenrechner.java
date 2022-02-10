@@ -201,6 +201,16 @@ public class GuiTaschenrechner extends JFrame {
 
 	public static String textButtons[][] = { { "log\u2081\u2080", "log\u2090(x)" }, { "\u221A", "!" }, { "sin", "asin" }, { "cos", "acos" },
 			{ "tan", "atan" } };
+	
+	
+	//--------------------------------------------------------------------------------------
+
+	public static final String VERSION = "5.0.pre2";
+
+	//--------------------------------------------------------------------------------------
+	
+	
+	
 
 	public GuiTaschenrechner(String titel, String darkLight, JFrame location) {
 
