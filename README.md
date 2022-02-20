@@ -7,6 +7,7 @@ This Calculator has been programmed in java and is a current work in progress!
 + press F3 to view shortcuts
 
 # Newest Features in V5.0:
++ Integrated Discord RPC (-> your friends on discord can now see you using SimpleCalculator)
 + Optimized Draw Graph Function
 + New Shortcuts
 + Remade Help Window
