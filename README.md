@@ -2,13 +2,27 @@
 
 This Calculator has been programmed in java and is a current work in progress!
 
-# Newest Features:
+# Important:
++ press F1 to view help
++ press F3 to view shortcuts
 
-+ Calculator can be used by pressing the buttons or by using the keyboard, which is supported, due to a +newly implemented KeyboardListener!! A detailed describtion will be added in the program itself!
+# Newest Features in V5.0:
++ Optimized Draw Graph Function
++ New Shortcuts
++ Remade Help Window
++ Calculation TextField is now Enabled (functions can be viewed in Help Menu or Press F1)
++ Improved GUI
 
-+ Calculator is able to draw a graph of any function (choose mode 4 in menu bar "mode" or press M four times).
++ Optimized keyboard shortcuts
++ Added unicode toggle mode (removes unicode characters if they don't work)
 
-+ Calculator is able to transfer different units in other units; just select mode 5 in menu bar "mode" or press M five times.
++ Added mxparser library for better calculation
+
+# Help with Syntax
++ , Decimal Dot (european)
++  . Decimal Dot (non-european)
++ (-> not important if , or . is used, as both work)
++ ; Argument Separator
 
 # Help with buttons
 
