@@ -4,6 +4,7 @@ import com.thevicraft.calculator.api.StringCalcFunctions;
 import com.thevicraft.calculator.gui.Images.Pictures;
 import com.thevicraft.calculator.gui.component.RoundedBorder;
 import com.thevicraft.calculator.integration.NetLink;
+import com.thevicraft.calculator.integration.RichPresence;
 import com.thevicraft.keyboard.activity.KeyEventClass;
 import com.thevicraft.keyboard.activity.WindowCloseEvent;
 
@@ -747,6 +748,7 @@ public class GuiTaschenrechner extends JFrame {
 			this.funcPadSetVisible(true);
 			labelCalcLength = normal;
 			this.setSizeOfComponents(this.sizeFactor, labelCalcLength);
+			RichPresence.updateState("Mode Normal");
 			break;
 		case 2:
 			mXparser.setRadiansMode();
@@ -758,6 +760,7 @@ public class GuiTaschenrechner extends JFrame {
 			this.funcPadSetVisible(true);
 			labelCalcLength = depressed - 10;
 			this.setSizeOfComponents(this.sizeFactor, labelCalcLength);
+			RichPresence.updateState("Mode CAD Graph Drawing");
 			break;
 		case 3:
 			if (menu.deg.getState() == true) {
@@ -773,6 +776,7 @@ public class GuiTaschenrechner extends JFrame {
 			this.funcPadSetVisible(false);
 			labelCalcLength = normal;
 			this.setSizeOfComponents(this.sizeFactor, labelCalcLength);
+			RichPresence.updateState("Mode Unit Calculator");
 			break;
 		}
 	}
